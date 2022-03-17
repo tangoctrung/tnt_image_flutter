@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+
+class AppBarWidget extends StatelessWidget {
+  final String title;
+  final BuildContext contextAction;
+  final Color txtColor;
+  // final Function back;
+  AppBarWidget(this.title, this.contextAction, this.txtColor);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            child: IconButton(
+              onPressed: () {Navigator.pop(contextAction);},
+              icon: Icon(Icons.arrow_back_ios_rounded, color: this.txtColor)
+            )
+          ),    
+          SizedBox(width: 20),     
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Quicksand',
+              color: txtColor,
+            ),
+          )
+        ],
+      )
+    );
+  }
+}
