@@ -17,7 +17,7 @@ class AppBarWidget extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios_rounded, color: this.txtColor)
             )
           ),    
-          SizedBox(width: 20),     
+          SizedBox(width: 15),     
           Text(
             title,
             style: TextStyle(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:socialtnt/screen/detail_post.dart';
 import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
+import 'package:socialtnt/screen/list_post.dart';
 import 'package:socialtnt/screen/login.dart';
 import 'package:socialtnt/screen/register.dart';
 import 'package:socialtnt/screen/wellcome.dart';
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
         'register': (context) => RegisterScreen(),
         'forgetPassword': (context) => ForgetPassword(),
         'home': (context) => HomeScreen(),
+        'listPost': (context) => ListPostScreen(),
+        'detailPost': (context) => DetailPostScreen(),
       },
     );
   }
