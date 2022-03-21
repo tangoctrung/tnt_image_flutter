@@ -32,9 +32,9 @@ class _BottomBarState extends State<BottomBar> {
         child: IconButton(
             onPressed: () {
               setState(() {
-
                 type = 1;
               });
+              Navigator.pushNamed(context, 'home');
             },
             icon: Icon(
               type == 1 ? Icons.home : Icons.home_outlined,
@@ -63,6 +63,7 @@ class _BottomBarState extends State<BottomBar> {
               setState(() {
                 type = 2;
               });
+              Navigator.pushNamed(context, 'search');
             },
             icon: Icon(
               type == 2 ? Icons.search : Icons.search_outlined,
@@ -91,6 +92,7 @@ class _BottomBarState extends State<BottomBar> {
               setState(() {
                 type = 3;
               });
+              Navigator.pushNamed(context, 'createPost');
             },
             icon: Icon(
               type == 3 ? Icons.add_a_photo : Icons.add_a_photo_outlined,
@@ -119,6 +121,7 @@ class _BottomBarState extends State<BottomBar> {
               setState(() {
                 type = 4;
               });
+              Navigator.pushNamed(context, 'listChat');
             },
             icon: Icon(
               type == 4 ? Icons.message : Icons.message_outlined,
@@ -147,6 +150,7 @@ class _BottomBarState extends State<BottomBar> {
               setState(() {
                 type = 5;
               });
+              Navigator.pushNamed(context, 'profile');
             },
             icon: Icon(
               type == 5 ? Icons.person : Icons.person_outlined,

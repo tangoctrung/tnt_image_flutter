@@ -62,9 +62,17 @@ class ItemCommentWidget extends StatelessWidget {
               child: Column(
                 children: [
                   GestureDetector(
-                    child: Icon(Icons.heart_broken),
+                    child: Icon(
+                      Icons.heart_broken,
+                      size: 14,
+                      ),
                   ),
-                  Text(listComment[index].totalLike.toString()),
+                  Text(
+                    listComment[index].totalLike.toString(),
+                    style: TextStyle(
+                      fontSize: 12,
+                    )
+                  ),
                 ],
               ),
             ),

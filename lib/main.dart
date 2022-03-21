@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:socialtnt/screen/chat_message.dart';
+import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
 import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
+import 'package:socialtnt/screen/list_chat.dart';
 import 'package:socialtnt/screen/list_post.dart';
 import 'package:socialtnt/screen/login.dart';
+import 'package:socialtnt/screen/profile.dart';
 import 'package:socialtnt/screen/register.dart';
+import 'package:socialtnt/screen/search.dart';
 import 'package:socialtnt/screen/wellcome.dart';
 
 void main() {
@@ -32,6 +37,11 @@ class MyApp extends StatelessWidget {
         'home': (context) => HomeScreen(),
         'listPost': (context) => ListPostScreen(),
         'detailPost': (context) => DetailPostScreen(),
+        'search': (context) => SearchScreen(),
+        'createPost': (context) => CreatePostScreen(),
+        'listChat': (context) => ListChatScreen(),
+        'profile': (context) => ProfileScreen(),
+        'chatMessage': (context) => ChatMessageScreen(),
       },
     );
   }
