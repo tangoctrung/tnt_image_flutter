@@ -7,6 +7,7 @@ import 'package:socialtnt/screen/home.dart';
 import 'package:socialtnt/screen/list_chat.dart';
 import 'package:socialtnt/screen/list_post.dart';
 import 'package:socialtnt/screen/login.dart';
+import 'package:socialtnt/screen/post_saved.dart';
 import 'package:socialtnt/screen/profile.dart';
 import 'package:socialtnt/screen/register.dart';
 import 'package:socialtnt/screen/search.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         'listChat': (context) => ListChatScreen(),
         'profile': (context) => ProfileScreen(),
         'chatMessage': (context) => ChatMessageScreen(),
+        'postSaved': (context) => PostSavedScreen(),
       },
     );
   }

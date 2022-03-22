@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    _showModalChangePassword(context);
+                                    _openModalSettingAdvanced(context);
                                   },
                                   child: Icon(Icons.settings),
                                 ),
@@ -287,6 +287,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+}
+
+void _openModalSettingAdvanced(context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bd) {
+        return Container(
+          height: 100,
+          margin: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          child: Column(
+            children: [
+              const Text(
+            "Tùy chọn",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {   
+                  Navigator.pop(context);           
+                  Navigator.pushNamed(context, 'postSaved');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.storage),
+                    SizedBox(width: 5),
+                    Text("Lưu trữ"),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {               
+                  Navigator.pop(context);
+                   _showModalChangePassword(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.lock_open),
+                    SizedBox(width: 5),
+                    Text("Đổi mật khẩu"),
+                  ],
+                ),
+              ),
+            ),
+          ])
+            ],
+          ),
+        );
+      });
 }
 
 void _openModalViewProfile(context) {
