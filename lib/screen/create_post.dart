@@ -1,9 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/widget/bottom_bar.dart';
 
-class CreatePostScreen extends StatelessWidget {
+class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CreatePostScreen> createState() => _CreatePostScreenState();
+}
+
+class _CreatePostScreenState extends State<CreatePostScreen> {
+  File? imageFile;
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,17 +60,35 @@ class CreatePostScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width*0.95,
-                                height: MediaQuery.of(context).size.height * 0.4,
-                                child: Image(
-                                  image:
-                                      AssetImage('assets/images/bgLogin1.png'),
-                                )),
+                            if (imageFile != null)                      
+                              Container(
+                                  width: MediaQuery.of(context).size.width*0.95,
+                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  child: 
+                                    Image(
+                                      image: FileImage(imageFile!),
+                                    ),
+                                
+                                )
+                            else 
+                              Container(
+                                  width: MediaQuery.of(context).size.width*0.95,
+                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  child: Image(
+                                    image: AssetImage('assets/images/bgLogin1.png'),
+                                  ),
+                                                                                                     
+                                ),
                             Container(
                               width: MediaQuery.of(context).size.width * 0.3,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: ((builder) =>
+                                        bottomChooseAvatar()),
+                                  );
+                                },
                                 child: Row(
                                   crossAxisAlignment:
                                       CrossAxisAlignment.center,
@@ -113,5 +141,76 @@ class CreatePostScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+
+  Widget bottomChooseAvatar() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>  [
+          const Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                takePhoto(source: ImageSource.camera);
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.camera_enhance),
+                  Text("Camera"),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: () {
+                takePhoto(source: ImageSource.gallery);
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.browse_gallery),
+                  Text("Thư viện"),
+                ],
+              ),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto({required ImageSource source}) async {
+    try {
+      final file = await ImagePicker().pickImage(
+          source: source,
+          maxWidth: 640,
+          maxHeight: 480,
+          imageQuality: 70 //0 - 100
+          );
+
+      if (file?.path != null) {
+        setState(() {
+          imageFile = File(file!.path);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

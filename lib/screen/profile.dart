@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/model/find_user.dart';
 import 'package:socialtnt/model/item_post_image.dart';
 import 'package:socialtnt/widget/bottom_bar.dart';
@@ -6,9 +9,16 @@ import 'package:socialtnt/widget/item_find_user.dart';
 import 'package:socialtnt/widget/item_post_image.dart';
 import 'package:socialtnt/widget/item_user_follow.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  File? imageFile;
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +46,51 @@ class ProfileScreen extends StatelessWidget {
                                   child: Icon(Icons.settings),
                                 ),
                               ]),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image(
+                          Stack(children: [
+                            if (imageFile != null)
+                              Container(
                                 width: 120,
                                 height: 120,
-                                image:
-                                    AssetImage('assets/images/avatars/1.jpg')),
-                          ),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  image: DecorationImage(
+                                      image: FileImage(imageFile!),
+                                      fit: BoxFit.cover),
+                                  
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                              )
+                            else
+                              Container(
+                                width: 120,
+                                height: 120,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  image: DecorationImage(
+                                      image: AssetImage('./assets/images/avatars/1.jpg'),
+                                      fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),                              
+                              ),
+                            Positioned(
+                                bottom: 0,
+                                right: 10,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: ((builder) =>
+                                          bottomChooseAvatar()),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.camera,
+                                    color: Color.fromARGB(255, 112, 114, 114),
+                                  ),
+                                )),
+                          ]),
                           Text('Tạ Ngọc Trung',
                               style: TextStyle(
                                 fontSize: 20,
@@ -169,6 +216,77 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget bottomChooseAvatar() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>  [
+          const Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                takePhoto(source: ImageSource.camera);
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.camera_enhance),
+                  Text("Camera"),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: () {
+                takePhoto(source: ImageSource.gallery);
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.browse_gallery),
+                  Text("Thư viện"),
+                ],
+              ),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto({required ImageSource source}) async {
+    try {
+      final file = await ImagePicker().pickImage(
+          source: source,
+          maxWidth: 640,
+          maxHeight: 480,
+          imageQuality: 70 //0 - 100
+          );
+
+      if (file?.path != null) {
+        setState(() {
+          imageFile = File(file!.path);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }
 
 void _openModalViewProfile(context) {
@@ -213,7 +331,7 @@ void _openModalViewProfile(context) {
                 ),
                 SizedBox(height: 15),
                 Row(
-                  children: [
+                  children: const [
                     Icon(Icons.email),
                     SizedBox(width: 5),
                     Text(
@@ -236,7 +354,7 @@ void _openModalViewProfile(context) {
                 ),
                 SizedBox(height: 15),
                 Row(
-                  children: [
+                  children: const [
                     Icon(Icons.date_range),
                     SizedBox(width: 5),
                     Text(
@@ -259,7 +377,7 @@ void _openModalViewProfile(context) {
                 ),
                 SizedBox(height: 15),
                 Row(
-                  children: [
+                  children: const [
                     Icon(Icons.local_activity),
                     SizedBox(width: 5),
                     Text(
@@ -282,7 +400,7 @@ void _openModalViewProfile(context) {
                 ),
                 SizedBox(height: 15),
                 Row(
-                  children: [
+                  children: const [
                     Icon(Icons.work),
                     SizedBox(width: 5),
                     Text(
@@ -309,13 +427,14 @@ void _openModalViewProfile(context) {
                   children: [
                     ElevatedButton(
                         onPressed: () {
+                          Navigator.pop(context);
                           _showModalFollow(context);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color.fromARGB(255, 61, 58, 58)),
                         ),
-                        child: Row(children: [
+                        child: Row(children: const [
                           Icon(Icons.person_add_alt_1),
                           SizedBox(width: 5),
                           Text('25'),
@@ -349,7 +468,7 @@ void _showModalEditProfile(context) {
               children: const [
                 Icon(Icons.person),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -369,7 +488,7 @@ void _showModalEditProfile(context) {
               children: const [
                 Icon(Icons.date_range),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -389,7 +508,7 @@ void _showModalEditProfile(context) {
               children: const [
                 Icon(Icons.local_activity),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -447,7 +566,7 @@ void _showModalChangePassword(context) {
       builder: (BuildContext bc) {
         return AlertDialog(
           content: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('Đổi mật khẩu',
+            const Text('Đổi mật khẩu',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -457,7 +576,7 @@ void _showModalChangePassword(context) {
               children: const [
                 Icon(Icons.lock),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -477,7 +596,7 @@ void _showModalChangePassword(context) {
               children: const [
                 Icon(Icons.password),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -497,7 +616,7 @@ void _showModalChangePassword(context) {
               children: const [
                 Icon(Icons.password),
                 SizedBox(width: 5),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                         contentPadding:
@@ -517,7 +636,7 @@ void _showModalChangePassword(context) {
               onPressed: () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(Icons.update),
                   SizedBox(width: 5),
                   Text('Lưu lại')
@@ -533,8 +652,7 @@ void _showModalFollow(context) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bd) {
-        return Column(
-          children: [
+        return Column(children: [
           SizedBox(height: 10),
           Expanded(
             child: Container(
@@ -543,69 +661,67 @@ void _showModalFollow(context) {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround, 
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'Người theo dõi (20)',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  'Người theo dõi (20)',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Expanded(
-                            flex: 10,
-                            child: ListView.builder(              
-                                itemCount: listFindUser.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return UserFollowWidget(index);
-                                }),
-                          ),
-                                
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'Đang theo dõi (12)',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(height: 15),
+                              Expanded(
+                                flex: 10,
+                                child: ListView.builder(
+                                    itemCount: listFindUser.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return UserFollowWidget(index);
+                                    }),
                               ),
-                            ),
+                            ],
                           ),
-                          SizedBox(height: 15),
-                          Expanded(
-                            flex: 9,
-                            child: ListView.builder(              
-                                itemCount: listFindUser.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return UserFollowWidget(index);
-                                }),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  'Đang theo dõi (12)',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Expanded(
+                                flex: 9,
+                                child: ListView.builder(
+                                    itemCount: listFindUser.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return UserFollowWidget(index);
+                                    }),
+                              ),
+                            ],
                           ),
-                                
-                        ],
-                      ),
-                    ),
-                    
-                  ]),
+                        ),
+                      ]),
                 ),
               ),
             ),
           ),
-          
         ]);
       });
 }

@@ -8,6 +8,7 @@ class UserFollowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
       child: GestureDetector(
         onTap: () {Navigator.pushNamed(context, 'profile');},
         child: Row(
