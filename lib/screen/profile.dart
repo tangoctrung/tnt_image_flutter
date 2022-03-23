@@ -356,11 +356,12 @@ void _openModalViewProfile(context) {
       context: context,
       builder: (BuildContext bd) {
         return Container(
-          height: MediaQuery.of(context).size.height * .40,
+          height: 350,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Column(
               children: [
+                SizedBox(height: 15),
                 const Text(
                   'Xem thông tin',
                   style: TextStyle(

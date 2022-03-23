@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 alignment: AlignmentDirectional.bottomCenter,
                                 children: <Widget>[
                                   PageView.builder(
-                                    scrollDirection: Axis.vertical,
+                                    scrollDirection: Axis.horizontal,
                                     // controller: _pageController,
                                     // onPageChanged: _onPageChanged,
                                     itemCount: postList.length,
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Khám phá',
+                                  'Gợi ý',
                                   style: TextStyle(
                                     fontFamily: 'Quicksand',
                                     fontSize: 16,

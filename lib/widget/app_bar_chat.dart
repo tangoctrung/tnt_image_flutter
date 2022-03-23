@@ -11,15 +11,13 @@ class AppBarChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 252, 250, 250),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 0,
-            blurRadius: 5,
-            offset: Offset(2, 2), // changes position of shadow
-          ),
-        ],
+        color: Color.fromARGB(0, 252, 250, 250),
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Color.fromARGB(255, 0, 0, 0),
+          )
+        ),
       ),
       child: Row(
         

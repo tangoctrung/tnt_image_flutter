@@ -35,13 +35,13 @@ class MyApp extends StatelessWidget {
         'login': (context) => LoginScreen(),
         'register': (context) => RegisterScreen(),
         'forgetPassword': (context) => ForgetPassword(),
-        'home': (context) => HomeScreen(),
+        'home': (context) => HomeScreen(), //
         'listPost': (context) => ListPostScreen(),
         'detailPost': (context) => DetailPostScreen(),
-        'search': (context) => SearchScreen(),
-        'createPost': (context) => CreatePostScreen(),
-        'listChat': (context) => ListChatScreen(),
-        'profile': (context) => ProfileScreen(),
+        'search': (context) => SearchScreen(),  //
+        'createPost': (context) => CreatePostScreen(), //
+        'listChat': (context) => ListChatScreen(), //
+        'profile': (context) => ProfileScreen(),  //
         'chatMessage': (context) => ChatMessageScreen(),
         'postSaved': (context) => PostSavedScreen(),
       },
