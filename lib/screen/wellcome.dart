@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialtnt/model/slider_wellcome.dart';
+import 'package:socialtnt/screen/login.dart';
+import 'package:socialtnt/screen/register.dart';
 import 'package:socialtnt/widget/slide_wellcome_item.dart';
 
 class WellCome extends StatefulWidget {
@@ -110,7 +113,7 @@ class _WellComeState extends State<WellCome> {
                                 Expanded(
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, 'login');
+                                      Get.to(LoginScreen());
                                     },
                                     child: Text('Login'),
                                     style: TextButton.styleFrom(
@@ -127,7 +130,7 @@ class _WellComeState extends State<WellCome> {
                                 Expanded(
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, 'register');
+                                      Get.to(RegisterScreen());
                                     },
                                     child: Text('Register'),
                                     style: TextButton.styleFrom(

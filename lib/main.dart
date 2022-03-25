@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialtnt/screen/chat_message.dart';
 import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
@@ -22,29 +23,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const WellCome(),
-      initialRoute: '',
-      routes: {
-        '': (context) => WellCome(),
-        'login': (context) => LoginScreen(),
-        'register': (context) => RegisterScreen(),
-        'forgetPassword': (context) => ForgetPassword(),
-        'home': (context) => HomeScreen(), //
-        'listPost': (context) => ListPostScreen(),
-        'detailPost': (context) => DetailPostScreen(),
-        'search': (context) => SearchScreen(),  //
-        'createPost': (context) => CreatePostScreen(), //
-        'listChat': (context) => ListChatScreen(), //
-        'profile': (context) => ProfileScreen(),  //
-        'chatMessage': (context) => ChatMessageScreen(),
-        'postSaved': (context) => PostSavedScreen(),
-      },
+      // initialRoute: '/',
+      // getPages: [
+      //   GetPage(name: '/', page: () => WellCome()),
+      //   GetPage(name: '/login', page: () => LoginScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/register', page: () => RegisterScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/forgetPassword', page: () => ForgetPassword(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/mainscreen', page: () => HomeScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/listPost', page: () => ListPostScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/detailPost', page: () => DetailPostScreen(),transition: Transition.downToUp),
+      //   GetPage(name: '/search', page: () => SearchScreen(),transition: Transition.fade),
+      //   GetPage(name: '/createPost', page: () => CreatePostScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/listChat', page: () => ListChatScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/profile', page: () => ProfileScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/chatMessage', page: () => ChatMessageScreen(),transition: Transition.rightToLeftWithFade),
+      //   GetPage(name: '/postSaved', page: () => PostSavedScreen(),transition: Transition.rightToLeftWithFade),
+      // ],
+      
     );
   }
 }

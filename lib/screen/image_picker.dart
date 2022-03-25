@@ -9,11 +9,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 
-class ProfileScreen extends StatelessWidget {
+class ImagePickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -386,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(
                 child: const Text('CANCEL'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Get.back();
                 },
               ),
               TextButton(
@@ -402,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ? int.parse(qualityController.text)
                         : null;
                     onPick(width, height, quality);
-                    Navigator.of(context).pop();
+                    Get.back();
                   }),
             ],
           );

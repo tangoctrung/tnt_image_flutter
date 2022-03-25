@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/model/find_user.dart';
 import 'package:socialtnt/model/item_post_image.dart';
+import 'package:socialtnt/screen/list_chat.dart';
+import 'package:socialtnt/screen/post_saved.dart';
 import 'package:socialtnt/widget/bottom_bar.dart';
 import 'package:socialtnt/widget/item_find_user.dart';
 import 'package:socialtnt/widget/item_post_image.dart';
@@ -23,195 +26,193 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.02),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    _openModalSettingAdvanced(context);
-                                  },
-                                  child: Icon(Icons.settings),
-                                ),
-                              ]),
-                          Stack(children: [
-                            if (imageFile != null)
-                              Container(
-                                width: 120,
-                                height: 120,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  image: DecorationImage(
-                                      image: FileImage(imageFile!),
-                                      fit: BoxFit.cover),
-                                  
-                                  borderRadius: BorderRadius.circular(100.0),
-                                ),
-                              )
-                            else
-                              Container(
-                                width: 120,
-                                height: 120,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  image: DecorationImage(
-                                      image: AssetImage('./assets/images/avatars/1.jpg'),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.circular(100.0),
-                                ),                              
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.02),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _openModalSettingAdvanced(context);
+                                },
+                                child: Icon(Icons.settings),
                               ),
-                            Positioned(
-                                bottom: 0,
-                                right: 10,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: ((builder) =>
-                                          bottomChooseAvatar()),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.camera,
-                                    color: Color.fromARGB(255, 112, 114, 114),
-                                  ),
-                                )),
-                          ]),
-                          Text('Tạ Ngọc Trung',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Quicksand',
-                                fontWeight: FontWeight.bold,
+                            ]),
+                        Stack(children: [
+                          if (imageFile != null)
+                            Container(
+                              width: 120,
+                              height: 120,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                image: DecorationImage(
+                                    image: FileImage(imageFile!),
+                                    fit: BoxFit.cover),
+                                
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                            )
+                          else
+                            Container(
+                              width: 120,
+                              height: 120,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                image: DecorationImage(
+                                    image: AssetImage('./assets/images/avatars/1.jpg'),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),                              
+                            ),
+                          Positioned(
+                              bottom: 0,
+                              right: 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: ((builder) =>
+                                        bottomChooseAvatar()),
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.camera,
+                                  color: Color.fromARGB(255, 112, 114, 114),
+                                ),
                               )),
-                          SizedBox(height: 15),
-                          Row(
+                        ]),
+                        Text('Tạ Ngọc Trung',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Quicksand',
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {},
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.follow_the_signs),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      'Theo dõi',
+                                    )
+                                  ],
+                                )),
+                            SizedBox(width: 10),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Get.to(ListChatScreen());
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.messenger),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      'Nhắn tin',
+                                    )
+                                  ],
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _openModalViewProfile(context);
+                                  },
                                   child: Row(
                                     children: [
-                                      Icon(Icons.follow_the_signs),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Theo dõi',
-                                      )
+                                      Icon(Icons.info),
+                                      Text('Thông tin')
                                     ],
                                   )),
                               SizedBox(width: 10),
                               ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, 'listChat');
+                                    _showModalEditProfile(context);
                                   },
                                   child: Row(
                                     children: [
-                                      Icon(Icons.messenger),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Nhắn tin',
-                                      )
+                                      Icon(Icons.edit),
+                                      Text('Chỉnh sửa')
                                     ],
                                   )),
-                            ],
+                            ]),
+                        SizedBox(height: 15),
+                        Expanded(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  postImageList.length > 0
+                                      ? Expanded(
+                                          flex: 10,
+                                          child: GridView.builder(
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                mainAxisSpacing: 3,
+                                                crossAxisSpacing: 3,
+                                                crossAxisCount: 3,
+                                              ),
+                                              itemCount: postImageList.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return ItemImagePost(index);
+                                              }),
+                                        )
+                                      : Column(children: const [
+                                          SizedBox(height: 20),
+                                          Text('Không tìm thấy bài viết nào',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 24,
+                                                color: Color.fromARGB(
+                                                    255, 219, 8, 8),
+                                              ))
+                                        ])
+                                ]),
                           ),
-                          SizedBox(height: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _openModalViewProfile(context);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.info),
-                                        Text('Thông tin')
-                                      ],
-                                    )),
-                                SizedBox(width: 10),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _showModalEditProfile(context);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.edit),
-                                        Text('Chỉnh sửa')
-                                      ],
-                                    )),
-                              ]),
-                          SizedBox(height: 15),
-                          Expanded(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    postImageList.length > 0
-                                        ? Expanded(
-                                            flex: 10,
-                                            child: GridView.builder(
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  mainAxisSpacing: 3,
-                                                  crossAxisSpacing: 3,
-                                                  crossAxisCount: 3,
-                                                ),
-                                                itemCount: postImageList.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return ItemImagePost(index);
-                                                }),
-                                          )
-                                        : Column(children: const [
-                                            SizedBox(height: 20),
-                                            Text('Không tìm thấy bài viết nào',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 24,
-                                                  color: Color.fromARGB(
-                                                      255, 219, 8, 8),
-                                                ))
-                                          ])
-                                  ]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.06,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  top: BorderSide(
-                    color: Color.fromARGB(255, 194, 194, 194),
-                    width: 0.5,
-                  ),
-                )),
-                child: BottomBar(),
-              ),
-            ],
-          ),
+            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height * 0.06,
+            //   decoration: const BoxDecoration(
+            //       border: Border(
+            //     top: BorderSide(
+            //       color: Color.fromARGB(255, 194, 194, 194),
+            //       width: 0.5,
+            //     ),
+            //   )),
+            //   child: BottomBar(),
+            // ),
+          ],
         ),
       ),
     );
@@ -240,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ElevatedButton(
               onPressed: () {
                 takePhoto(source: ImageSource.camera);
-                Navigator.pop(context);
+                Get.back();
               },
               child: Row(
                 children: [
@@ -253,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ElevatedButton(
               onPressed: () {
                 takePhoto(source: ImageSource.gallery);
-                Navigator.pop(context);
+                Get.back();
               },
               child: Row(
                 children: [
@@ -314,8 +315,8 @@ void _openModalSettingAdvanced(context) {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {   
-                  Navigator.pop(context);           
-                  Navigator.pushNamed(context, 'postSaved');
+                  Get.back();           
+                  Get.to(PostSavedScreen());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -331,7 +332,7 @@ void _openModalSettingAdvanced(context) {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {               
-                  Navigator.pop(context);
+                  Get.back();
                    _showModalChangePassword(context);
                 },
                 child: Row(
@@ -490,7 +491,7 @@ void _openModalViewProfile(context) {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Get.back();
                           _showModalFollow(context);
                         },
                         style: ButtonStyle(

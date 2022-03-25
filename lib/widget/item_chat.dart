@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialtnt/model/item_chat.dart';
+import 'package:socialtnt/screen/chat_message.dart';
 
 class ItemChatWidget extends StatelessWidget {
   final int index;
@@ -10,7 +12,7 @@ class ItemChatWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
-        onTap: () {Navigator.pushNamed(context, 'chatMessage');},
+        onTap: () {Get.to(ChatMessageScreen());},
         child: Row(
           children: [
             ClipRRect(

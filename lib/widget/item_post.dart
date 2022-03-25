@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:socialtnt/screen/detail_post.dart';
 import '../model/item_post.dart';
 
 class ItemPost extends StatelessWidget {
@@ -14,7 +16,7 @@ class ItemPost extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {Navigator.pushNamed(context, 'detailPost');},
+              onTap: () {Get.to(DetailPostScreen());},
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.96,
                 height: MediaQuery.of(context).size.height * 0.4,

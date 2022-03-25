@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/model/item_message.dart';
 // import 'package:socialtnt/widget/app_bar.dart';
@@ -155,7 +156,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
             ElevatedButton(
               onPressed: () {
                 takePhoto(source: ImageSource.camera);
-                Navigator.pop(context);
+                Get.back();
               },
               child: Row(
                 children: [
@@ -168,7 +169,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
             ElevatedButton(
               onPressed: () {
                 takePhoto(source: ImageSource.gallery);
-                Navigator.pop(context);
+                Get.back();
               },
               child: Row(
                 children: [

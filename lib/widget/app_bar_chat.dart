@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppBarChatWidget extends StatelessWidget {
   final String name;
@@ -24,7 +25,7 @@ class AppBarChatWidget extends StatelessWidget {
         children: [
           Container(
             child: IconButton(
-              onPressed: () {Navigator.pop(contextAction);},
+              onPressed: () {Get.back();},
               icon: Icon(Icons.arrow_back_ios_rounded, color: Color.fromARGB(255, 36, 36, 36),)
             )
           ),    

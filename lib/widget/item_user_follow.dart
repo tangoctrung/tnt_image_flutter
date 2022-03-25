@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialtnt/model/find_user.dart';
+import 'package:socialtnt/screen/profile.dart';
 
 class UserFollowWidget extends StatelessWidget {
 
@@ -10,7 +12,7 @@ class UserFollowWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       child: GestureDetector(
-        onTap: () {Navigator.pushNamed(context, 'profile');},
+        onTap: () {Get.to(ProfileScreen());},
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
