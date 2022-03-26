@@ -12,7 +12,7 @@ class UserFollowWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       child: GestureDetector(
-        onTap: () {Get.to(ProfileScreen());},
+        onTap: () {Get.toNamed('/profile');},
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,18 +31,20 @@ class UserFollowWidget extends StatelessWidget {
               children: [
                 Text(
                   listFindUser[index].name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 59, 59, 59),
+                    fontFamily: 'TTNorm',
                   )
                 ),
                 Text(
                   listFindUser[index].name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 158, 158, 158),
+                    fontFamily: 'TTNorm',
                   )
                 ),
               ],

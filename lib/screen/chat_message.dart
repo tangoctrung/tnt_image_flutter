@@ -24,60 +24,62 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/images/bgChat.png",
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
-        ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          // resizeToAvoidBottomInset: false,
-          body: SafeArea(
-            child: GestureDetector(           
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: AppBarChatWidget('Tạ Ngọc Trung', 'assets/images/avatars/1.jpg', 'Đang hoạt động', context,)
-                        // child: AppBar(),
-                      ),
-                      
-                      Expanded(
-                        flex: 10,
-                        child: GestureDetector(
-                            onTap: () {FocusScope.of(context).unfocus();},
-                          child: Container(
-                            color: Colors.transparent,
-                            child: ListView.builder(
-                              itemCount: listMessage.length,
-                              controller: _scrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ItemMessageWidget(index);
-                              },),
+    return SafeArea(
+      child: Stack(
+        children: [
+          Image.asset(
+            "assets/images/bgChat.png",
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            // resizeToAvoidBottomInset: false,
+            body: SafeArea(
+              child: GestureDetector(           
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: AppBarChatWidget('Tạ Ngọc Trung', 'assets/images/avatars/1.jpg', 'Đang hoạt động', context,)
+                          // child: AppBar(),
+                        ),
+                        
+                        Expanded(
+                          flex: 10,
+                          child: GestureDetector(
+                              onTap: () {FocusScope.of(context).unfocus();},
+                            child: Container(
+                              color: Colors.transparent,
+                              child: ListView.builder(
+                                itemCount: listMessage.length,
+                                controller: _scrollController,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ItemMessageWidget(index);
+                                },),
+                            ),
                           ),
                         ),
-                      ),
-
-                    ],
-                  ),
-                  
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: InputWriteMessage(),
-                  ),
-                ],
+    
+                      ],
+                    ),
+                    
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: InputWriteMessage(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ] 
+        ] 
+      ),
     );
   }
 

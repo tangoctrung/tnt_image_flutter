@@ -40,15 +40,22 @@ class ItemCommentWidget extends StatelessWidget {
                 children: [
                   Text(
                     listComment[index].name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
                     )
                   ),
-                  Text(listComment[index].content),
+                  Text(
+                    listComment[index].content,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                    )
+                  ),
                   Text(
                     listComment[index].time,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Color.fromARGB(255, 153, 153, 153),
                     )

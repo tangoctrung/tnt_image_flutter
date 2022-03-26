@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
 import 'package:socialtnt/screen/main_screen.dart';
+import 'package:socialtnt/screen/register.dart';
 import 'package:socialtnt/widget/app_bar.dart';
 import 'package:socialtnt/widget/input_field.dart';
 
@@ -155,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // if (_globalkey.currentState!.validate()) {
                         //   print('Oke');
                         // };
-                        Get.to(MainScreen());
+                        Get.offAndToNamed(('/mainscreen'));
                       }, 
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

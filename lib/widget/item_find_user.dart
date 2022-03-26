@@ -11,7 +11,7 @@ class FindUserWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        onTap: () {Get.to(ProfileScreen());},
+        onTap: () {Get.toNamed('/profile');},
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -12,7 +12,7 @@ class ItemChatWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
-        onTap: () {Get.to(ChatMessageScreen());},
+        onTap: () {Get.toNamed('/chatMessage');},
         child: Row(
           children: [
             ClipRRect(
@@ -33,9 +33,10 @@ class ItemChatWidget extends StatelessWidget {
                   Text(              
                     listChat[index].name,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 18,
+                    style: const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'TTNorm',
                     ),
                   ),
                   RichText(
@@ -46,8 +47,9 @@ class ItemChatWidget extends StatelessWidget {
                           TextSpan(
                             text: listChat[index].content + '    ',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Color.fromARGB(255, 54, 54, 54),
+                              fontFamily: 'TTNorm',
                             )
                           ),
                           

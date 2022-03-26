@@ -13,9 +13,14 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         bottomNavigationBar: bottomNavigator(),
         body: PageView(
           controller: Get.put(GlobalController()).pageController,
+          onPageChanged: (value) {
+            Get.put(GlobalController()).onChangeTab(value);
+          },
+          physics:const NeverScrollableScrollPhysics(),
           children: [
             HomeScreen(),
             SearchScreen(),

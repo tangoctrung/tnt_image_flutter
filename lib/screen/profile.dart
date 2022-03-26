@@ -3,12 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/model/find_user.dart';
 import 'package:socialtnt/model/item_post_image.dart';
-import 'package:socialtnt/screen/list_chat.dart';
-import 'package:socialtnt/screen/post_saved.dart';
-import 'package:socialtnt/widget/bottom_bar.dart';
-import 'package:socialtnt/widget/item_find_user.dart';
 import 'package:socialtnt/widget/item_post_image.dart';
 import 'package:socialtnt/widget/item_user_follow.dart';
 
@@ -22,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
+  GlobalController globalController = Get.put(GlobalController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +57,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 image: DecorationImage(
                                     image: FileImage(imageFile!),
                                     fit: BoxFit.cover),
-                                
                                 borderRadius: BorderRadius.circular(100.0),
                               ),
                             )
@@ -70,11 +67,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: Colors.grey,
-                                image: DecorationImage(
-                                    image: AssetImage('./assets/images/avatars/1.jpg'),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        './assets/images/avatars/1.jpg'),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(100.0),
-                              ),                              
+                              ),
                             ),
                           Positioned(
                               bottom: 0,
@@ -87,13 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         bottomChooseAvatar()),
                                   );
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.camera,
                                   color: Color.fromARGB(255, 112, 114, 114),
                                 ),
                               )),
                         ]),
-                        Text('Tạ Ngọc Trung',
+                        const Text('Tạ Ngọc Trung',
                             style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'Quicksand',
@@ -106,8 +104,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ElevatedButton(
                                 onPressed: () {},
                                 child: Row(
-                                  children: [
-                                    Icon(Icons.follow_the_signs),
+                                  children: const [
+                                  Icon(Icons.follow_the_signs),
                                     SizedBox(width: 5),
                                     Text(
                                       'Theo dõi',
@@ -117,10 +115,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(width: 10),
                             ElevatedButton(
                                 onPressed: () {
-                                  Get.to(ListChatScreen());
+                                  globalController.onChangeTab(3);
                                 },
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     Icon(Icons.messenger),
                                     SizedBox(width: 5),
                                     Text(
@@ -183,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )
                                       : Column(children: const [
                                           SizedBox(height: 20),
-                                          Text('Không tìm thấy bài viết nào',
+                                          Text('Không có bài viết nào',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 24,
@@ -227,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         vertical: 20,
       ),
       child: Column(
-        children: <Widget>  [
+        children: <Widget>[
           const Text(
             "Choose Profile photo",
             style: TextStyle(
@@ -287,7 +285,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(e);
     }
   }
-
 }
 
 void _openModalSettingAdvanced(context) {
@@ -295,7 +292,7 @@ void _openModalSettingAdvanced(context) {
       context: context,
       builder: (BuildContext bd) {
         return Container(
-          height: 100,
+          height: 140,
           margin: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 20,
@@ -303,49 +300,70 @@ void _openModalSettingAdvanced(context) {
           child: Column(
             children: [
               const Text(
-            "Tùy chọn",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {   
-                  Get.back();           
-                  Get.to(PostSavedScreen());
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.storage),
-                    SizedBox(width: 5),
-                    Text("Lưu trữ"),
-                  ],
+                "Tùy chọn",
+                style: TextStyle(
+                  fontSize: 20.0,
                 ),
               ),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {               
-                  Get.back();
-                   _showModalChangePassword(context);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.lock_open),
-                    SizedBox(width: 5),
-                    Text("Đổi mật khẩu"),
-                  ],
-                ),
+              SizedBox(
+                height: 20,
               ),
-            ),
-          ])
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          Get.toNamed('/postSaved');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.storage),
+                            SizedBox(width: 5),
+                            Text("Lưu trữ"),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          _showModalChangePassword(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.lock_open),
+                            SizedBox(width: 5),
+                            Text("Đổi mật khẩu"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.offAndToNamed('/');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.logout),
+                        SizedBox(width: 5),
+                        Text("Đăng xuất"),
+                      ],
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         );
@@ -731,7 +749,7 @@ void _showModalFollow(context) {
                           flex: 1,
                           child: Column(
                             children: [
-                              Expanded(
+                              const Expanded(
                                 flex: 1,
                                 child: Text(
                                   'Người theo dõi (20)',

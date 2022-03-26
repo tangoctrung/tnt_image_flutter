@@ -16,7 +16,7 @@ class ItemPost extends StatelessWidget {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {Get.to(DetailPostScreen());},
+              onTap: () {Get.toNamed('/detailPost');},
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.96,
                 height: MediaQuery.of(context).size.height * 0.4,

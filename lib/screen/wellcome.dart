@@ -113,7 +113,7 @@ class _WellComeState extends State<WellCome> {
                                 Expanded(
                                   child: TextButton(
                                     onPressed: () {
-                                      Get.to(LoginScreen());
+                                      Get.toNamed('/login');
                                     },
                                     child: Text('Login'),
                                     style: TextButton.styleFrom(
@@ -130,7 +130,7 @@ class _WellComeState extends State<WellCome> {
                                 Expanded(
                                   child: TextButton(
                                     onPressed: () {
-                                      Get.to(RegisterScreen());
+                                      Get.toNamed('/register');
                                     },
                                     child: Text('Register'),
                                     style: TextButton.styleFrom(

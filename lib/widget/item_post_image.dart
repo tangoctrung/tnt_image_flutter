@@ -11,7 +11,7 @@ class ItemImagePost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        onTap: () {Get.to(DetailPostScreen());},
+        onTap: () {Get.toNamed('/detailPost');},
         child: Image(
           image: AssetImage(postImageList[index].imageUrl),
           fit: BoxFit.cover,

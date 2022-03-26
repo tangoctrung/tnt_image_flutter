@@ -8,9 +8,16 @@ import 'package:socialtnt/screen/home.dart';
 Container bottomNavigator() {
   GlobalController globalController = Get.put(GlobalController());
   return Container(
-    height: 70,
+    height: 50,
     width: double.infinity,
-    color: Colors.white,
+    // color: Colors.white,
+    decoration: const BoxDecoration(
+      border: Border(top: BorderSide(
+          width: 1.0,
+          color: Color.fromARGB(255, 139, 137, 137),
+        )
+      )
+    ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
       children: [
@@ -29,18 +36,8 @@ Container bottomNavigator() {
                       color: globalController.currentPage  == 0
                           ? Color.fromARGB(255, 236, 116, 36)
                           : Color.fromARGB(255, 68, 68, 68),
-                      size: 36,
                     )
-                  ),
-                  Text('Trang chủ',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: globalController.currentPage  == 0
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    ),
-                  )
+                  ),                  
 
                 ],
               ),
@@ -62,16 +59,7 @@ Container bottomNavigator() {
                         color: globalController.currentPage  == 1
                           ? Color.fromARGB(255, 236, 116, 36)
                           : Color.fromARGB(255, 68, 68, 68),
-                      )),
-                  Text('Tìm kiếm',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: globalController.currentPage  == 1
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    ),
-                  )
+                      )),                 
                 ] 
               ),
             );
@@ -92,16 +80,7 @@ Container bottomNavigator() {
                       color: globalController.currentPage  == 2
                           ? Color.fromARGB(255, 236, 116, 36)
                           : Color.fromARGB(255, 68, 68, 68),
-                    )),
-                  Text('Chia sẻ',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: globalController.currentPage  == 2
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    ),
-                  )
+                    )),               
                 ]
               ),
             );
@@ -122,17 +101,7 @@ Container bottomNavigator() {
                         color: globalController.currentPage  == 3
                           ? Color.fromARGB(255, 236, 116, 36)
                           : Color.fromARGB(255, 68, 68, 68),
-                      )),
-                  Text('Nhắn tin',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: globalController.currentPage  == 3
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    ),
-                  )
-
+                      )),             
                 ] 
               ),
             );
@@ -153,17 +122,7 @@ Container bottomNavigator() {
                         color: globalController.currentPage  == 4
                           ? Color.fromARGB(255, 236, 116, 36)
                           : Color.fromARGB(255, 68, 68, 68),
-                      )),
-                  Text('Cá nhân',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: globalController.currentPage  == 4
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    ),
-                  )
-
+                      )),               
                 ]
               ),
             );

@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {Get.to(ListPostScreen());},
+                            onPressed: () {Get.toNamed('/listPost');},
                             child: const Text(
                               'Xem thêm',
                               style: TextStyle(
