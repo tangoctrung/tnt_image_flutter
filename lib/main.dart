@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/binding/auth_binding.dart';
 import 'package:socialtnt/screen/chat_message.dart';
 import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
@@ -7,6 +8,7 @@ import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
 import 'package:socialtnt/screen/list_chat.dart';
 import 'package:socialtnt/screen/list_post.dart';
+import 'package:socialtnt/screen/loading.dart';
 import 'package:socialtnt/screen/login.dart';
 import 'package:socialtnt/screen/main_screen.dart';
 import 'package:socialtnt/screen/post_saved.dart';
@@ -31,9 +33,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const WellCome(),
-      initialRoute: '/',
+      initialRoute: '/loading',
       getPages: [
         GetPage(name: '/', page: () => WellCome()),
+        GetPage(name: '/loading', page: () => LoadingScreen(), binding: AuthBinding()),
         GetPage(name: '/login', page: () => LoginScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/register', page: () => RegisterScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/forgetPassword', page: () => ForgetPassword(),transition: Transition.rightToLeftWithFade),

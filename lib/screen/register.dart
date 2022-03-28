@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/controller/register_controller.dart';
 import 'package:socialtnt/widget/app_bar.dart';
-import 'package:socialtnt/widget/input_field.dart';
+// import 'package:socialtnt/widget/input_field.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({ Key? key }) : super(key: key);
-
-  
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-
-  bool visiblePass = true;
-  final _globalkey = GlobalKey<FormState>();
+class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RegisterController registerController = Get.put(RegisterController());
+    
     return SafeArea(
       child: GestureDetector(
         onTap: () {FocusScope.of(context).unfocus();},
@@ -54,7 +46,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 40),
                   Center(
                     child: Form(
-                      key: _globalkey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Center(                            
                               child: TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                                controller: registerController.username,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -73,11 +65,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: "Họ tên",
                                   prefixIcon: Icon(Icons.person),                                
                                 ),
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.emailAddress,  
                                 validator: (value) {
-                                  if (value!.isEmpty) return "Bạn chưa điền họ tên";
-                                  return null;
-                                },
+                                    if (value!.isEmpty) {
+                                      return "Họ tên là trường bắt buộc";
+                                    }                                  
+                                    return null;
+                                  },                           
                               ),
                             ),
                           ),
@@ -88,6 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Center(
                               child: TextFormField(
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
+                                controller: registerController.email,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -97,8 +92,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
-                                  if (value!.isEmpty) return "Bạn chưa điền email";
-                                  if (!value.contains('@')) return "Email không đúng định dạng";
+                                  if (value!.isEmpty) {
+                                    return "Email là trường bắt buộc";
+                                  }
+                                  if (!value.contains('@')) {
+                                    return "Email không đúng định dạng";
+                                  }
                                   return null;
                                 },
                               ),
@@ -109,31 +108,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Center(                      
-                              child: TextFormField(
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                obscureText: visiblePass,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                              child: Obx(() => 
+                                TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  obscureText: !registerController.isShowPassword.value,
+                                  controller: registerController.password,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    labelText: "Password",
+                                    prefixIcon: Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      icon: Icon( !registerController.isShowPassword.value ? Icons.visibility : Icons.visibility_off),
+                                      onPressed: () {
+                                        return registerController.changeDisplayPassword();
+                                      }, 
+                                    ),
                                   ),
-                                  labelText: "Password",
-                                  prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(
-                                    icon: Icon( visiblePass ? Icons.visibility : Icons.visibility_off),
-                                    onPressed: () {
-                                      setState(() {
-                                        visiblePass = !visiblePass;
-                                      });
-                                    }, 
-                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Password là trường bắt buộc";
+                                    }
+                                    if (value.length < 8) {
+                                      return "Password phải có ít nhất 8 ký tự";
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) {
-                                  if (value!.isEmpty) return "Bạn chưa điền mật khẩu";
-                                  if (value.length < 8) return "Mật khẩu phải có ít nhất 8 kí tự";
-                                  return null;
-                                },
-                              ),
+                              
+                              )
                             ),
                           ),                      
                         ],
@@ -144,37 +149,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,   
                     mainAxisAlignment: MainAxisAlignment.center,                 
-                    children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_globalkey.currentState!.validate()) {
-                            print('Oke');
-                          }
-                        }, 
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                          Icon(Icons.app_registration),
-                          SizedBox(width: 10),
-                          Text(
-                            'Đăng ký',
+                    children: [                    
+                    SizedBox(height: 10),
+                    Obx(() => 
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {     
+                            // if (_formKey.currentState!.validate()) {
+                              var json = await registerController.signup();
+                              if (json["success"] == true) {
+                                registerController.resetInput();
+                                Get.toNamed('/login');                        
+                              } else {
+                                Get.snackbar(
+                                  "Lỗi đăng kí", 
+                                  json["message"],
+                                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                                  colorText: Color.fromARGB(255, 248, 46, 46),
+                                  icon: Icon(Icons.error, color: Colors.red),
+                                );
+                              }
+                            // }                    
+                          }, 
+                          icon: registerController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:24, width: 24,) : Icon(Icons.app_registration),                      
+                          label: Text(
+                            registerController.isLoading.value ? '' : 'Đăng ký',
                             style: TextStyle(
                               fontSize: 18,
                             ),
-                          ),
-                        ]),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 18)),
-                          backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                          ),   
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 18)),
+                            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              )
                             )
                           )
-                        )
-                      ),
+                        ),
+                      ),                
                     ),
                     TextButton(
                         onPressed: () {Get.toNamed('/login');},
