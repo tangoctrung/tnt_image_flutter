@@ -31,11 +31,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Tạo bài viết",
                         style: TextStyle(
                           fontSize: 32,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'TTNorm',
                         ),
                       ),
                       SizedBox(height: 20),

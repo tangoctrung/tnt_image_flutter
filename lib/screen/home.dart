@@ -26,7 +26,8 @@ class HomeScreen extends StatelessWidget {
                     'Trang chủ',
                     style: TextStyle(
                       fontSize: 32,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'TTNorm',
                     ),
                   ),
                   SizedBox(height: 15),

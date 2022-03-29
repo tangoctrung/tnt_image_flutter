@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socialtnt/model/item_post_image.dart';
 import 'package:socialtnt/widget/app_bar.dart';
-import 'package:socialtnt/widget/item_post_image.dart';
+import 'package:socialtnt/widget/item_post_saved.dart';
 
 class PostSavedScreen extends StatefulWidget {
   const PostSavedScreen({Key? key}) : super(key: key);
@@ -33,28 +33,24 @@ class _PostSavedScreenState extends State<PostSavedScreen> {
                       postImageList.length > 0
                           ? Expanded(
                               flex: 10,
-                              child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 3,
-                                    crossAxisSpacing: 3,
-                                    crossAxisCount: 3,
-                                  ),
+                              child: ListView.builder(                                 
                                   itemCount: postImageList.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return ItemImagePost(index);
+                                    return ItemPostSaved(index);
                                   }),
                             )
-                          : Column(children: const [
-                              SizedBox(height: 20),
-                              Text('Không tìm thấy bài viết nào',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    color: Color.fromARGB(255, 219, 8, 8),
-                                  ))
-                            ])
+                          : Center(
+                            child: Column(children: const [
+                                SizedBox(height: 100),
+                                Text('Không tìm thấy bài viết nào',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: Color.fromARGB(255, 219, 8, 8),
+                                    ))
+                              ]),
+                          )
                     ]),
               ),
             ),

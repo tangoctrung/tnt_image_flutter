@@ -1,41 +1,24 @@
 
 import 'dart:convert';
 
-UserModel userFromJson(String str) => UserModel.toObject(json.decode(str));
-
-class UserModel {
-  User user;
-  String token;
-
-  UserModel({required this.user, required this.token});
-
-  factory UserModel.toObject(Map<String, dynamic> json) =>
-      UserModel(
-          user: User.toObject(json['user']),
-          token: json['token'],
-      );
-
-  Map<String, dynamic> toJson() => {
-    "user" : user.toJson(),
-    "token" : token,
-  };
-}
-
+User userFromJson(String str) => User.toObject(json.decode(str));
 class User {
-  String id;
-  String username;
-  String email;
-  String avatar;
-  String date; 
-  String address;
-  String job;
-  Map<String, String> postSaved;
+  String? id;
+  String? username;
+  String? email;
+  String? avatar;
+  String? date; 
+  String? address;
+  String? job;
+  String? token;
+  List<dynamic>? postSaved;
 
   User({
-    required this.id, required this.username, 
-    required this.email, required this.avatar,
-    required this.date, required this.address,
-    required this.job, required this.postSaved
+     this.id,  this.username, 
+     this.email,  this.avatar,
+     this.date,  this.address,
+     this.job,  this.postSaved,
+     this.token,
   });
 
   factory User.toObject(Map<String, dynamic> json) =>
@@ -44,6 +27,7 @@ class User {
         email: json['email'], avatar: json['avatar'],
         date: json['date'], address: json['address'],
         postSaved: json['postSaved'], job: json['job'],
+        token: json['token'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +39,7 @@ class User {
     "address": address,
     "job": job,
     "postSaved": postSaved,
+    "token": token,
   };
 
 }

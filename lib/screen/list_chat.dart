@@ -25,7 +25,8 @@ class ListChatScreen extends StatelessWidget {
                           'Nhắn tin',
                           style: TextStyle(
                             fontSize: 32,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'TTNorm',
                           )
                         ),
                       ]

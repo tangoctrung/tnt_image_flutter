@@ -12,13 +12,14 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
 
-  AuthController authController = Get.find();
+  // AuthController authController = Get.find();
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 5), () {
-      if (authController.isAuth() == true) {
-        Get.offAndToNamed('/mainscreen');
-      } else if (authController.isAuth() == false) {
+      if (Get.put(AuthController()).isAuth() == true) {
+        Get.put(AuthController()).getInfoUser();     
+        Get.offAndToNamed('/mainscreen'); 
+      } else if (Get.put(AuthController()).isAuth() == false) {
         Get.offAndToNamed('/login');
       }
     });

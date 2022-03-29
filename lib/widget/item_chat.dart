@@ -43,7 +43,7 @@ class ItemChatWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                         style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
+                        children: [
                           TextSpan(
                             text: listChat[index].content + '    ',
                             style: TextStyle(

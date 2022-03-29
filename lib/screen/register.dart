@@ -19,7 +19,20 @@ class RegisterScreen extends StatelessWidget {
               // resizeToAvoidBottomInset: false,
               body: ListView(
                 children: [
-                  AppBarWidget('Đăng ký', context, Color.fromARGB(255, 66, 66, 66)),
+                  SizedBox(height: 10,),
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [ 
+                    SizedBox(width: 20),
+                  Text('Đăng ký', 
+                  style: TextStyle(
+                    fontSize: 20, 
+                    fontWeight: FontWeight.bold, 
+                    fontFamily: 'Quicksand', 
+                    color: Color.fromARGB(255, 59, 59, 59))),
+                  ]    
+                ),
+                  SizedBox(height: 10,),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

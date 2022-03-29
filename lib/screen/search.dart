@@ -32,7 +32,8 @@ class SearchScreen extends StatelessWidget {
                           "Tìm kiếm",
                           style: TextStyle(
                             fontSize: 32,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'TTNorm',
                           ),
                         ),
                         Row(

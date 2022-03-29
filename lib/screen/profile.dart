@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/controller/user_controller.dart';
 import 'package:socialtnt/model/find_user.dart';
 import 'package:socialtnt/model/item_post_image.dart';
 import 'package:socialtnt/widget/item_post_image.dart';
@@ -22,8 +23,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   GlobalController globalController = Get.put(GlobalController());
   AuthController authController = Get.put(AuthController());
+  UserController userController = Get.put(UserController());
+
+
   @override
   Widget build(BuildContext context) {
+    userController.getAllPost();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -64,19 +69,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               )
                             else
-                              Container(
-                                width: 120,
-                                height: 120,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          './assets/images/avatars/1.jpg'),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.circular(100.0),
+                              !Get.put(GlobalController()).user.value.avatar.toString().contains('http') ?
+                                Container(
+                                  width: 120,
+                                  height: 120,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/images/avatars/5.png'),
+                                      fit: BoxFit.cover,
+                                    ),                       
+                                  ),                              
+                                ) : 
+                                Container(
+                                  width: 120,
+                                  height: 120,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    image: DecorationImage(
+                                      image: NetworkImage(Get.put(GlobalController()).user.value.avatar.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),                              
                                 ),
-                              ),
                             Positioned(
                                 bottom: 0,
                                 right: 10,
@@ -94,12 +111,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )),
                           ]),
-                          const Text('Tạ Ngọc Trung',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Quicksand',
-                                fontWeight: FontWeight.bold,
-                              )),
+                          Obx(() => 
+                            Text( globalController.user.value.username.toString(),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Quicksand',
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ), 
                           SizedBox(height: 15),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -165,33 +184,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    postImageList.length > 0
-                                        ? Expanded(
-                                            flex: 10,
-                                            child: GridView.builder(
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  mainAxisSpacing: 3,
-                                                  crossAxisSpacing: 3,
-                                                  crossAxisCount: 3,
-                                                ),
-                                                itemCount: postImageList.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return ItemImagePost(index);
-                                                }),
-                                          )
-                                        : Column(children: const [
-                                            SizedBox(height: 20),
-                                            Text('Không có bài viết nào',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 24,
-                                                  color: Color.fromARGB(
-                                                      255, 219, 8, 8),
-                                                ))
-                                          ])
+                                    Obx(() => 
+                                      userController.posts.value.length > 0
+                                          ? Expanded(
+                                              flex: 10,
+                                              child: GridView.builder(
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    mainAxisSpacing: 3,
+                                                    crossAxisSpacing: 3,
+                                                    crossAxisCount: 3,
+                                                  ),
+                                                  itemCount: userController.posts.value.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Container(
+                                                      child: GestureDetector(
+                                                        onTap: () {Get.toNamed('/detailPost');},
+                                                        child: Image(
+                                                          image: NetworkImage(userController.posts.value[index].images!),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                            )
+                                          : Center(
+                                            child: Column(children: const [
+                                                SizedBox(height: 50),
+                                                Text('Không có bài viết nào',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 24,
+                                                      color: Color.fromARGB(
+                                                          255, 219, 8, 8),
+                                                    ))
+                                              ]),
+                                          ),
+                                    ) 
+                                        
                                   ]),
                             ),
                           ),
@@ -392,7 +424,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 30),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.person),
                       SizedBox(width: 5),
                       Text(
@@ -405,7 +437,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'Tạ Ngọc Trung',
+                        globalController.user.value.username.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
@@ -415,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 15),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.email),
                       SizedBox(width: 5),
                       Text(
@@ -428,7 +460,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'trung@gmail.com',
+                        globalController.user.value.email.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
@@ -438,7 +470,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 15),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.date_range),
                       SizedBox(width: 5),
                       Text(
@@ -451,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        '23/07/2001',
+                        globalController.user.value.date.toString() == '' ? 'Chưa có thông tin' : globalController.user.value.date.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
@@ -461,7 +493,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 15),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.local_activity),
                       SizedBox(width: 5),
                       Text(
@@ -474,7 +506,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'Kim Bảng, Hà Nam',
+                        globalController.user.value.address.toString() == '' ? 'Chưa có thông tin' : globalController.user.value.address.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
@@ -484,7 +516,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 15),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.work),
                       SizedBox(width: 5),
                       Text(
@@ -497,7 +529,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'Sinh viên UET',
+                        globalController.user.value.job.toString() == '' ? 'Chưa có thông tin' : globalController.user.value.job.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
@@ -549,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )),
               SizedBox(height: 15),
               Row(
-                children: const [
+                children: [
                   Icon(Icons.person),
                   SizedBox(width: 5),
                   Expanded(
@@ -557,7 +589,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Tạ Ngọc Trung'),
+                          hintText: globalController.user.value.username.toString()),
                       style: TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(255, 66, 66, 66),
@@ -569,7 +601,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(width: 10),
               Row(
-                children: const [
+                children: [
                   Icon(Icons.date_range),
                   SizedBox(width: 5),
                   Expanded(
@@ -577,7 +609,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: '23/07/2001'),
+                          hintText: globalController.user.value.date.toString() == '' ? 'Ngày sinh' : globalController.user.value.date.toString(),),
                       style: TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(255, 66, 66, 66),
@@ -589,7 +621,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(width: 10),
               Row(
-                children: const [
+                children: [
                   Icon(Icons.local_activity),
                   SizedBox(width: 5),
                   Expanded(
@@ -597,7 +629,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Kim Bảng, Hà Nam'),
+                          hintText: globalController.user.value.address.toString() == '' ? 'Đến từ' : globalController.user.value.address.toString(),),
                       style: TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(255, 66, 66, 66),
@@ -609,15 +641,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(width: 10),
               Row(
-                children: const [
+                children: [
                   Icon(Icons.work),
                   SizedBox(width: 5),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Sinh viên UET'),
+                          hintText: globalController.user.value.job.toString() == '' ? 'Công việc' : globalController.user.value.job.toString(),),
                       style: TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(255, 66, 66, 66),

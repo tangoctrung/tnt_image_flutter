@@ -1,15 +1,18 @@
 
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/model/user.dart';
+import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController{
-  
 
-  String? username = '';
-  String? avatar = '';
-  String? email = '';
-  String? id = '';
   String? token = '';
+  GlobalController globalController = Get.put(GlobalController());
+
 
   @override
   void onInit() async {
@@ -18,9 +21,7 @@ class AuthController extends GetxController{
   }
   authData() async {
     final prefs = await SharedPreferences.getInstance();
-    username = prefs.getString('username');
     token = prefs.getString('token');
-    print(token);
   }
 
   bool isAuth() {
@@ -28,14 +29,46 @@ class AuthController extends GetxController{
     return true;
   }
 
+  Future<void> getInfoUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();        
+      String? token = prefs.getString('token');
+
+
+      var client = http.Client();
+      var res = await client.get(
+        Uri.parse('https://socialphoto.vercel.app/api/'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+      );
+      User userInfo = User();
+      var json = jsonDecode(res.body.toString());
+      if (json["success"] == true) {
+        var data = json["data"];
+        var user = data["user"];
+
+        
+        userInfo.username = user["username"];
+        userInfo.address = user["address"];
+        userInfo.avatar = user["avatar"];
+        userInfo.date = user["date"];
+        userInfo.email = user["email"];
+        userInfo.id = user["_id"];
+        userInfo.job = user["job"];
+        userInfo.postSaved = user["postSaved"];
+        userInfo.token = token;
+        Get.put(GlobalController()).user.value = userInfo;
+        print(Get.put(GlobalController().user.value.email));
+        
+      } 
+    } catch (e) {
+
+    }
+  }
+
   doLogout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('username');
-    await prefs.remove('avatar');
-    await prefs.remove('id');
-    await prefs.remove('email');
     await prefs.remove('token');
-    Get.offAndToNamed('/login');
+    Get.offNamed('/login');
   }
   
 }

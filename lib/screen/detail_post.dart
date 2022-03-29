@@ -27,14 +27,14 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 height: MediaQuery.of(context).size.height,
                 child: GestureDetector(
                   child: Image(
-                    image: AssetImage('assets/images/bgMoblie/1.jpg'),
+                    image: AssetImage('assets/images/bgMoblie/6.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             Positioned(
-              bottom: 0,
+              top: 0,
               left: 0,
               child: IconButton(
                 onPressed: () {
@@ -42,7 +42,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 },
                 icon: Icon(
                   Icons.close,
-                  size: 24,
+                  size: 28,
                   color: Colors.red,
                 ),
               ),

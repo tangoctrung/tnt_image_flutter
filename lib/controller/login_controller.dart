@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/model/user.dart';
+import 'package:socialtnt/screen/main_screen.dart';
 
 
 class LoginController extends GetxController {
@@ -12,6 +15,7 @@ class LoginController extends GetxController {
   TextEditingController password = TextEditingController();
   RxBool isShowPassword = false.obs;
   RxBool isLoading = false.obs;
+  GlobalController globalController = Get.put(GlobalController());
 
   
 
@@ -42,24 +46,29 @@ class LoginController extends GetxController {
         body: jsonEncode(<String, String> {'password': password.text, 'email': email.text}),
       );
       stopIsLoading();
-
+      User userInfo = User();
       var json = jsonDecode(res.body.toString());
       if (json["success"] == true) {
         var data = json["data"];
         var user = data["newUser"];
+        print(user);
 
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('username', user["username"]);
-        print("oke username");
-        await prefs.setString('avatar', user["avatar"]);
-        print("oke avatar");
-        await prefs.setString('id', user["_id"]);
-        print("oke id");
-        await prefs.setString('email', user["email"]);
-        print("oke email");
+        
         await prefs.setString('token', data["token"]);
-        print("oke token");
-        Get.offAndToNamed(('/mainscreen'));                   
+        userInfo.username = user["username"];
+        userInfo.address = user["address"];
+        userInfo.avatar = user["avatar"];
+        userInfo.date = user["date"];
+        userInfo.email = user["email"];
+        userInfo.id = user["_id"];
+        userInfo.job = user["job"];
+        userInfo.postSaved = user["postSaved"];
+        userInfo.token = data["token"];
+
+        Get.put(GlobalController()).user.value = userInfo;
+
+        Get.offAndToNamed('mainscreen');                   
       } else {
         Get.snackbar(
           "Lỗi đăng nhập", 
