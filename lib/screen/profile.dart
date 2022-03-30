@@ -573,105 +573,129 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder: (BuildContext bc) {
           return AlertDialog(
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text('Chỉnh sửa thông tin',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-              SizedBox(height: 15),
-              Row(
-                children: [
-                  Icon(Icons.person),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: globalController.user.value.username.toString()),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10),
-              Row(
-                children: [
-                  Icon(Icons.date_range),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: globalController.user.value.date.toString() == '' ? 'Ngày sinh' : globalController.user.value.date.toString(),),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10),
-              Row(
-                children: [
-                  Icon(Icons.local_activity),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: globalController.user.value.address.toString() == '' ? 'Đến từ' : globalController.user.value.address.toString(),),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10),
-              Row(
-                children: [
-                  Icon(Icons.work),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: globalController.user.value.job.toString() == '' ? 'Công việc' : globalController.user.value.job.toString(),),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            content: Form(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Text('Chỉnh sửa thông tin',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: 15),
+                Row(
                   children: [
-                    Icon(Icons.update),
+                    Icon(Icons.person),
                     SizedBox(width: 5),
-                    Text('Lưu lại')
+                    Expanded(
+                      child: Obx(() => 
+                        TextField(
+                          controller: userController.username,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: globalController.user.value.username.toString()),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                        ),
+                      )
+                    ),
                   ],
                 ),
-              )
-            ]),
+                SizedBox(width: 10),
+                Row(
+                  children: [
+                    Icon(Icons.date_range),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Obx(() => 
+                        TextField(
+                          controller: userController.date,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: globalController.user.value.date.toString() == '' ? 'Ngày sinh' : globalController.user.value.date.toString(),),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                        ),
+                      )
+                    ),
+                  ],
+                ),
+                SizedBox(width: 10),
+                Row(
+                  children: [
+                    Icon(Icons.local_activity),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Obx(() => 
+                        TextField(
+                          controller: userController.address,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: globalController.user.value.address.toString() == '' ? 'Đến từ' : globalController.user.value.address.toString(),),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                        ),
+                      )
+                    ),
+                  ],
+                ),
+                SizedBox(width: 10),
+                Row(
+                  children: [
+                    Icon(Icons.work),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Obx(() => 
+                        TextField(
+                          controller: userController.job,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: globalController.user.value.job.toString() == '' ? 'Công việc' : globalController.user.value.job.toString(),),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                        ),
+                      )
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Obx(() => 
+                  ElevatedButton.icon(
+                    onPressed: () async{ await userController.updateInfo();},
+                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(Icons.system_update),                      
+                      label: Text(
+                        userController.isLoading.value ? '' : 'Lưu lại',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                    ),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 14, horizontal: 30)),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        )
+                      )
+                    ) 
+                  )
+                )
+              ]),
+            ),
           );
         });
   }
@@ -681,85 +705,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder: (BuildContext bc) {
           return AlertDialog(
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Text('Đổi mật khẩu',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-              SizedBox(height: 15),
-              Row(
-                children: const [
-                  Icon(Icons.lock),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Mật khẩu cũ'),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10),
-              Row(
-                children: const [
-                  Icon(Icons.password),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Mật khẩu mới'),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10),
-              Row(
-                children: const [
-                  Icon(Icons.password),
-                  SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: 'Nhập lại mật khẩu mới'),
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          height: 1.5),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.update),
+            content: Form(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Text('Đổi mật khẩu',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+                
+                SizedBox(width: 10),
+                
+                Row(
+                  children: [
+                    Icon(Icons.password),
                     SizedBox(width: 5),
-                    Text('Lưu lại')
+                    Expanded(
+                      child: TextField(
+                          controller: userController.pwNew,
+                          decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: 'Mật khẩu mới'),
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                        ),
+                    ),
                   ],
                 ),
-              )
-            ]),
+                
+                SizedBox(width: 10),
+               
+                Row(
+                  children: [
+                    Icon(Icons.password),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: TextField(
+                          controller: userController.cpwNew,
+                          decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                              hintText: 'Nhập lại mật khẩu mới'),
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              height: 1.5),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                        ),
+                    ),
+                  ],
+                ),
+                
+                SizedBox(height: 15),
+                
+                Obx(() => 
+                  ElevatedButton.icon(
+                    onPressed: () async{ await userController.changePassword();},
+                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(Icons.system_update),                      
+                    label: Text(
+                      userController.isLoading.value ? '' : 'Lưu lại',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 10, horizontal: 40)),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        )
+                      )
+                    ) 
+                    )
+                )
+              ]),
+            ),
           );
         });
   }

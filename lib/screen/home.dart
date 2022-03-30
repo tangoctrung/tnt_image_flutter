@@ -85,25 +85,27 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      GridView.custom(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        gridDelegate: SliverQuiltedGridDelegate(
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 4,
-                          crossAxisSpacing: 4,
-                          repeatPattern:
-                              QuiltedGridRepeatPattern.inverted,
-                          pattern: [
-                            QuiltedGridTile(2, 2),
-                            QuiltedGridTile(1, 1),
-                            QuiltedGridTile(1, 1),
-                            QuiltedGridTile(1, 2),
-                          ],
-                        ),
-                        childrenDelegate: SliverChildBuilderDelegate(
-                          (context, index) => ItemImagePost(index),
-                          childCount: postImageList.length < 8 ? postImageList.length : 8,
+                      Container(
+                        child: GridView.custom(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          gridDelegate: SliverQuiltedGridDelegate(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 4,
+                            crossAxisSpacing: 4,
+                            repeatPattern:
+                                QuiltedGridRepeatPattern.inverted,
+                            pattern: [
+                              QuiltedGridTile(2, 2),
+                              QuiltedGridTile(1, 1),
+                              QuiltedGridTile(1, 1),
+                              QuiltedGridTile(1, 2),
+                            ],
+                          ),
+                          childrenDelegate: SliverChildBuilderDelegate(
+                            (context, index) => ItemImagePost(index),
+                            childCount: postImageList.length < 8 ? postImageList.length : 8,
+                          ),
                         ),
                       ),
                     ],
