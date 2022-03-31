@@ -4,6 +4,7 @@ import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/home.dart';
+import 'package:socialtnt/screen/info_user_other.dart';
 import 'package:socialtnt/screen/list_chat.dart';
 import 'package:socialtnt/screen/profile.dart';
 import 'package:socialtnt/screen/search.dart';
@@ -48,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
             CreatePostScreen(),
             ListChatScreen(),
             ProfileScreen(),
+            InfoUserOtherScreen(),
           ],
         ),
         

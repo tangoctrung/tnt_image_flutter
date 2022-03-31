@@ -57,7 +57,6 @@ class AuthController extends GetxController{
         userInfo.postSaved = user["postSaved"];
         userInfo.token = token;
         Get.put(GlobalController()).user.value = userInfo;
-        print(Get.put(GlobalController().user.value.email));
         
       } 
     } catch (e) {

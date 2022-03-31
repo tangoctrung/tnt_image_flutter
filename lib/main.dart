@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/binding/auth_binding.dart';
@@ -6,6 +7,7 @@ import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
 import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
+import 'package:socialtnt/screen/info_user_other.dart';
 import 'package:socialtnt/screen/list_chat.dart';
 import 'package:socialtnt/screen/list_post.dart';
 import 'package:socialtnt/screen/loading.dart';
@@ -17,7 +19,9 @@ import 'package:socialtnt/screen/register.dart';
 import 'package:socialtnt/screen/search.dart';
 import 'package:socialtnt/screen/wellcome.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -50,6 +54,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/profile', page: () => ProfileScreen()),
         GetPage(name: '/chatMessage', page: () => ChatMessageScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/postSaved', page: () => PostSavedScreen()),
+        GetPage(name: '/infoUserOther', page: () => InfoUserOtherScreen()),
       ],
       
     );

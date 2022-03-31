@@ -6,10 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
-import 'package:socialtnt/model/find_user.dart';
-import 'package:socialtnt/model/item_post_image.dart';
-import 'package:socialtnt/widget/item_post_image.dart';
-import 'package:socialtnt/widget/item_user_follow.dart';
+import 'package:socialtnt/service/storage_service.dart';
+
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -29,6 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     userController.getAllPost();
+    userController.getFollow();
+    final Storage storage = Storage();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -54,63 +56,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Icon(Icons.settings),
                                 ),
                               ]),
-                          Stack(children: [
-                            if (imageFile != null)
-                              Container(
-                                width: 120,
-                                height: 120,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  image: DecorationImage(
-                                      image: FileImage(imageFile!),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.circular(100.0),
-                                ),
-                              )
-                            else
-                              !Get.put(GlobalController()).user.value.avatar.toString().contains('http') ?
+
+                          Obx(() => 
+                            Stack(children: [
+                              if (imageFile != null)
                                 Container(
                                   width: 120,
                                   height: 120,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    color: Colors.grey,
                                     image: DecorationImage(
-                                      image: AssetImage('assets/images/avatars/5.png'),
-                                      fit: BoxFit.cover,
-                                    ),                       
-                                  ),                              
-                                ) : 
-                                Container(
-                                  width: 120,
-                                  height: 120,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
+                                        image: FileImage(imageFile!),
+                                        fit: BoxFit.cover),
                                     borderRadius: BorderRadius.circular(100.0),
-                                    image: DecorationImage(
-                                      image: NetworkImage(Get.put(GlobalController()).user.value.avatar.toString()),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),                              
-                                ),
-                            Positioned(
-                                bottom: 0,
-                                right: 10,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: ((builder) =>
-                                          bottomChooseAvatar()),
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.camera,
-                                    color: Color.fromARGB(255, 112, 114, 114),
                                   ),
-                                )),
-                          ]),
+                                )
+                              else
+                                !globalController.user.value.avatar.toString().contains('http') ?
+                                  Container(
+                                    width: 120,
+                                    height: 120,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100.0),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/images/avatars/5.png'),
+                                        fit: BoxFit.cover,
+                                      ),                       
+                                    ),                              
+                                  ) : 
+                                  Container(
+                                    width: 120,
+                                    height: 120,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100.0),
+                                      image: DecorationImage(
+                                        image: NetworkImage(globalController.user.value.avatar.toString()),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),                              
+                                  ),
+                              Positioned(
+                                  bottom: 0,
+                                  right: 10,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: ((builder) =>
+                                            bottomChooseAvatar(storage)),
+                                      );
+                                    },
+                                    child: const Icon(
+                                      Icons.camera,
+                                      color: Color.fromARGB(255, 112, 114, 114),
+                                    ),
+                                  )),
+                            ]),
+                          ),
+
                           Obx(() => 
                             Text( globalController.user.value.username.toString(),
                                 style: TextStyle(
@@ -118,38 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   fontFamily: 'Quicksand',
                                   fontWeight: FontWeight.bold,
                                 )),
-                          ), 
-                          SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: const [
-                                    Icon(Icons.follow_the_signs),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Theo dõi',
-                                      )
-                                    ],
-                                  )),
-                              SizedBox(width: 10),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    globalController.onChangeTab(3);
-                                  },
-                                  child: Row(
-                                    children: const [
-                                      Icon(Icons.messenger),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Nhắn tin',
-                                      )
-                                    ],
-                                  )),
-                            ],
-                          ),
+                          ),                       
                           SizedBox(height: 10),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -233,18 +208,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              // Container(
-              //   width: MediaQuery.of(context).size.width,
-              //   height: MediaQuery.of(context).size.height * 0.06,
-              //   decoration: const BoxDecoration(
-              //       border: Border(
-              //     top: BorderSide(
-              //       color: Color.fromARGB(255, 194, 194, 194),
-              //       width: 0.5,
-              //     ),
-              //   )),
-              //   child: BottomBar(),
-              // ),
             ],
           ),
         ),
@@ -252,7 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget bottomChooseAvatar() {
+  Widget bottomChooseAvatar(Storage storage) {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -274,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                takePhoto(source: ImageSource.camera);
+                takePhoto(source: ImageSource.camera, storage: storage);
                 Get.back();
               },
               child: Row(
@@ -287,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(width: 10),
             ElevatedButton(
               onPressed: () {
-                takePhoto(source: ImageSource.gallery);
+                takePhoto(source: ImageSource.gallery, storage: storage);
                 Get.back();
               },
               child: Row(
@@ -303,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void takePhoto({required ImageSource source}) async {
+  void takePhoto({required ImageSource source, required storage}) async {
     try {
       final file = await ImagePicker().pickImage(
           source: source,
@@ -316,6 +279,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           imageFile = File(file!.path);
         });
+        String fileName = file!.name;
+        File newFile = File(file.path);
+        final  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
+        var uploadTask = await storage.ref('avatars/$fileName').putFile(newFile).whenComplete(() => {});
+        String newUrl = await uploadTask.ref.getDownloadURL();
+        globalController.user.value.avatar = newUrl;
+        userController.updateAvatar();
+        // print(globalController.user.value.avatar);
+        
+        // globalController.user.value.avatar = storage
+        //   .uploadFile(file?.path, file?.name)
+        //   .then((value, url) {
+        //     print(value);
+        //     print(url);
+        //     print("done");
+        //   });
       }
     } catch (e) {
       print(e);
@@ -550,15 +529,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Color.fromARGB(255, 61, 58, 58)),
                           ),
-                          child: Row(children: const [
-                            Icon(Icons.person_add_alt_1),
-                            SizedBox(width: 5),
-                            Text('25'),
-                            SizedBox(width: 30),
-                            Icon(Icons.person_add_alt),
-                            SizedBox(width: 5),
-                            Text('5'),
-                          ]))
+                          child: Obx(() => 
+                            Row(children: [
+                              Icon(Icons.person_add_alt_1),
+                              SizedBox(width: 5),
+                              Text(globalController.followers.value.length.toString()),
+                              SizedBox(width: 30),
+                              Icon(Icons.person_add_alt),
+                              SizedBox(width: 5),
+                              Text(globalController.followings.value.length.toString()),
+                            ])
+                          )
+                        )
                     ],
                   ),
                 ],
@@ -805,60 +787,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    'Người theo dõi (20)',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                          Obx(() => 
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Người theo dõi ' + globalController.followers.value.length.toString(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 15),
-                                Expanded(
-                                  flex: 10,
-                                  child: ListView.builder(
-                                      itemCount: listFindUser.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return UserFollowWidget(index);
-                                      }),
-                                ),
-                              ],
+                                  SizedBox(height: 15),
+                                  Expanded(
+                                    flex: 10,
+                                    child: ListView.builder(
+                                        itemCount: globalController.followers.value.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return itemFollow(username : globalController.followers.value[index].username!,
+                                          id : globalController.followers.value[index].id!,
+                                          avatar : globalController.followers.value[index].avatar!);
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    'Đang theo dõi (12)',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                          Obx(() => 
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Đang theo dõi ' + globalController.followings.value.length.toString(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 15),
-                                Expanded(
-                                  flex: 9,
-                                  child: ListView.builder(
-                                      itemCount: listFindUser.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return UserFollowWidget(index);
-                                      }),
-                                ),
-                              ],
+                                  SizedBox(height: 15),
+                                  Expanded(
+                                    flex: 9,
+                                    child: ListView.builder(
+                                        itemCount: globalController.followings.value.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return itemFollow(username : globalController.followings.value[index].username!,
+                                          id : globalController.followings.value[index].id!,
+                                          avatar : globalController.followings.value[index].avatar!);
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                          )
                         ]),
                   ),
                 ),
@@ -866,6 +856,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ]);
         });
+  }
+
+  Container itemFollow ({
+    String avatar = "",
+    String username = "",
+    String id = "",
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: GestureDetector(
+        onTap: () {
+          Get.back();
+          Get.toNamed('/infoUserOther', arguments: id);
+        },
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (avatar != null && avatar != "")
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image(
+                  width: 40,
+                  height: 40,
+                  image: NetworkImage(avatar),
+                ),
+              )
+            else 
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: const Image(
+                    width: 40,
+                    height: 40,
+                    image: AssetImage('assets/images/avatars/5.png'),
+                  ),
+                ),
+            SizedBox(width: 5),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  (username != null && username != "") ? username : "",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 59, 59, 59),
+                    fontFamily: 'TTNorm',
+                  )
+                ),              
+              ],
+            
+            ),
+            SizedBox(height: 5),
+          ],
+        ),
+      )
+    );
   }
 }
 

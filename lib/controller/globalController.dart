@@ -3,12 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialtnt/model/follow.dart';
 import 'package:socialtnt/model/user.dart';
 
 
 class GlobalController extends GetxController {
   var db;
   Rx<User> user = User().obs;
+
+  RxList<Follow> followers = <Follow>[].obs;
+  RxList<Follow> followings = <Follow>[].obs;
 
   late PageController pageController;
   RxInt currentPage = 0.obs;
