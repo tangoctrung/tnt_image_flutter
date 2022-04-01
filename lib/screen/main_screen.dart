@@ -19,16 +19,16 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalController globalController = Get.put(GlobalController());
   AuthController authController = Get.put(AuthController());
-  @override
-  void initState() {
-    globalController.initPage();
-    Future.delayed(const Duration(seconds: 3), () {
-      if (authController.isAuth() == false) {
-        Get.offAndToNamed('/login');
-      }
-    });
-    super.initState(); 
-  }
+  // @override
+  // void initState() {
+    
+  //   Future.delayed(const Duration(seconds: 3), () {
+  //     if (authController.isAuth() == false) {
+  //       Get.offAndToNamed('/login');
+  //     }
+  //   });
+  //   super.initState(); 
+  // }
 
 
   @override
@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         body: PageView(
           controller: globalController.pageController,
           onPageChanged: (value) {
-            Get.put(GlobalController()).onChangeTab(value);
+            globalController.onChangeTab(value);
           },
           // physics:const NeverScrollableScrollPhysics(),
           children: [
@@ -49,7 +49,6 @@ class _MainScreenState extends State<MainScreen> {
             CreatePostScreen(),
             ListChatScreen(),
             ProfileScreen(),
-            InfoUserOtherScreen(),
           ],
         ),
         

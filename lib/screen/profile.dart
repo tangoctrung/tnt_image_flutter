@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
+import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/controller/info_user_other.dart';
 import 'package:socialtnt/controller/user_controller.dart';
 import 'package:socialtnt/service/storage_service.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 
@@ -53,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   onTap: () {
                                     _openModalSettingAdvanced(context);
                                   },
-                                  child: Icon(Icons.settings),
+                                  child: Icon(FontAwesomeIcons.bars),
                                 ),
                               ]),
 
@@ -101,17 +103,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Positioned(
                                   bottom: 0,
                                   right: 10,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: ((builder) =>
-                                            bottomChooseAvatar(storage)),
-                                      );
-                                    },
-                                    child: const Icon(
-                                      Icons.camera,
-                                      color: Color.fromARGB(255, 112, 114, 114),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(color: Colors.black),
+                                      color: Color.fromARGB(255, 241, 239, 239),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: ((builder) =>
+                                              bottomChooseAvatar(storage)),
+                                        );
+                                      },
+                                      child: const Icon(
+                                        FontAwesomeIcons.camera,
+                                        color: Color.fromARGB(255, 61, 61, 61),
+                                        size: 16,
+                                      ),
                                     ),
                                   )),
                             ]),
@@ -119,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                           Obx(() => 
                             Text( globalController.user.value.username.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'Quicksand',
                                   fontWeight: FontWeight.bold,
@@ -133,23 +144,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onPressed: () {
                                       _openModalViewProfile(context);
                                     },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.info),
-                                        Text('Thông tin')
-                                      ],
-                                    )),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      child: Row(
+                                        children: const [
+                                          Icon(FontAwesomeIcons.idCardClip, size: 18),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            'Thông tin',
+                                            style: TextStyle(
+                                              fontFamily: 'TTNorm',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                    ),
+                                ),
                                 SizedBox(width: 10),
                                 ElevatedButton(
                                     onPressed: () {
                                       _showModalEditProfile(context);
                                     },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.edit),
-                                        Text('Chỉnh sửa')
-                                      ],
-                                    )),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8),
+                                      child: Row(
+                                        children: const [
+                                          Icon(FontAwesomeIcons.pen, size: 18),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            'Chỉnh sửa',
+                                            style: TextStyle(
+                                              fontFamily: 'TTNorm',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                    ),
+                                ),
                               ]),
                           SizedBox(height: 15),
                           Expanded(
@@ -176,7 +217,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           int index) {
                                                     return Container(
                                                       child: GestureDetector(
-                                                        onTap: () {Get.toNamed('/detailPost');},
+                                                        onTap: () async {
+                                                          await Get.put(DetailPostController()).getPostDetail(userController.posts.value[index].id);
+                                                          await Get.put(DetailPostController()).getComments(userController.posts.value[index].id);
+                                                          Get.toNamed('/detailPost');
+                                                        },
                                                         child: Image(
                                                           image: NetworkImage(userController.posts.value[index].images!),
                                                           fit: BoxFit.cover,
@@ -241,10 +286,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.camera_enhance),
+                children: const [
+                  Icon(FontAwesomeIcons.camera, size: 18),
+                  SizedBox(width: 8,),
                   Text("Camera"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
             SizedBox(width: 10),
@@ -254,10 +303,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.browse_gallery),
+                children: const [
+                  Icon(FontAwesomeIcons.images, size: 18),
+                  SizedBox(width: 8,),
                   Text("Thư viện"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
           ])
@@ -327,17 +380,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async{
                             Get.back();
+                            await userController.getPostsSaved();
                             Get.toNamed('/postSaved');
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Icon(Icons.storage),
+                              Icon(FontAwesomeIcons.store, size: 18),
                               SizedBox(width: 5),
                               Text("Lưu trữ"),
                             ],
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
                           ),
                         ),
                       ),
@@ -351,10 +408,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Icon(Icons.lock_open),
-                              SizedBox(width: 5),
+                              Icon(FontAwesomeIcons.unlock, size: 18),
+                              SizedBox(width: 8),
                               Text("Đổi mật khẩu"),
                             ],
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
                           ),
                         ),
                       ),
@@ -369,10 +429,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(Icons.logout),
+                          Icon(FontAwesomeIcons.arrowRightFromBracket, size: 18),
                           SizedBox(width: 5),
                           Text("Đăng xuất"),
                         ],
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
                       ),
                     ),
                   ],
@@ -565,7 +628,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: 15),
                 Row(
                   children: [
-                    Icon(Icons.person),
+                    Icon(FontAwesomeIcons.user, size: 18),
                     SizedBox(width: 5),
                     Expanded(
                       child: Obx(() => 
@@ -588,7 +651,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(width: 10),
                 Row(
                   children: [
-                    Icon(Icons.date_range),
+                    Icon(FontAwesomeIcons.calendarDays, size: 18),
                     SizedBox(width: 5),
                     Expanded(
                       child: Obx(() => 
@@ -611,7 +674,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(width: 10),
                 Row(
                   children: [
-                    Icon(Icons.local_activity),
+                    Icon(FontAwesomeIcons.locationArrow, size: 18),
                     SizedBox(width: 5),
                     Expanded(
                       child: Obx(() => 
@@ -634,7 +697,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(width: 10),
                 Row(
                   children: [
-                    Icon(Icons.work),
+                    Icon(FontAwesomeIcons.briefcase, size: 18),
                     SizedBox(width: 5),
                     Expanded(
                       child: Obx(() => 
@@ -658,7 +721,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Obx(() => 
                   ElevatedButton.icon(
                     onPressed: () async{ await userController.updateInfo();},
-                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(Icons.system_update),                      
+                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(FontAwesomeIcons.arrowUpFromBracket, size: 18),                      
                       label: Text(
                         userController.isLoading.value ? '' : 'Lưu lại',
                         style: TextStyle(
@@ -666,13 +729,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                     ),
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 14, horizontal: 30)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        )
-                      )
+                      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 8, horizontal: 20)),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 61, 60, 60)),
+                      // shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //   RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(30.0),
+                      //   )
+                      // )
                     ) 
                   )
                 )
@@ -699,7 +762,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 
                 Row(
                   children: [
-                    Icon(Icons.password),
+                    Icon(FontAwesomeIcons.lock),
                     SizedBox(width: 5),
                     Expanded(
                       child: TextField(
@@ -723,7 +786,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                
                 Row(
                   children: [
-                    Icon(Icons.password),
+                    Icon(FontAwesomeIcons.lock),
                     SizedBox(width: 5),
                     Expanded(
                       child: TextField(
@@ -748,21 +811,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Obx(() => 
                   ElevatedButton.icon(
                     onPressed: () async{ await userController.changePassword();},
-                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(Icons.system_update),                      
+                    icon: userController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:20, width: 20,) : Icon(FontAwesomeIcons.arrowUpFromBracket, size: 18),                      
                     label: Text(
                       userController.isLoading.value ? '' : 'Lưu lại',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 10, horizontal: 40)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        )
-                      )
+                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 51, 50, 50)),
+                      // shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //   RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(20.0),
+                      //   )
+                      // )
                     ) 
                     )
                 )
@@ -868,7 +931,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: GestureDetector(
         onTap: () {
           Get.back();
-          Get.toNamed('/infoUserOther', arguments: id);
+          Get.put(InfoUserOtherController()).getUserId(id);
+          Get.toNamed('/infoUserOther');
         },
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.center,

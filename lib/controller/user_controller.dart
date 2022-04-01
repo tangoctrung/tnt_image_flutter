@@ -38,6 +38,7 @@ class UserController extends GetxController {
   GlobalController globalController = Get.put(GlobalController());
   RxBool isLoading = false.obs;
   RxList<Post> posts = <Post>[].obs;
+  RxList<Post> postsSaved = <Post>[].obs;
 
   void startIsLoading() {
     isLoading.value = true;
@@ -297,5 +298,52 @@ class UserController extends GetxController {
     }
   }
 
+  Future getPostsSaved () async {
+    try {
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.get(
+        Uri.parse('https://socialphoto.vercel.app/api/savePost'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+      );
+
+
+      Map<String, dynamic> json = jsonDecode(res.body.toString());
+      // print(json);
+      if (json["success"] == true) {
+        Map<String, dynamic> data = json["data"];
+        List<dynamic> newPosts = data["posts"];
+        print(newPosts.length);
+
+        // posts.value = newPosts; 
+        List<Post> res = [];
+
+        for (int i = 0; i < newPosts.length; i++) {
+          Post item = Post();
+          item.id = newPosts[i]["_id"];
+          item.authorId = newPosts[i]["authorId"]["_id"];
+          item.authorAvatar = newPosts[i]["authorId"]["avatar"];
+          item.authorName = newPosts[i]["authorId"]["username"];
+          item.body = newPosts[i]["body"];
+          item.createdAt = newPosts[i]["createdAt"];
+          item.updatedAt = newPosts[i]["updatedAt"];
+          item.images = newPosts[i]["images"];
+          // item.likes = newPosts[i]["likes"];
+          item.totalReport = newPosts[i]["totalReport"];
+          // item.themen = newPosts[i]["themen"];
+          res.add(item);
+        }
+        postsSaved.clear();
+        postsSaved.value = res;
+        
+                   
+      } 
+      // return json;
+      
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 }

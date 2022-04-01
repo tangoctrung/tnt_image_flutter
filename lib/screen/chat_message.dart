@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/model/item_message.dart';
@@ -102,7 +103,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                   builder: ((builder) => bottomChoosePhoto()),
                 );
               },
-              child: Icon(Icons.file_copy)
+              child: Icon(FontAwesomeIcons.file)
             ),
           ),
           Expanded(
@@ -128,7 +129,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           ),
           Expanded(
             flex: 1,
-            child: Icon(Icons.send)
+            child: Icon(FontAwesomeIcons.paperPlane)
           ),
         ],
       ),
@@ -161,10 +162,14 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.camera_enhance),
+                children: const [
+                  Icon(FontAwesomeIcons.camera, size: 18),
+                  SizedBox(width: 8,),
                   Text("Camera"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
             SizedBox(width: 10),
@@ -174,10 +179,14 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.browse_gallery),
+                children: const [
+                  Icon(FontAwesomeIcons.images, size: 18),
+                  SizedBox(width: 8,),
                   Text("Thư viện"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
           ])

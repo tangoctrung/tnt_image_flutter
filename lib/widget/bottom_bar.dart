@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/globalController.dart';
-import 'package:socialtnt/screen/home.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 Container bottomNavigator() {
   GlobalController globalController = Get.put(GlobalController());
   return Container(
-    height: 50,
+    height: 55,
     width: double.infinity,
     // color: Colors.white,
     decoration: const BoxDecoration(
@@ -24,21 +24,31 @@ Container bottomNavigator() {
 
         Obx(() {
           return 
-            Container(             
+            GestureDetector(
+              onTap: () {globalController.onChangeTab(0);},
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      globalController.onChangeTab(0);
-                    },
-                    icon: Icon(
-                      globalController.currentPage  == 0 ? Icons.home : Icons.home_outlined,
+                  Icon(
+                      globalController.currentPage  == 0 ? FontAwesomeIcons.house : FontAwesomeIcons.house,
                       color: globalController.currentPage  == 0
                           ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    )
-                  ),                  
-
+                          : Color.fromARGB(255, 61, 60, 60),   
+                      size: 20,            
+                  ), 
+                  SizedBox(height: 3), 
+                  // Text(
+                  //   'Khám phá',
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //     fontFamily: 'TTNorm',
+                  //     fontWeight: FontWeight.w600,
+                  //     color: globalController.currentPage  == 0
+                  //         ? Color.fromARGB(255, 236, 116, 36)
+                  //         : Color.fromARGB(255, 68, 68, 68), 
+                  //   ),
+                  // ),                
+            
                 ],
               ),
             );
@@ -47,20 +57,32 @@ Container bottomNavigator() {
 
         Obx(() {
           return
-            Container(             
+            GestureDetector(
+              onTap: () {globalController.onChangeTab(1);},
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        globalController.onChangeTab(1);
-                      },
-                      icon: Icon(
-                        globalController.currentPage  == 1 ? Icons.search : Icons.search_outlined,
-                        color: globalController.currentPage  == 1
+                  Icon(
+                      globalController.currentPage  == 1 ? FontAwesomeIcons.magnifyingGlass : FontAwesomeIcons.magnifyingGlass,
+                      color: globalController.currentPage  == 1
                           ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                      )),                 
-                ] 
+                          : Color.fromARGB(255, 61, 60, 60),   
+                      size: 20,            
+                  ), 
+                  SizedBox(height: 3), 
+                  // Text(
+                  //   'Tìm kiếm',
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //     fontFamily: 'TTNorm',
+                  //     fontWeight: FontWeight.w600,
+                  //     color: globalController.currentPage  == 1
+                  //         ? Color.fromARGB(255, 236, 116, 36)
+                  //         : Color.fromARGB(255, 68, 68, 68), 
+                  //   ),
+                  // ),                
+            
+                ],
               ),
             );
 
@@ -68,19 +90,18 @@ Container bottomNavigator() {
         
         Obx(() {
           return 
-            Container(
+            GestureDetector(
+              onTap: () {globalController.onChangeTab(2);},
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                    globalController.onChangeTab(2);
-                    },
-                    icon: Icon(
-                      globalController.currentPage  == 2 ? Icons.add_a_photo : Icons.add_a_photo_outlined,
+                  Icon(
+                      globalController.currentPage  == 2 ? FontAwesomeIcons.plus : FontAwesomeIcons.plus,
                       color: globalController.currentPage  == 2
                           ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                    )),               
+                          : Color.fromARGB(255, 61, 60, 60),
+                    size: 40,
+                    ),                               
                 ]
               ),
             );
@@ -89,43 +110,68 @@ Container bottomNavigator() {
         
         Obx(() {
           return
-            Container(
+            GestureDetector(
+              onTap: () {globalController.onChangeTab(3);},
               child: Column(
-                children : [
-                  IconButton(
-                      onPressed: () {
-                        globalController.onChangeTab(3);
-                      },
-                      icon: Icon(
-                        globalController.currentPage  == 3 ? Icons.message : Icons.message_outlined,
-                        color: globalController.currentPage  == 3
-                          ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                      )),             
-                ] 
-              ),
-            );
-
-        }),
-        
-        Obx(() {
-          return
-            Container(
-              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        globalController.onChangeTab(4);
-                      },
-                      icon: Icon(
-                        globalController.currentPage  == 4 ? Icons.person : Icons.person_outlined,
-                        color: globalController.currentPage  == 4
+                  Icon(
+                      globalController.currentPage  == 3 ? FontAwesomeIcons.envelopeCircleCheck : FontAwesomeIcons.envelopeCircleCheck,
+                      color: globalController.currentPage  == 3
                           ? Color.fromARGB(255, 236, 116, 36)
-                          : Color.fromARGB(255, 68, 68, 68),
-                      )),               
-                ]
+                          : Color.fromARGB(255, 61, 60, 60),    
+                      size: 20,           
+                  ), 
+                  SizedBox(height: 3), 
+                  // Text(
+                  //   'Liên lạc',
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //     fontFamily: 'TTNorm',
+                  //     fontWeight: FontWeight.w600,
+                  //     color: globalController.currentPage  == 3
+                  //         ? Color.fromARGB(255, 236, 116, 36)
+                  //         : Color.fromARGB(255, 68, 68, 68), 
+                  //   ),
+                  // ),                
+            
+                ],
               ),
             );
+
+        }),
+        
+        Obx(() {
+          return
+            GestureDetector(
+              onTap: () {globalController.onChangeTab(4);},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                      globalController.currentPage  == 4 ? FontAwesomeIcons.solidUser : FontAwesomeIcons.solidUser,
+                      color: globalController.currentPage == 4
+                          ? Color.fromARGB(255, 236, 116, 36)
+                          : Color.fromARGB(255, 61, 60, 60),  
+                      size: 20,             
+                  ), 
+                  SizedBox(height: 3), 
+                  // Text(
+                  //   'Cá nhân',
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //     fontFamily: 'TTNorm',
+                  //     fontWeight: FontWeight.w600,
+                  //     color: globalController.currentPage == 4
+                  //         ? Color.fromARGB(255, 236, 116, 36)
+                  //         : Color.fromARGB(255, 68, 68, 68), 
+                  //   ),
+                  // ),                
+            
+                ],
+              ),
+            );
+
 
         }),
       

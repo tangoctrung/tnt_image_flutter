@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
+import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/info_user_other.dart';
 import 'package:socialtnt/controller/user_controller.dart';
@@ -23,7 +24,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    infoUserOtherController.getUserId(Get.arguments);
+    // infoUserOtherController.getUserId(Get.arguments);
     infoUserOtherController.getInfoUser();
     infoUserOtherController.getAllPost();
     return SafeArea(
@@ -169,7 +170,11 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                                           int index) {
                                                     return Container(
                                                       child: GestureDetector(
-                                                        onTap: () {Get.toNamed('/detailPost');},
+                                                        onTap: () async {
+                                                          await Get.put(DetailPostController()).getPostDetail(infoUserOtherController.posts[index].id);
+                                                          await Get.put(DetailPostController()).getComments(infoUserOtherController.posts[index].id);
+                                                          Get.toNamed('/detailPost');
+                                                        },
                                                         child: Image(
                                                           image: NetworkImage(infoUserOtherController.posts.value[index].images!),
                                                           fit: BoxFit.cover,

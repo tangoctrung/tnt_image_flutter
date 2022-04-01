@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:socialtnt/model/comment.dart';
-import 'package:socialtnt/widget/input_write_comment.dart';
-import 'package:socialtnt/widget/item_comment.dart';
+import 'package:socialtnt/controller/detail_post_controller.dart';
+import 'package:socialtnt/controller/globalController.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class DetailPostScreen extends StatefulWidget {
   const DetailPostScreen({Key? key}) : super(key: key);
@@ -13,13 +14,18 @@ class DetailPostScreen extends StatefulWidget {
 
 class _DetailPostScreenState extends State<DetailPostScreen> {
   bool isShowDetail = false;
+  DetailPostController dtPostController = Get.put(DetailPostController());
+  GlobalController globalController = Get.put(GlobalController());
   @override
   Widget build(BuildContext context) {
+    timeago.setLocaleMessages('vi', timeago.ViMessages());
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
-          onTap: () {FocusScope.of(context).unfocus();},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
           child: Stack(children: [
             Positioned(
               child: Container(
@@ -27,7 +33,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 height: MediaQuery.of(context).size.height,
                 child: GestureDetector(
                   child: Image(
-                    image: AssetImage('assets/images/bgMoblie/6.jpg'),
+                    image: NetworkImage(dtPostController.postDetail["images"]),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,10 +46,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 onPressed: () {
                   Get.back();
                 },
-                icon: Icon(
-                  Icons.close,
+                icon: const Icon(
+                  FontAwesomeIcons.angleLeft,
                   size: 28,
-                  color: Colors.red,
+                  color: Color.fromARGB(255, 54, 54, 54),
                 ),
               ),
             ),
@@ -56,8 +62,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                     isShowDetail = true;
                   });
                 },
-                icon: Icon(
-                  Icons.keyboard_arrow_up,
+                icon: const Icon(
+                  FontAwesomeIcons.angleUp,
                   size: 32,
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -65,18 +71,25 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
             ),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 200),
-              bottom:
-                  isShowDetail ? 0 : -MediaQuery.of(context).size.height * 4 / 5,
+              bottom: isShowDetail
+                  ? 0
+                  : -MediaQuery.of(context).size.height * 4 / 5,
               left: 0,
               right: 0,
               child: GestureDetector(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 4 / 5,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 242, 242, 242),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0)),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -84,11 +97,15 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                               isShowDetail = false;
                             });
                           },
-                          child: const Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 32,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  FontAwesomeIcons.angleDown,
+                                  size: 32,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ]),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,8 +119,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100.0),
                                     child: Image(
-                                      image:
-                                          AssetImage('assets/images/avatars/1.jpg'),
+                                      image: NetworkImage(dtPostController
+                                          .postDetail["authorId"]["avatar"]),
                                     ),
                                   ),
                                 ),
@@ -111,23 +128,26 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
-                                      'Tạ Ngọc Trung',
-                                      style: TextStyle(
+                                      dtPostController.postDetail["authorId"]
+                                          ["username"],
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Quicksand',
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ),
-                                    Text(
-                                      '5 phút trước',
+                                    const Text(
+                                      // timeago.format(DateTime(dtPostController.postDetail["createdAt"])),
+                                      "5 phut",
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Quicksand',
-                                        color: Color.fromARGB(255, 160, 160, 160),
+                                        color:
+                                            Color.fromARGB(255, 160, 160, 160),
                                       ),
                                     ),
                                   ],
@@ -135,59 +155,82 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                               ],
                             ),
                             GestureDetector(
-                              child: Icon(Icons.bookmark_outline),
+                              // child: Icon(Icons.bookmark_outline),
+                              child: Icon(globalController.user.value.postSaved!
+                                      .contains(
+                                          dtPostController.postDetail["_id"])
+                                  ? FontAwesomeIcons.solidBookmark
+                                  : FontAwesomeIcons.bookmark),
                             ),
-                            
-                            
                           ],
                         ),
                         SizedBox(height: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'RémiRousselet Can you bit help me to understand what exactly it requires to rewrite to change that underline color to something else. Because Ive also stuck in the same kind of situation. Here is my post link',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Color.fromARGB(255, 78, 78, 78),
-                                  )
-                                ),
-                                Text(
-                                  '#thiennhien',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Color.fromARGB(255, 11, 116, 214),
-                                  )
-                                ),
-                              ],
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(dtPostController.postDetail["body"],
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Color.fromARGB(255, 78, 78, 78),
+                                )),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 20,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: dtPostController
+                                    .postDetail["themen"].length,
+                                itemBuilder: (BuildContext context, index) =>
+                                    Text(
+                                        "#" +
+                                            dtPostController
+                                                .postDetail["themen"][index] +
+                                            " ",
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color:
+                                              Color.fromARGB(255, 11, 116, 214),
+                                        )),
+                              ),
                             ),
+                          ],
+                        ),
                         SizedBox(height: 20),
                         Expanded(
                           child: Column(
                             children: [
-                              Row(
-                                children:  [
-                                  const Text('20',
-                                    style: TextStyle(
+                              Obx(()=> 
+                                Row(children: [
+                                  Text(
+                                    dtPostController.postDetail["likes"].length
+                                        .toString(),
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(width: 5),
                                   GestureDetector(
-                                  child: Icon(Icons.heart_broken),
+                                    child: Icon(dtPostController
+                                            .postDetail["likes"]
+                                            .contains(
+                                                globalController.user.value.id)
+                                        ? FontAwesomeIcons.solidHeart
+                                        : FontAwesomeIcons.heart),
                                   ),
                                   SizedBox(width: 20),
-                                  const Text('5',
-                                    style: TextStyle(
+                                  Text(
+                                    dtPostController.listComment.length
+                                        .toString(),
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(width: 5),
-                                  Icon(Icons.comment)
-                                ]
-                        
+                                  Icon(FontAwesomeIcons.comment)
+                                ]),
                               ),
                               SizedBox(height: 10),
                               const Text(
@@ -198,24 +241,44 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              InputWriteComment(),
+                              InputWriteComment(dtPostController: dtPostController, postId: dtPostController.postDetail["_id"]),
                               SizedBox(height: 20),
-                              Expanded(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  // height: MediaQuery.of(context).size.height * 0.3,
-                                  // color: Color.fromARGB(255, 65, 40, 40),
-                                  child: Expanded(
-                                    child: ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemCount: listComment.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ItemCommentWidget(index);
-                                }
-                              ),
+                              Obx(() => 
+                                dtPostController.listComment.length > 0 ?
+                                Expanded(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    // height: MediaQuery.of(context).size.height * 0.3,
+                                    // color: Color.fromARGB(255, 65, 40, 40),
+                                    child: Expanded(
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              dtPostController.listComment.length,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            return itemComment(
+                                              comment: dtPostController
+                                                  .listComment[index],
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                )
+                                : const Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      'Chưa có bình luận nào.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 104, 55, 55),
+                                        fontFamily: 'TTNorm',
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         )
@@ -228,6 +291,130 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
           ]),
         ),
       ),
+    );
+  }
+
+  Padding itemComment({comment}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          GestureDetector(
+            child: Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: Image(
+                  width: 35,
+                  height: 35,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(comment["writerId"]["avatar"]),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 5),
+          Expanded(
+            flex: 10,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(comment["writerId"]["username"],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  )),
+              Text(comment["content"],
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                  )),
+              const Text('2 phut',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 153, 153, 153),
+                  )),
+            ]),
+          ),
+          SizedBox(width: 5),
+          Expanded(
+            flex: 2,
+            child: Column(
+              children: [
+                GestureDetector(
+                  child: Icon(
+                    comment["likes"].contains(globalController.user.value.id)
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    size: 16,
+                  ),
+                ),
+                Text(comment["likes"].length.toString(),
+                    style: TextStyle(
+                      fontSize: 12,
+                    )),
+              ],
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Row InputWriteComment({dtPostController, postId}) {
+    return Row(
+      children: [
+        if (globalController.user.value.avatar != null)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: Image(
+              height: 40,
+              width: 40,
+              fit: BoxFit.cover,
+              image:
+                  NetworkImage(globalController.user.value.avatar.toString()),
+            ),
+          )
+        else
+          ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: const Image(
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
+                image: AssetImage('assets/images/avatars/1.jpg')),
+          ),
+        SizedBox(width: 5.0),
+        Expanded(
+          flex: 10,
+          child: Container(
+            child: TextField(
+              controller: dtPostController.contentComment,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  hintText: 'Viết gì đó...'),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 66, 66, 66),
+                  height: 1.5),
+              keyboardType: TextInputType.text,
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: GestureDetector(
+            onTap: () {dtPostController.createComment(postId);},
+            child: const Icon(
+              FontAwesomeIcons.paperPlane,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/widget/bottom_bar.dart';
@@ -31,13 +32,30 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Tạo bài viết",
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'TTNorm',
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Tạo bài viết",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'TTNorm',
+                            ),
+                          ),
+
+                          Text(
+                            "Chia sẻ",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'TTNorm',
+                              color: Color.fromARGB(255, 29, 95, 216),
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+
+                        ],
                       ),
                       SizedBox(height: 20),
                       TextField(
@@ -94,32 +112,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                 crossAxisAlignment:
                                     CrossAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.upload),
+                                  Icon(FontAwesomeIcons.fileArrowUp, size: 18),
+                                  SizedBox(width: 5),
                                   Text('Chọn ảnh')
                                 ],
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
                               ),
                             ),
                           )
                         ],
-                      ),
-                      SizedBox(height: 25),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.25),
-                        child: ElevatedButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 15)),
-                        ),
-                        onPressed: () {},
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.create),
-                            SizedBox(width: 5),
-                            Text('Chia sẻ')
-                          ]
-                        ),
-                        ),
+                        
                       ),
                       
                     ]),
@@ -170,10 +174,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.camera_enhance),
+                children: const [
+                  Icon(FontAwesomeIcons.camera, size: 18),
+                  SizedBox(width: 8,),
                   Text("Camera"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
             SizedBox(width: 10),
@@ -183,10 +191,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 Get.back();
               },
               child: Row(
-                children: [
-                  Icon(Icons.browse_gallery),
+                children: const [
+                  Icon(FontAwesomeIcons.images, size: 18),
+                  SizedBox(width: 8,),
                   Text("Thư viện"),
                 ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
               ),
             ),
           ])

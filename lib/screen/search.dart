@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socialtnt/model/find_user.dart';
 import 'package:socialtnt/model/item_post_image.dart';
 import 'package:socialtnt/widget/bottom_bar.dart';
@@ -43,10 +44,10 @@ class SearchScreen extends StatelessWidget {
                                 child: TextField(
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+                                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
                                     hintText: 'Tìm gì đó ở đây...',
                                     hintStyle: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         color: Color.fromARGB(255, 148, 148, 148),
                                         height: 1.5),
                                   ),
@@ -66,7 +67,7 @@ class SearchScreen extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                     onPressed: () {}, 
-                                    icon: Icon(Icons.find_replace),
+                                    icon: Icon(FontAwesomeIcons.magnifyingGlass),
                                     color: Color.fromARGB(255, 255, 255, 255),
                                   ),
                                 ),

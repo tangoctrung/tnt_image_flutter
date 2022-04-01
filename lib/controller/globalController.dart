@@ -26,7 +26,7 @@ class GlobalController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    pageController = PageController(initialPage: 0);
+    pageController = PageController(initialPage: 0, keepPage: true);
   }
 
   // void setInfoUser () async {
@@ -40,8 +40,8 @@ class GlobalController extends GetxController {
       print(value);
       pageController.jumpToPage(value);
     } catch (e) {
-      // currentPage.value = value;
-      // pageController = PageController(initialPage: value, keepPage: true);
+      currentPage.value = value;
+      pageController = PageController(initialPage: value, keepPage: true);
     }
   }
 
