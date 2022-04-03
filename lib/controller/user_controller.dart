@@ -48,6 +48,8 @@ class UserController extends GetxController {
     isLoading.value = false;
   }
 
+ 
+
   @override
   void onInit() {
     // TODO: implement onInit

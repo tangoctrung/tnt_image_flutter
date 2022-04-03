@@ -515,7 +515,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Icon(Icons.date_range),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Ngày sinh: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -526,7 +526,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(width: 10),
                       Text(
                         globalController.user.value.date.toString() == '' ? 'Chưa có thông tin' : globalController.user.value.date.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -536,9 +536,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 15),
                   Row(
                     children: [
-                      Icon(Icons.local_activity),
+                      Icon(FontAwesomeIcons.locationPin),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Đến từ: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -549,7 +549,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(width: 10),
                       Text(
                         globalController.user.value.address.toString() == '' ? 'Chưa có thông tin' : globalController.user.value.address.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -674,7 +674,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(width: 10),
                 Row(
                   children: [
-                    Icon(FontAwesomeIcons.locationArrow, size: 18),
+                    Icon(FontAwesomeIcons.locationPin, size: 18),
                     SizedBox(width: 5),
                     Expanded(
                       child: Obx(() => 

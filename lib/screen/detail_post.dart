@@ -69,6 +69,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 ),
               ),
             ),
+            
             AnimatedPositioned(
               duration: const Duration(milliseconds: 200),
               bottom: isShowDetail
@@ -154,14 +155,20 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 )
                               ],
                             ),
-                            GestureDetector(
-                              // child: Icon(Icons.bookmark_outline),
-                              child: Icon(globalController.user.value.postSaved!
-                                      .contains(
-                                          dtPostController.postDetail["_id"])
-                                  ? FontAwesomeIcons.solidBookmark
-                                  : FontAwesomeIcons.bookmark),
-                            ),
+                            Obx(() => 
+                              GestureDetector(
+                                // child: Icon(Icons.bookmark_outline),
+                                onTap: () async {
+                                  String postId = dtPostController.postDetail["_id"].toString();
+                                  await dtPostController.saveOrUnsavePost(postId);
+                                },
+                                child: Icon(globalController.postSaved
+                                        .contains(
+                                            dtPostController.postDetail["_id"])
+                                    ? FontAwesomeIcons.solidBookmark
+                                    : FontAwesomeIcons.bookmark),
+                              ),
+                            )
                           ],
                         ),
                         SizedBox(height: 20),
@@ -203,7 +210,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                               Obx(()=> 
                                 Row(children: [
                                   Text(
-                                    dtPostController.postDetail["likes"].length
+                                    dtPostController.listLikes.length
                                         .toString(),
                                     style: const TextStyle(
                                       fontSize: 20,
@@ -212,8 +219,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   ),
                                   SizedBox(width: 5),
                                   GestureDetector(
+                                    onTap: () async {
+                                      String postId = dtPostController.postDetail["_id"].toString();
+                                      await dtPostController.likeOrUnlikePost(postId);
+                                    },
                                     child: Icon(dtPostController
-                                            .postDetail["likes"]
+                                            .listLikes
                                             .contains(
                                                 globalController.user.value.id)
                                         ? FontAwesomeIcons.solidHeart
@@ -288,6 +299,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 ),
               ),
             ),
+            
           ]),
         ),
       ),
@@ -296,7 +308,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
 
   Padding itemComment({comment}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -314,48 +326,55 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
             ),
           ),
           SizedBox(width: 5),
-          Expanded(
-            flex: 10,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(comment["writerId"]["username"],
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                  )),
-              Text(comment["content"],
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                  )),
-              const Text('2 phut',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromARGB(255, 153, 153, 153),
-                  )),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(comment["writerId"]["username"] + ": ",
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                )),
+            SizedBox(width: 8,),
+            const Text('2 phut',
+            style: TextStyle(
+              fontSize: 12,
+              color: Color.fromARGB(255, 153, 153, 153),
+            )),
+              
+              
             ]),
-          ),
           SizedBox(width: 5),
           Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                GestureDetector(
-                  child: Icon(
-                    comment["likes"].contains(globalController.user.value.id)
-                        ? FontAwesomeIcons.solidHeart
-                        : FontAwesomeIcons.heart,
-                    size: 16,
-                  ),
+            child: Text(
+              comment["content"],
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                Text(comment["likes"].length.toString(),
-                    style: TextStyle(
-                      fontSize: 12,
-                    )),
-              ],
+                maxLines: 3,
+                softWrap: true,
             ),
           ),
+          // SizedBox(width: 5),
+          // Expanded(
+          //   flex: 2,
+          //   child: Column(
+          //     children: [
+          //       GestureDetector(
+          //         child: Icon(
+          //           comment["likes"].contains(globalController.user.value.id)
+          //               ? FontAwesomeIcons.solidHeart
+          //               : FontAwesomeIcons.heart,
+          //           size: 16,
+          //         ),
+          //       ),
+          //       Text(comment["likes"].length.toString(),
+          //           style: TextStyle(
+          //             fontSize: 12,
+          //           )),
+          //     ],
+          //   ),
+          // ),
         ]),
       ),
     );

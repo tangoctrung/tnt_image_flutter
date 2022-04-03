@@ -137,10 +137,7 @@ class _PostSavedScreenState extends State<PostSavedScreen> {
                               ]
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Icon(Icons.bookmark)
-                          ),
+                          
                         ]
                       ),
                     ),

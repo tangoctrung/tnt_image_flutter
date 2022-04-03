@@ -13,6 +13,7 @@ class AuthController extends GetxController{
 
   String? token = '';
   GlobalController globalController = Get.put(GlobalController());
+  UserController userController = Get.put(UserController());
 
   @override
   void onInit() async {
@@ -56,8 +57,9 @@ class AuthController extends GetxController{
         userInfo.job = user["job"];
         userInfo.postSaved = user["postSaved"];
         userInfo.token = token;
-        Get.put(GlobalController()).user.value = userInfo;
-        await Get.put(UserController()).getAllPost();
+        globalController.user.value = userInfo;
+        globalController.postSaved.value = user["postSaved"];
+        await userController.getAllPost();
         
       } 
     } catch (e) {
@@ -68,6 +70,9 @@ class AuthController extends GetxController{
   doLogout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    userController.posts.value = [];
+    userController.postsSaved.value = [];
+
     Get.offNamed('/login');
   }
   

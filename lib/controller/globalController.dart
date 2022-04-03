@@ -10,6 +10,7 @@ import 'package:socialtnt/model/user.dart';
 class GlobalController extends GetxController {
   var db;
   Rx<User> user = User().obs;
+  RxList postSaved = [].obs;
 
   RxList<Follow> followers = <Follow>[].obs;
   RxList<Follow> followings = <Follow>[].obs;
@@ -26,7 +27,7 @@ class GlobalController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    pageController = PageController(initialPage: 0, keepPage: true);
+    pageController = PageController(initialPage: 0);
   }
 
   // void setInfoUser () async {

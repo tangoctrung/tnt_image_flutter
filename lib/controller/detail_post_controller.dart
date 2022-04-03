@@ -10,7 +10,9 @@ class DetailPostController extends GetxController {
   TextEditingController contentComment = TextEditingController();
   GlobalController globalController = Get.put(GlobalController());
   RxMap<dynamic, dynamic> postDetail = {}.obs;
+  RxList<dynamic> listLikes = [].obs;
   RxList<dynamic> listComment = [].obs;
+  // DetailPostController dtPostController = Get.put(DetailPostController());
 
 
 
@@ -31,11 +33,13 @@ class DetailPostController extends GetxController {
         Map<String, dynamic> newPost = data["post"];
 
         // posts.value = newPosts; 
-   
+
         postDetail.clear();
+        listLikes.value = newPost["likes"];
         postDetail.value = newPost;
         
       }
+      return true;
     } catch (e) {
       print(e);
       return null;
@@ -46,6 +50,7 @@ class DetailPostController extends GetxController {
 
    Future getComments(postId) async {
     try {
+      print("get comments");
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
@@ -60,6 +65,7 @@ class DetailPostController extends GetxController {
         listComment.clear();
         listComment.value = comments;       
       }
+      return true;
     } catch (e) {
       print(e);
       return null;
@@ -107,6 +113,7 @@ class DetailPostController extends GetxController {
           icon: const Icon(Icons.error, color: Color.fromARGB(255, 224, 54, 11)),
         );
       }
+      return true;
     } catch (e) {
       print(e);
       return null;
@@ -115,4 +122,76 @@ class DetailPostController extends GetxController {
     
   }
 
+  Future saveOrUnsavePost(postId) async {
+    try {
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.put(
+        Uri.parse('https://socialphoto.vercel.app/api/savePost'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+        body: jsonEncode(<String, String>{'postId': postId}),
+      );
+
+
+      Map<String, dynamic> json = jsonDecode(res.body.toString());
+      if (json["success"] == true) {
+        if (globalController.postSaved.contains(postId)) {
+          globalController.postSaved.remove(postId);
+        } else if (!globalController.postSaved.contains(postId)){
+          globalController.postSaved.add(postId);
+        }
+        Get.snackbar(
+          "Bình luận", 
+          json["message"],
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          colorText: const Color.fromARGB(255, 64, 199, 46),
+          icon: const Icon(Icons.add_task, color: Color.fromARGB(255, 121, 190, 42)),
+        );      
+      }
+      return true;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future likeOrUnlikePost(postId) async {
+    try {
+      print('123');
+      print(postId);
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.put(
+        Uri.parse('https://socialphoto.vercel.app/api/post/$postId/like'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+      );
+
+      
+
+
+      Map<String, dynamic> json = jsonDecode(res.body.toString());
+      print(json);
+      if (json["success"] == true) {
+        if (listLikes.contains(globalController.user.value.id)) {
+          listLikes.remove(globalController.user.value.id);
+        } else if (!listLikes.contains(globalController.user.value.id)){
+          listLikes.add(globalController.user.value.id);
+        }
+        print(listLikes);
+        Get.snackbar(
+          "Yêu thích", 
+          json["message"],
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          colorText: const Color.fromARGB(255, 64, 199, 46),
+          icon: const Icon(Icons.add_task, color: Color.fromARGB(255, 121, 190, 42)),
+        );      
+      }
+      return true;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  
 }

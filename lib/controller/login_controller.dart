@@ -67,7 +67,8 @@ class LoginController extends GetxController {
         userInfo.postSaved = user["postSaved"];
         userInfo.token = data["token"];
 
-        Get.put(GlobalController()).user.value = userInfo;
+        globalController.user.value = userInfo;
+        globalController.postSaved.value = user["postSaved"];
         await Get.put(UserController()).getAllPost();
 
         Get.offAndToNamed('mainscreen');                   

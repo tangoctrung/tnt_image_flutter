@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
@@ -105,13 +106,17 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                   onPressed: () {},
                                   child: Row(
                                     children: const [
-                                    Icon(Icons.follow_the_signs),
-                                      SizedBox(width: 5),
+                                      Icon(FontAwesomeIcons.userPlus, size: 18),
+                                      SizedBox(width: 10),
                                       Text(
                                         'Theo dõi',
                                       )
                                     ],
-                                  )),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                  ),
+                              ),
                               SizedBox(width: 10),
                               ElevatedButton(
                                   onPressed: () {
@@ -121,13 +126,17 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                   },
                                   child: Row(
                                     children: const [
-                                      Icon(Icons.messenger),
+                                      Icon(FontAwesomeIcons.facebookMessenger, size: 18),
                                       SizedBox(width: 5),
                                       Text(
                                         'Nhắn tin',
                                       )
                                     ],
-                                  )),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                  ),
+                              ),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -139,11 +148,16 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                       _openModalViewProfile(context);
                                     },
                                     child: Row(
-                                      children: [
-                                        Icon(Icons.info),
+                                      children: const [
+                                        Icon(FontAwesomeIcons.addressCard, size: 18),
+                                        SizedBox(width: 10),
                                         Text('Thông tin')
                                       ],
-                                    )),                              
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                    ),
+                                ),                              
                               ]),
                           SizedBox(height: 15),
                           Expanded(
@@ -236,7 +250,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                     children: [
                       Icon(Icons.person),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Tên: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -247,7 +261,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                       SizedBox(width: 10),
                       Text(
                         infoUserOtherController.user.value.username.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -259,7 +273,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                     children: [
                       Icon(Icons.email),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Email: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -270,7 +284,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                       SizedBox(width: 10),
                       Text(
                         infoUserOtherController.user.value.email.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -282,7 +296,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                     children: [
                       Icon(Icons.date_range),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Ngày sinh: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -293,7 +307,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                       SizedBox(width: 10),
                       Text(
                         infoUserOtherController.user.value.date.toString() == '' ? 'Chưa có thông tin' : infoUserOtherController.user.value.date.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -303,9 +317,9 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                   SizedBox(height: 15),
                   Row(
                     children: [
-                      Icon(Icons.local_activity),
+                      Icon(FontAwesomeIcons.locationPin),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Đến từ: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -316,7 +330,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                       SizedBox(width: 10),
                       Text(
                         infoUserOtherController.user.value.address.toString() == '' ? 'Chưa có thông tin' : infoUserOtherController.user.value.address.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
@@ -328,7 +342,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                     children: [
                       Icon(Icons.work),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Công việc: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -339,7 +353,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                       SizedBox(width: 10),
                       Text(
                         infoUserOtherController.user.value.job.toString() == '' ? 'Chưa có thông tin' : infoUserOtherController.user.value.job.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
