@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
                 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [ 
+                  children: const  [ 
                     SizedBox(width: 20),
                   Text('Đăng nhập', 
                   style: TextStyle(

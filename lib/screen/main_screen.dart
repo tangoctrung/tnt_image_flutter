@@ -17,18 +17,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  GlobalController globalController = Get.put(GlobalController());
-  AuthController authController = Get.put(AuthController());
-  // @override
-  // void initState() {
+  // GlobalController globalController = Get.put(GlobalController());
+  // AuthController authController = Get.put(AuthController());
+  // // @override
+  // // void initState() {
     
-  //   Future.delayed(const Duration(seconds: 3), () {
-  //     if (authController.isAuth() == false) {
-  //       Get.offAndToNamed('/login');
-  //     }
-  //   });
-  //   super.initState(); 
-  // }
+  // //   Future.delayed(const Duration(seconds: 3), () {
+  // //     if (authController.isAuth() == false) {
+  // //       Get.offAndToNamed('/login');
+  // //     }
+  // //   });
+  // //   super.initState(); 
+  // // }
 
 
   @override
@@ -38,11 +38,11 @@ class _MainScreenState extends State<MainScreen> {
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: bottomNavigator(),
         body: PageView(
-          controller: globalController.pageController,
+          controller: Get.put(GlobalController()).pageController,
           onPageChanged: (value) {
-            globalController.onChangeTab(value);
+            Get.put(GlobalController()).onChangeTab(value);
           },
-          // physics:const NeverScrollableScrollPhysics(),
+          physics:const NeverScrollableScrollPhysics(),
           children: [
             HomeScreen(),
             SearchScreen(),

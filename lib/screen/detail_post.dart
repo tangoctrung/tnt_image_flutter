@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:photo_view/photo_view.dart';
 
 class DetailPostScreen extends StatefulWidget {
   const DetailPostScreen({Key? key}) : super(key: key);
@@ -16,6 +17,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   bool isShowDetail = false;
   DetailPostController dtPostController = Get.put(DetailPostController());
   GlobalController globalController = Get.put(GlobalController());
+  PhotoViewController controller = PhotoViewController();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('vi', timeago.ViMessages());
@@ -31,11 +38,12 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: GestureDetector(
-                  child: Image(
-                    image: NetworkImage(dtPostController.postDetail["images"]),
-                    fit: BoxFit.cover,
-                  ),
+                child: PhotoView(
+                  controller: controller,
+                  minScale: PhotoViewComputedScale.contained * 0.8,
+                  maxScale: PhotoViewComputedScale.covered * 2.8,
+                  backgroundDecoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
+                  imageProvider: NetworkImage(dtPostController.postDetail["images"]),
                 ),
               ),
             ),
@@ -65,7 +73,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 icon: const Icon(
                   FontAwesomeIcons.angleUp,
                   size: 32,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(255, 80, 80, 80),
                 ),
               ),
             ),

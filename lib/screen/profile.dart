@@ -23,15 +23,18 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
-  GlobalController globalController = Get.put(GlobalController());
-  AuthController authController = Get.put(AuthController());
-  UserController userController = Get.put(UserController());
+
+    GlobalController globalController = Get.put(GlobalController());
+    AuthController authController = Get.put(AuthController());
+    UserController userController = Get.put(UserController());
 
 
   @override
   Widget build(BuildContext context) {
+    
     userController.getAllPost();
     userController.getFollow();
+    authController.getInfoUser();
     final Storage storage = Storage();
     return SafeArea(
       child: Scaffold(
@@ -53,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    _openModalSettingAdvanced(context);
+                                    _openModalSettingAdvanced(context, userController, authController);
                                   },
                                   child: Icon(FontAwesomeIcons.bars),
                                 ),
@@ -115,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         showModalBottomSheet(
                                           context: context,
                                           builder: ((builder) =>
-                                              bottomChooseAvatar(storage)),
+                                              bottomChooseAvatar(storage, globalController, userController)),
                                         );
                                       },
                                       child: const Icon(
@@ -142,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      _openModalViewProfile(context);
+                                      _openModalViewProfile(context, globalController);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -168,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(width: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      _showModalEditProfile(context);
+                                      _showModalEditProfile(context, globalController, userController);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(vertical: 8),
@@ -260,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget bottomChooseAvatar(Storage storage) {
+  Widget bottomChooseAvatar(Storage storage, globalController, userController) {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -299,7 +302,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(width: 10),
             ElevatedButton(
               onPressed: () {
-                takePhoto(source: ImageSource.gallery, storage: storage);
+                takePhoto(source: ImageSource.gallery, storage: storage, 
+                  globalController: globalController, userController: userController);
                 Get.back();
               },
               child: Row(
@@ -319,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void takePhoto({required ImageSource source, required storage}) async {
+  void takePhoto({required ImageSource source, required storage, globalController, userController}) async {
     try {
       final file = await ImagePicker().pickImage(
           source: source,
@@ -339,22 +343,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         String newUrl = await uploadTask.ref.getDownloadURL();
         globalController.user.value.avatar = newUrl;
         userController.updateAvatar();
-        // print(globalController.user.value.avatar);
-        
-        // globalController.user.value.avatar = storage
-        //   .uploadFile(file?.path, file?.name)
-        //   .then((value, url) {
-        //     print(value);
-        //     print(url);
-        //     print("done");
-        //   });
       }
     } catch (e) {
       print(e);
     }
   }
 
-  void _openModalSettingAdvanced(context) {
+  void _openModalSettingAdvanced(context, userController, authController) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bd) {
@@ -403,7 +398,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             Get.back();
-                            _showModalChangePassword(context);
+                            _showModalChangePassword(context, userController);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -446,7 +441,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  void _openModalViewProfile(context) {
+  void _openModalViewProfile(context, globalController) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bd) {
@@ -586,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ElevatedButton(
                           onPressed: () {
                             Get.back();
-                            _showModalFollow(context);
+                            _showModalFollow(context, globalController);
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -613,7 +608,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  void _showModalEditProfile(context) {
+  void _showModalEditProfile(context, globalController, userController) {
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -745,7 +740,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  void _showModalChangePassword(context) {
+  void _showModalChangePassword(context, userController) {
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -835,7 +830,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  void _showModalFollow(context) {
+  void _showModalFollow(context, globalController) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bd) {

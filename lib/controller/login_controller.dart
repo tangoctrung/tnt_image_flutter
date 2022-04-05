@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:socialtnt/controller/user_controller.dart';
 import 'package:socialtnt/model/user.dart';
 import 'package:socialtnt/screen/main_screen.dart';
@@ -70,6 +71,8 @@ class LoginController extends GetxController {
         globalController.user.value = userInfo;
         globalController.postSaved.value = user["postSaved"];
         await Get.put(UserController()).getAllPost();
+        await Get.put(HomePageController()).getPostsInvolve(); 
+        await Get.put(HomePageController()).getPostsDiscover(); 
 
         Get.offAndToNamed('mainscreen');                   
       } else {

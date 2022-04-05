@@ -30,7 +30,7 @@ class AuthController extends GetxController{
     return true;
   }
 
-  Future<void> getInfoUser() async {
+  Future getInfoUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();        
       String? token = prefs.getString('token');
@@ -58,6 +58,7 @@ class AuthController extends GetxController{
         userInfo.postSaved = user["postSaved"];
         userInfo.token = token;
         globalController.user.value = userInfo;
+        print(globalController.user.value);
         globalController.postSaved.value = user["postSaved"];
         await userController.getAllPost();
         
@@ -70,10 +71,8 @@ class AuthController extends GetxController{
   doLogout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-    userController.posts.value = [];
-    userController.postsSaved.value = [];
 
-    Get.offNamed('/login');
+    Get.offAllNamed('/login');
   }
   
 }

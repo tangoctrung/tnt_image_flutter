@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/binding/auth_binding.dart';
+import 'package:socialtnt/binding/home_binding.dart';
+import 'package:socialtnt/binding/profile_binding.dart';
 import 'package:socialtnt/screen/chat_message.dart';
 import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
@@ -40,18 +42,18 @@ class MyApp extends StatelessWidget {
       initialRoute: '/loading',
       getPages: [
         GetPage(name: '/', page: () => WellCome()),
-        GetPage(name: '/loading', page: () => LoadingScreen(), binding: AuthBinding()),
+        GetPage(name: '/loading', page: () => LoadingScreen(), ),
         GetPage(name: '/login', page: () => LoginScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/register', page: () => RegisterScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/forgetPassword', page: () => ForgetPassword(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/mainscreen', page: () => MainScreen()),
-        GetPage(name: '/homescreen', page: () => HomeScreen()),
+        GetPage(name: '/homescreen', page: () => HomeScreen(), ),
         GetPage(name: '/listPost', page: () => ListPostScreen()),
         GetPage(name: '/detailPost', page: () => DetailPostScreen(),transition: Transition.downToUp),
         GetPage(name: '/search', page: () => SearchScreen()),
         GetPage(name: '/createPost', page: () => CreatePostScreen()),
         GetPage(name: '/listChat', page: () => ListChatScreen(),transition: Transition.rightToLeftWithFade),
-        GetPage(name: '/profile', page: () => ProfileScreen()),
+        GetPage(name: '/profile', page: () => ProfileScreen(), ),
         GetPage(name: '/chatMessage', page: () => ChatMessageScreen(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/postSaved', page: () => PostSavedScreen()),
         GetPage(name: '/infoUserOther', page: () => InfoUserOtherScreen()),

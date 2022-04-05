@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
+import 'package:socialtnt/controller/home_page_controller.dart';
+import 'package:socialtnt/controller/user_controller.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({ Key? key }) : super(key: key);
@@ -12,17 +14,44 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
 
-  // AuthController authController = Get.find();
+  
+  // UserController userController = Get.put(UserController());
+  
+  void getData() async {
+        // bool isAuth  = await authController.isAuth();
+        AuthController authController = Get.put(AuthController());
+        UserController userController = Get.put(UserController());
+        HomePageController hpController = Get.put(HomePageController());
+        if (authController.isAuth() == true) {
+          await authController.getInfoUser();  
+          // await userController.getAllPost();
+          // await userController.getFollow();
+          // // await Get.put(HomePageController()).getPostsInvolve(); 
+          
+          await hpController.getPostsInvolve(); 
+          await hpController.getPostsDiscover(); 
+          Get.offAndToNamed('/mainscreen'); 
+        } else {
+          Get.offAndToNamed('/login');
+        }
+  }
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
-      if (Get.put(AuthController()).isAuth() == true) {
-        Get.put(AuthController()).getInfoUser();     
-        Get.offAndToNamed('/mainscreen'); 
-      } else if (Get.put(AuthController()).isAuth() == false) {
-        Get.offAndToNamed('/login');
-      }
-    });
+    getData();
+
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   if (Get.put(AuthController()).isAuth() == true) {
+    //     // Get.put(AuthController()).getInfoUser();  
+    //     // Get.put(UserController()).getAllPost();
+    //     // Get.put(UserController()).getFollow();
+    //     // HomePageController hpController = Get.put(HomePageController());
+    //     // hpController.getPostsInvolve(); 
+    //     // hpController.getPostsDiscover(); 
+    //     Get.offAndToNamed('/mainscreen'); 
+    //   } else if (Get.put(AuthController()).isAuth() == false) {
+    //     Get.offAndToNamed('/login');
+    //   }
+    // });
     super.initState();
   }
   @override
