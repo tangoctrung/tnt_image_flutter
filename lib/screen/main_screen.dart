@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
@@ -33,26 +34,25 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: bottomNavigator(),
-        body: PageView(
-          controller: Get.put(GlobalController()).pageController,
-          onPageChanged: (value) {
-            Get.put(GlobalController()).onChangeTab(value);
-          },
-          physics:const NeverScrollableScrollPhysics(),
-          children: [
-            HomeScreen(),
-            SearchScreen(),
-            CreatePostScreen(),
-            ListChatScreen(),
-            ProfileScreen(),
-          ],
-        ),
-        
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+
+      bottomNavigationBar: bottomNavigator(),
+      body: PageView(
+        controller: Get.put(GlobalController()).pageController,
+        onPageChanged: (value) {
+          Get.put(GlobalController()).onChangeTab(value);
+        },
+        physics:const NeverScrollableScrollPhysics(),
+        children: [
+          HomeScreen(),
+          CreatePostScreen(),
+          SearchScreen(),
+          // ListChatScreen(),
+          // ProfileScreen(),
+        ],
       ),
+      
     );
   }
 }

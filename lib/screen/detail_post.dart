@@ -25,11 +25,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    timeago.setLocaleMessages('vi', timeago.ViMessages());
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: GestureDetector(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
           },
@@ -38,13 +37,18 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: PhotoView(
-                  controller: controller,
-                  minScale: PhotoViewComputedScale.contained * 0.8,
-                  maxScale: PhotoViewComputedScale.covered * 2.8,
-                  backgroundDecoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
-                  imageProvider: NetworkImage(dtPostController.postDetail["images"]),
-                ),
+                child: Obx(() => 
+                  Image(
+                    image: NetworkImage(dtPostController.postDetail["images"]),
+                  ),
+                )
+                // child: PhotoView(
+                //   controller: controller,
+                //   minScale: PhotoViewComputedScale.contained * 0.8,
+                //   maxScale: PhotoViewComputedScale.covered * 2.8,
+                //   backgroundDecoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
+                //   imageProvider: NetworkImage(dtPostController.postDetail["images"]),
+                // ),
               ),
             ),
             Positioned(
@@ -122,6 +126,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                (dtPostController.postDetail["authorId"]["avatar"] != null && dtPostController.postDetail["authorId"]["avatar"] != "") ?
                                 Container(
                                   width: 40,
                                   height: 40,
@@ -130,6 +135,16 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                     child: Image(
                                       image: NetworkImage(dtPostController
                                           .postDetail["authorId"]["avatar"]),
+                                    ),
+                                  ),
+                                ) : 
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    child: const Image(
+                                      image: AssetImage('assets/images/avatars/5.png'),
                                     ),
                                   ),
                                 ),
@@ -320,6 +335,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          (comment["writerId"]["avatar"] != null && comment["writerId"]["avatar"] != "") ?
           GestureDetector(
             child: Container(
               child: ClipRRect(
@@ -329,6 +345,19 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   height: 35,
                   fit: BoxFit.cover,
                   image: NetworkImage(comment["writerId"]["avatar"]),
+                ),
+              ),
+            ),
+          ):
+          GestureDetector(
+            child: Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child:const Image(
+                  width: 35,
+                  height: 35,
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/avatars/5.png'),
                 ),
               ),
             ),
@@ -391,8 +420,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   Row InputWriteComment({dtPostController, postId}) {
     return Row(
       children: [
-        if (globalController.user.value.avatar != null)
-          ClipRRect(
+        (globalController.user.value.avatar != null && globalController.user.value.avatar != "")
+          ? ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: Image(
               height: 40,
@@ -402,14 +431,14 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   NetworkImage(globalController.user.value.avatar.toString()),
             ),
           )
-        else
+        :
           ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: const Image(
                 height: 40,
                 width: 40,
                 fit: BoxFit.cover,
-                image: AssetImage('assets/images/avatars/1.jpg')),
+                image: AssetImage('assets/images/avatars/5.png')),
           ),
         SizedBox(width: 5.0),
         Expanded(

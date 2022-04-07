@@ -17,18 +17,21 @@ class AuthController extends GetxController{
 
   @override
   void onInit() async {
-    await authData();
     super.onInit();
   }
-  authData() async {
-    final prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-  }
+  // Future authData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   token = prefs.getString('token');
+  //   if (token != null) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  bool isAuth() {
-    if (token == null) return false;
-    return true;
-  }
+  // bool isAuth() {
+  //   if (token == null) return false;
+  //   return true;
+  // }
 
   Future getInfoUser() async {
     try {

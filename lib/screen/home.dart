@@ -1,139 +1,164 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
+import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomeScreen extends StatelessWidget {
 
   HomePageController hpController = Get.put(HomePageController());
+  GlobalController globalController = Get.put(GlobalController());
   @override
   Widget build(BuildContext context) {
     hpController.getPostsInvolve();
     hpController.getPostsDiscover();
     print(hpController.postsInvolve);
-    return Scaffold(
-      body: Padding(
+    return SafeArea(
+      child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.02),
+            horizontal: MediaQuery.of(context).size.width * 0.0),
         child: Column(
           children: [
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  ' SocialPhoto',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Lobster',
+                  ),
+                ),  
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {Get.toNamed('/listChat');},
+                      child: Icon(FontAwesomeIcons.facebookMessenger, size: 24, color: Color.fromARGB(255, 79, 142, 236)),
+                    ),
+                    SizedBox(width: 10),
+                    !globalController.user.value.avatar.toString().contains('http') ?
+                      GestureDetector(
+                        onTap: () {Get.toNamed('/profile');},
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40.0),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/avatars/5.png'),
+                              fit: BoxFit.cover,
+                            ),                       
+                          ),                              
+                        ),
+                      ) : 
+                      GestureDetector(
+                        onTap: () {Get.toNamed('/profile');},
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40.0),
+                            image: DecorationImage(
+                              image: NetworkImage(globalController.user.value.avatar.toString()),
+                              fit: BoxFit.cover,
+                            ),
+                          ),                              
+                        ),
+                      ),
+                    SizedBox(width: 10),
+                  ]
+                ),               
+              ]
+            ),
+            SizedBox(height: 5),
             Expanded(
               child: ListView(
                 scrollDirection: Axis.vertical,
+                // physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 children: [
-                  const Text(
-                    'Trang chủ',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'TTNorm',
-                    ),
-                  ),
+                  
                   SizedBox(height: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Bài viết liên quan',
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Obx(() =>
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.48,
-                          child: Stack(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            children: <Widget>[
-                              PageView.builder(
-                                scrollDirection: Axis.horizontal,
-                                // controller: _pageController,
-                                // onPageChanged: _onPageChanged,
-                                itemCount: hpController.postsInvolve.length,
-                                itemBuilder: (BuildContext context, i) => itemPostHomaPage(context: context, index: i, hpController: hpController),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Gợi ý',
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              
-                              Get.toNamed('/listPost');
-                            },
-                            child: const Text(
-                              'Xem thêm',
+                  Obx(() => 
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        (hpController.postsInvolve.isNotEmpty) ?
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            const Text(
+                              ' Bài viết liên quan',
                               style: TextStyle(
-                                fontFamily: 'Quicksand',
-                                fontSize: 14,
+                                fontFamily: 'TTNorm',
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 10, 119, 207),
-                                decoration: TextDecoration.underline,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Obx(() => 
+                            SizedBox(height: 6),
+                            
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
+                                children: <Widget>[
+                                  PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    // controller: _pageController,
+                                    // onPageChanged: _onPageChanged,
+                                    itemCount: hpController.postsInvolve.length,
+                                    itemBuilder: (BuildContext context, i) => itemPostHomaPage(context: context, index: i, hpController: hpController),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            
+                            SizedBox(height: 5),
+
+                          ],)
+                        : Container(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              ' Khám phá',
+                              style: TextStyle(
+                                fontFamily: 'TTNorm',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),                          
+                          ],
+                        ),   
+                        SizedBox(height: 5),                  
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                          child: GridView.custom(
+                          child: MasonryGridView.count(
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            gridDelegate: SliverQuiltedGridDelegate(
-                              crossAxisCount: 4,
-                              mainAxisSpacing: 4,
-                              crossAxisSpacing: 4,
-                              repeatPattern:
-                                  QuiltedGridRepeatPattern.inverted,
-                              pattern: [
-                                QuiltedGridTile(2, 2),
-                                QuiltedGridTile(1, 1),
-                                QuiltedGridTile(1, 1),
-                                QuiltedGridTile(1, 2),
-                              ],
-                            ),
-                            childrenDelegate: SliverChildBuilderDelegate(
-                              (context, index) => itemPostImage(index: index, hpController: hpController),
-                              childCount: hpController.postsDiscover.length < 8 ? hpController.postsDiscover.length : 8,
-                            ),
+                            physics: const ScrollPhysics(),
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 2,
+                            itemCount: hpController.postsDiscover.length,
+                            itemBuilder: (context, index) {
+                              return itemPostImage(index: index, hpController: hpController);
+                            },
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                                          
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width,
-            //   height: MediaQuery.of(context).size.height * 0.06,
-            //   decoration: const BoxDecoration(
-            //       border: Border(
-            //     top: BorderSide(
-            //       color: Color.fromARGB(255, 194, 194, 194),
-            //       width: 0.5,
-            //     ),
-            //   )),
-            //   child: BottomBar(),
-            // ),
           ],
         ),
       ),
@@ -143,7 +168,7 @@ class HomeScreen extends StatelessWidget {
   Padding itemPostHomaPage({context, index, hpController}) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.01),
+          horizontal: MediaQuery.of(context).size.width * 0.0),
       child: Container(
         child: Column(
           children: [
@@ -154,10 +179,10 @@ class HomeScreen extends StatelessWidget {
                 Get.toNamed('/detailPost');
               },
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.96,
+                width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(2.0),
                   child: Image(
                     image: NetworkImage(hpController.postsInvolve[index]["images"]),
                     fit: BoxFit.cover,
@@ -165,24 +190,40 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 5),
             Container(
-                width: MediaQuery.of(context).size.width * 0.95,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(width: 1, color: Color.fromARGB(255, 214, 213, 213)))
+                ),
                 child: GestureDetector(                 
                   onTap: () {print('123');},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 30,
-                        height: 30,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Image(
-                            image: NetworkImage(hpController.postsInvolve[index]["authorId"]["avatar"]),
+                      (hpController.postsInvolve[index]["authorId"]["avatar"] != null && hpController.postsInvolve[index]["authorId"]["avatar"] != "") ?
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: Image(
+                              image: NetworkImage(hpController.postsInvolve[index]["authorId"]["avatar"]),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ) :
+                        Container(
+                          width: 30,
+                          height: 30,                         
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: const Image(
+                              image: AssetImage('assets/images/avatars/5.png'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
                       SizedBox(width: 6),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,

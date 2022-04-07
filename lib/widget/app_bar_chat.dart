@@ -11,12 +11,12 @@ class AppBarChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromARGB(0, 252, 250, 250),
         border: Border(
           bottom: BorderSide(
             width: 1,
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: Color.fromARGB(255, 158, 158, 158),
           )
         ),
       ),

@@ -20,158 +20,164 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   CreatePostController crPostController = new CreatePostController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.02),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Tạo bài viết",
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'TTNorm',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              await crPostController.createPost();
-                            },
-                            child: const Text(
-                              "Chia sẻ",
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.02),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Tạo bài viết",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'TTNorm',
-                                color: Color.fromARGB(255, 29, 95, 216),
-                                decoration: TextDecoration.underline,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Form(
-                        child: Column(children: [
-                          TextFormField(
-                              controller: crPostController.txtBody,
-                              decoration: const InputDecoration(
-                                  // border: Border(),
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15, bottom: 11, top: 11, right: 15),
-                                  hintText: "Suy nghĩ của bạn..."),
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 94, 93, 93),
-                                  height: 1.5),
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,
-                              maxLines: 5),
-                          TextFormField(
-                              controller: crPostController.txtHashtag,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(255, 80, 80, 80), width: 1.0),
+                            Obx(()=> 
+                              GestureDetector(
+                                onTap: () async {
+                                  await crPostController.createPost();
+                                },
+                                child: 
+                                crPostController.isLoading.value == false ?
+                                const Text(
+                                  "Chia sẻ",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'TTNorm',
+                                    color: Color.fromARGB(255, 29, 95, 216),
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15, bottom: 5, top: 5, right: 15),
-                                  hintText: "Tags..."),
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color.fromARGB(255, 94, 93, 93),
-                                  height: 1.5),
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,
-                              maxLines: 5),
-                        ]),
-                      ),
-                      SizedBox(height: 5),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (imageFile != null)
-                            Container(
-                              color: Color.fromARGB(255, 223, 221, 221),
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              height: MediaQuery.of(context).size.height * 0.4,
-                              child: Image(
-                                image: FileImage(imageFile!),
+                                ) : const SizedBox(child: CircularProgressIndicator(color: Color.fromARGB(255, 9, 105, 196)), height:20, width: 20,),
                               ),
                             )
-                          else
-                            Container(
-                              color: Color.fromARGB(255, 223, 221, 221),
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              height: MediaQuery.of(context).size.height * 0.4,
-                              child: Center(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Icon(FontAwesomeIcons.folderPlus,
-                                          size: 24),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        'Review ảnh của bạn',
-                                        style: TextStyle(
-                                          fontFamily: 'TTNorm',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Form(
+                          child: Column(children: [
+                            TextFormField(
+                                controller: crPostController.txtBody,
+                                decoration: const InputDecoration(
+                                    // border: Border(),
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15, bottom: 11, top: 11, right: 15),
+                                    hintText: "Suy nghĩ của bạn..."),
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(255, 94, 93, 93),
+                                    height: 1.5),
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 5),
+                            TextFormField(
+                                controller: crPostController.txtHashtag,
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(255, 80, 80, 80), width: 1.0),
+                                    ),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15, bottom: 5, top: 5, right: 15),
+                                    hintText: "Tags..."),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 94, 93, 93),
+                                    height: 1.5),
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 5),
+                          ]),
+                        ),
+                        SizedBox(height: 5),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (imageFile != null)
+                              Container(
+                                color: Color.fromARGB(255, 223, 221, 221),
+                                width: MediaQuery.of(context).size.width * 0.95,
+                                height: MediaQuery.of(context).size.height * 0.4,
+                                child: Image(
+                                  image: FileImage(imageFile!),
+                                ),
+                              )
+                            else
+                              Container(
+                                color: Color.fromARGB(255, 223, 221, 221),
+                                width: MediaQuery.of(context).size.width * 0.95,
+                                height: MediaQuery.of(context).size.height * 0.4,
+                                child: Center(
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(FontAwesomeIcons.folderPlus,
+                                            size: 24),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          'Review ảnh của bạn',
+                                          style: TextStyle(
+                                            fontFamily: 'TTNorm',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                    ]),
+                                      ]),
+                                ),
                               ),
-                            ),
-                          SizedBox(height: 10),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: ((builder) => bottomChooseAvatar()),
-                                );
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const [
-                                  Icon(FontAwesomeIcons.fileArrowUp, size: 18),
-                                  SizedBox(width: 5),
-                                  Text('Chọn ảnh')
-                                ],
+                            SizedBox(height: 10),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: ((builder) => bottomChooseAvatar()),
+                                  );
+                                },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Icon(FontAwesomeIcons.fileArrowUp, size: 18),
+                                    SizedBox(width: 5),
+                                    Text('Chọn ảnh')
+                                  ],
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromARGB(255, 53, 53, 53)),
+                                ),
                               ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromARGB(255, 53, 53, 53)),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ]),
-              ),
-            ],
+                            )
+                          ],
+                        ),
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),

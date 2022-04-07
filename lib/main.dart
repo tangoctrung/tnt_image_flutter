@@ -11,7 +11,6 @@ import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
 import 'package:socialtnt/screen/info_user_other.dart';
 import 'package:socialtnt/screen/list_chat.dart';
-import 'package:socialtnt/screen/list_post.dart';
 import 'package:socialtnt/screen/loading.dart';
 import 'package:socialtnt/screen/login.dart';
 import 'package:socialtnt/screen/main_screen.dart';
@@ -48,7 +47,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/forgetPassword', page: () => ForgetPassword(),transition: Transition.rightToLeftWithFade),
         GetPage(name: '/mainscreen', page: () => MainScreen()),
         GetPage(name: '/homescreen', page: () => HomeScreen(), ),
-        GetPage(name: '/listPost', page: () => ListPostScreen()),
         GetPage(name: '/detailPost', page: () => DetailPostScreen(),transition: Transition.downToUp),
         GetPage(name: '/search', page: () => SearchScreen()),
         GetPage(name: '/createPost', page: () => CreatePostScreen()),

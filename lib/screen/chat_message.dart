@@ -26,60 +26,58 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Stack(
-        children: [
-          Image.asset(
-            "assets/images/bgChat.png",
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            // resizeToAvoidBottomInset: false,
-            body: SafeArea(
-              child: GestureDetector(           
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: AppBarChatWidget('Tạ Ngọc Trung', 'assets/images/avatars/1.jpg', 'Đang hoạt động', context,)
-                          // child: AppBar(),
-                        ),
-                        
-                        Expanded(
-                          flex: 10,
-                          child: GestureDetector(
-                              onTap: () {FocusScope.of(context).unfocus();},
-                            child: Container(
-                              color: Colors.transparent,
-                              child: ListView.builder(
-                                itemCount: listMessage.length,
-                                controller: _scrollController,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ItemMessageWidget(index);
-                                },),
-                            ),
+      child: Scaffold(
+        // resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Image.asset(
+              "assets/images/bgChat.png",
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+            GestureDetector(           
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        child: AppBarChatWidget('Tạ Ngọc Trung', 'assets/images/avatars/1.jpg', 'Đang hoạt động', context,)
+                        // child: AppBar(),
+                      ),
+                      
+                      Expanded(
+                        flex: 10,
+                        child: GestureDetector(
+                            onTap: () {FocusScope.of(context).unfocus();},
+                          child: Container(
+                            color: Colors.transparent,
+                            child: ListView.builder(
+                              itemCount: listMessage.length,
+                              controller: _scrollController,
+                              itemBuilder: (BuildContext context, int index) {
+                                return itemMessage(index: index);
+                              },),
                           ),
                         ),
-    
-                      ],
-                    ),
-                    
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
+                      ),
+        
+                    ],
+                  ),    
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
                       child: InputWriteMessage(),
                     ),
-                  ],
-                ),
+                  ),                                  
+                ],
               ),
             ),
-          ),
-        ] 
+            
+          ] 
+        ),
       ),
     );
   }
@@ -90,7 +88,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5),
       width: MediaQuery.of(context).size.width,
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: Color.fromARGB(255, 212, 212, 212),
       child: Row(
         
         children: [
@@ -212,5 +210,65 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Align itemMessage({index}) {
+    return Align(
+      alignment: listMessage[index].type ? Alignment.centerRight : Alignment.centerLeft,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.8,
+        ),
+        child: Card(
+          elevation: 1,
+          shadowColor: Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+          color: listMessage[index].type ? Color.fromARGB(255, 48, 132, 165) : Color.fromARGB(255, 240, 242, 243),
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 15,
+                  bottom: 15,
+                ),
+                child: Text(
+                  listMessage[index].content,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: listMessage[index].type ? Color.fromARGB(255, 255, 255, 255) : Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+              ),
+              // Positioned(
+              //   bottom: 4,
+              //   right: 15,
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         listMessage[index].time,
+              //         style: TextStyle(
+              //           fontSize: 13,
+              //           color: listMessage[index].type ? Color.fromARGB(255, 165, 229, 248) : Color.fromARGB(255, 136, 135, 135),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 5,
+              //       ),
+              //       // if (listMessage[index].type)
+              //       //   const Icon(
+              //       //     Icons.done_all,
+              //       //     size: 20,
+              //       // ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

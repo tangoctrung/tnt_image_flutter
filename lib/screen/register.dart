@@ -10,19 +10,19 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RegisterController registerController = Get.put(RegisterController());
     
-    return SafeArea(
-      child: GestureDetector(
+    return Scaffold(
+      body: GestureDetector(
         onTap: () {FocusScope.of(context).unfocus();},
         child: Stack(
           children: [            
-            Scaffold(
+            SafeArea(
               // resizeToAvoidBottomInset: false,
-              body: ListView(
+              child: ListView(
                 children: [
                   SizedBox(height: 10,),
                   Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [ 
+                  children: const [ 
                     SizedBox(width: 20),
                   Text('Đăng ký', 
                   style: TextStyle(

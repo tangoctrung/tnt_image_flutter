@@ -28,28 +28,29 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
     // infoUserOtherController.getUserId(Get.arguments);
     infoUserOtherController.getInfoUser();
     infoUserOtherController.getAllPost();
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {Get.back();},
-            child: Icon(
-              Icons.arrow_back_ios,
+    return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {Get.back();},
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0,
+        title: Obx(() => 
+          Text(
+            infoUserOtherController.user.value.username ?? "Ẩn danh",
+            style: TextStyle(
               color: Colors.black,
             ),
           ),
-          title: Obx(() => 
-            Text(
-              infoUserOtherController.user.value.username ?? "Ẩn danh",
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
         ),
-        resizeToAvoidBottomInset: false,
-        body: Padding(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      ),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.02),
           child: Column(
@@ -70,7 +71,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100.0),
-                                      image: DecorationImage(
+                                      image: const DecorationImage(
                                         image: AssetImage('assets/images/avatars/5.png'),
                                         fit: BoxFit.cover,
                                       ),                       
@@ -91,8 +92,8 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                             ]),
                           ),
                           Obx(() => 
-                            Text( infoUserOtherController.user.value.username.toString(),
-                                style: TextStyle(
+                            Text( infoUserOtherController.user.value.username ?? "",
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'Quicksand',
                                   fontWeight: FontWeight.bold,
@@ -102,26 +103,34 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ElevatedButton(
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: const [
-                                      Icon(FontAwesomeIcons.userPlus, size: 18),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        'Theo dõi',
-                                      )
-                                    ],
-                                  ),
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
-                                  ),
+                              Obx(() => 
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      if (!infoUserOtherController.isFollow.value) {
+                                        await infoUserOtherController.followUser();
+                                      } else {
+                                        await infoUserOtherController.unFollowUser();
+                                      }
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(!infoUserOtherController.isFollow.value 
+                                        ? FontAwesomeIcons.userPlus : FontAwesomeIcons.user
+                                        , size: 18),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          !infoUserOtherController.isFollow.value ? 'Theo dõi' : "Đang theo dõi",
+                                        )
+                                      ],
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 53, 53, 53)),
+                                    ),
+                                ),
                               ),
                               SizedBox(width: 10),
                               ElevatedButton(
                                   onPressed: () {
-                                    // globalController.onChangeTab(3);
-                                    Get.back();
                                     Get.toNamed('/listChat');
                                   },
                                   child: Row(
@@ -198,15 +207,20 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                                   }),
                                             )
                                           : Center(
-                                            child: Column(children: const [
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: const [
                                                 SizedBox(height: 50),
-                                                Text('Không có bài viết nào',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 24,
-                                                      color: Color.fromARGB(
-                                                          255, 219, 8, 8),
-                                                    ))
+                                                Image(
+                                                  image: AssetImage('assets/images/notFound.png'),
+                                                ),
+                                                // Text('Không có bài viết nào',
+                                                //     style: TextStyle(
+                                                //       fontWeight: FontWeight.bold,
+                                                //       fontSize: 24,
+                                                //       color: Color.fromARGB(
+                                                //           255, 219, 8, 8),
+                                                //     ))
                                               ]),
                                           ),
                                     ) 

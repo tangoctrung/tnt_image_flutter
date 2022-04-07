@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
@@ -11,9 +13,14 @@ class InfoUserOtherController extends GetxController {
   RxList<Post> posts = <Post>[].obs;
   GlobalController globalController = Get.put(GlobalController());
   String? userId  = "";
+  RxBool isFollow = false.obs;
 
   void getUserId(String id) {
     userId = id;
+  }
+
+  void changeFollow() {
+    isFollow.value = !isFollow.value;
   }
 
 
@@ -87,6 +94,10 @@ class InfoUserOtherController extends GetxController {
           userInfo.email = newUser["email"];
           userInfo.id = newUser["_id"];
           userInfo.job = newUser["job"];
+          isFollow.value = newUser["isFollow"];
+        
+
+          print(isFollow.value);
 
           user.value = userInfo;
       } 
@@ -98,6 +109,62 @@ class InfoUserOtherController extends GetxController {
   }
 
 
+  Future followUser() async {
+    try {
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.post(
+        Uri.parse('https://socialphoto.vercel.app/api/follow/$userId'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+      );
 
+
+      Map<String, dynamic> json = jsonDecode(res.body.toString());
+
+      if (json["success"] == true) {
+        isFollow.value = true;    
+        Get.snackbar( 
+          "Theo dõi",
+          json["message"],
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          colorText: Color.fromARGB(255, 0, 0, 0),
+          icon: const Icon(FontAwesomeIcons.checkDouble, color: Color.fromARGB(255, 0, 0, 0)),
+        );              
+      } 
+      // return json;    
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future unFollowUser() async {
+    try {
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.delete(
+        Uri.parse('https://socialphoto.vercel.app/api/unfollow/$userId'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+      );
+
+
+      Map<String, dynamic> json = jsonDecode(res.body.toString());
+
+      if (json["success"] == true) {
+        isFollow.value = false;                  
+        Get.snackbar(
+          "Hủy theo dõi",
+          json["message"],
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          colorText: Color.fromARGB(255, 0, 0, 0),
+          icon: const Icon(FontAwesomeIcons.checkDouble, color: Color.fromARGB(255, 0, 0, 0)),
+        );  
+      } 
+      // return json;    
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 }

@@ -18,6 +18,7 @@ class LoginController extends GetxController {
   RxBool isShowPassword = false.obs;
   RxBool isLoading = false.obs;
   GlobalController globalController = Get.put(GlobalController());
+  HomePageController hpController = Get.put(HomePageController());
 
   
 
@@ -71,8 +72,8 @@ class LoginController extends GetxController {
         globalController.user.value = userInfo;
         globalController.postSaved.value = user["postSaved"];
         await Get.put(UserController()).getAllPost();
-        await Get.put(HomePageController()).getPostsInvolve(); 
-        await Get.put(HomePageController()).getPostsDiscover(); 
+        await hpController.getPostsInvolve(); 
+        await hpController.getPostsDiscover(); 
 
         Get.offAndToNamed('mainscreen');                   
       } else {

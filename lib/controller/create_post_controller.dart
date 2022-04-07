@@ -15,6 +15,7 @@ class CreatePostController extends GetxController {
   TextEditingController txtHashtag = TextEditingController();
   RxString urlImage = "".obs;
   RxList<String> listThemen = <String>[].obs;
+  RxBool isLoading = false.obs;
 
   void clearData() {
     txtHashtag.text = "";
@@ -26,6 +27,7 @@ class CreatePostController extends GetxController {
 
   Future createPost() async {
     HandleFormatBody();
+    isLoading.value = true;
     try {
       var token = globalController.user.value.token;
       var client = http.Client();
@@ -42,7 +44,7 @@ class CreatePostController extends GetxController {
       Map<String, dynamic> json = jsonDecode(res.body.toString());
       print(json);
       if (json["success"] == true) {
-
+        isLoading.value = false;
         Get.snackbar(
           "Chia sẻ", 
           "Đã chia sẻ bài viết",

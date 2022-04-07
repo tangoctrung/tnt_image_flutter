@@ -36,10 +36,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     userController.getFollow();
     authController.getInfoUser();
     final Storage storage = Storage();
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.02),
           child: Column(
@@ -52,8 +52,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           SizedBox(height: 10),
                           Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: const Icon(Icons.arrow_back_ios),
+                                ),
+                                const Text(
+                                  'Thông tin cá nhân',
+                                  style: TextStyle(
+                                    fontFamily: 'TTNorm',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                  )
+                                ),
                                 GestureDetector(
                                   onTap: () {
                                     _openModalSettingAdvanced(context, userController, authController);
@@ -61,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Icon(FontAwesomeIcons.bars),
                                 ),
                               ]),
+                          const SizedBox(height: 20),
 
                           Obx(() => 
                             Stack(children: [
@@ -85,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100.0),
-                                      image: DecorationImage(
+                                      image: const DecorationImage(
                                         image: AssetImage('assets/images/avatars/5.png'),
                                         fit: BoxFit.cover,
                                       ),                       
@@ -132,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
 
                           Obx(() => 
-                            Text( globalController.user.value.username.toString(),
+                            Text( globalController.user.value.username ?? "",
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontFamily: 'Quicksand',
@@ -210,8 +225,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               child: GridView.builder(
                                                   gridDelegate:
                                                       const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    mainAxisSpacing: 3,
-                                                    crossAxisSpacing: 3,
+                                                    mainAxisSpacing: 2,
+                                                    crossAxisSpacing: 2,
                                                     crossAxisCount: 3,
                                                   ),
                                                   itemCount: userController.posts.value.length,
@@ -236,13 +251,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           : Center(
                                             child: Column(children: const [
                                                 SizedBox(height: 50),
-                                                Text('Không có bài viết nào',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 24,
-                                                      color: Color.fromARGB(
-                                                          255, 219, 8, 8),
-                                                    ))
+                                                Image(
+                                                  image: AssetImage('assets/images/notFound.png'),
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                // Text('Không có bài viết nào',
+                                                //     style: TextStyle(
+                                                //       fontWeight: FontWeight.bold,
+                                                //       fontSize: 24,
+                                                //       color: Color.fromARGB(
+                                                //           255, 219, 8, 8),
+                                                //     ))
                                               ]),
                                           ),
                                     ) 
@@ -925,7 +946,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       margin: EdgeInsets.symmetric(vertical: 5),
       child: GestureDetector(
         onTap: () {
-          Get.back();
           Get.put(InfoUserOtherController()).getUserId(id);
           Get.toNamed('/infoUserOther');
         },

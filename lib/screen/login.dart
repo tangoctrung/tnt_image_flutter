@@ -13,15 +13,15 @@ class LoginScreen extends StatelessWidget {
   LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: GestureDetector(
-          onTap: () {FocusScope.of(context).unfocus();},
-          child: Scaffold(
-            // resizeToAvoidBottomInset: false,
-            body: ListView(
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {FocusScope.of(context).unfocus();},
+        child: SafeArea(
+          // resizeToAvoidBottomInset: false,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: ListView(
               children: [
                 SizedBox(height: 10,),
                 

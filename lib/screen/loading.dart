@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:socialtnt/controller/user_controller.dart';
@@ -19,11 +20,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
   
   void getData() async {
         // bool isAuth  = await authController.isAuth();
-        AuthController authController = Get.put(AuthController());
-        UserController userController = Get.put(UserController());
+        // AuthController authController = Get.put(AuthController());
+        final prefs = await SharedPreferences.getInstance();
+        String? token = prefs.getString('token');
+        // UserController userController = Get.put(UserController());
         HomePageController hpController = Get.put(HomePageController());
-        if (authController.isAuth() == true) {
-          await authController.getInfoUser();  
+        if (token != null) {
+          await Get.put(AuthController()).getInfoUser();  
           // await userController.getAllPost();
           // await userController.getFollow();
           // // await Get.put(HomePageController()).getPostsInvolve(); 

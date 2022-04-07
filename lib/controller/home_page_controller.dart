@@ -11,11 +11,11 @@ class HomePageController extends GetxController {
   RxList<dynamic> postsInvolve = <dynamic>[].obs;
   RxList<dynamic> postsDiscover = <dynamic>[].obs;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   // TODO: implement onInit
+  //   super.onInit();
+  // }
 
   Future getPostsInvolve() async {
     try {
