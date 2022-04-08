@@ -5,6 +5,7 @@ import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:jiffy/jiffy.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -238,9 +239,9 @@ class HomeScreen extends StatelessWidget {
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
-                          const Text(
-                            '2 phut',
-                            style: TextStyle(
+                          Text(
+                            Jiffy(DateTime.parse(hpController.postsInvolve[index]["createdAt"])).fromNow(),
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Quicksand',

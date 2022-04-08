@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
@@ -126,9 +127,9 @@ class _PostSavedScreenState extends State<PostSavedScreen> {
                                     fontFamily: 'TTNorm',
                                   ),
                                 ), 
-                                const Text(
-                                  '5 giờ',
-                                  style: TextStyle(
+                                Text(
+                                  Jiffy(DateTime.parse(userController.postsSaved[index].createdAt!)).fromNow(),
+                                  style: const TextStyle(
                                     fontSize: 14, 
                                     fontFamily: 'TTNorm',
                                     color: Color.fromARGB(255, 117, 117, 117),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialtnt/controller/chat_message_controller.dart';
+import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/model/item_message.dart';
 // import 'package:socialtnt/widget/app_bar.dart';
 import 'package:socialtnt/widget/app_bar_chat.dart';
@@ -21,14 +23,16 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
   ScrollController _scrollController = ScrollController();
+  ChatMessageController chatMessageController = Get.put(ChatMessageController());
+  GlobalController globalController = Get.put(GlobalController());
   bool focus = false;
   FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      body: SafeArea(
         // resizeToAvoidBottomInset: false,
-        body: Stack(
+        child: Stack(
           children: [
             Image.asset(
               "assets/images/bgChat.png",
@@ -37,45 +41,50 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
               fit: BoxFit.cover,
             ),
             GestureDetector(           
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                        child: AppBarChatWidget('Tạ Ngọc Trung', 'assets/images/avatars/1.jpg', 'Đang hoạt động', context,)
-                        // child: AppBar(),
-                      ),
-                      
-                      Expanded(
-                        flex: 10,
-                        child: GestureDetector(
-                            onTap: () {FocusScope.of(context).unfocus();},
-                          child: Container(
-                            color: Colors.transparent,
-                            child: ListView.builder(
-                              itemCount: listMessage.length,
-                              controller: _scrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return itemMessage(index: index);
-                              },),
+              child: Obx(()=> 
+                Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: itemAppBarChat(
+                            username: chatMessageController.username.value, 
+                            avatar: chatMessageController.avatar.value, 
+                            context: context,
+                          )
+                          // child: AppBar(),
+                        ),
+                        
+                        Expanded(
+                          flex: 10,
+                          child: GestureDetector(
+                              onTap: () {FocusScope.of(context).unfocus();},
+                            child: Container(
+                              color: Colors.transparent,
+                              child: ListView.builder(
+                                itemCount: chatMessageController.listMessage.length,
+                                controller: _scrollController,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return itemMessage(index: index);
+                                },),
+                            ),
                           ),
                         ),
+          
+                      ],
+                    ),    
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        child: InputWriteMessage(),
                       ),
-        
-                    ],
-                  ),    
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      child: InputWriteMessage(),
-                    ),
-                  ),                                  
-                ],
-              ),
+                    ),                                  
+                  ],
+                ),
+              )
             ),
-            
           ] 
         ),
       ),
@@ -107,6 +116,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           Expanded(
             flex: 5,
             child: TextField(
+              controller: chatMessageController.txtInput,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -127,7 +137,12 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           ),
           Expanded(
             flex: 1,
-            child: Icon(FontAwesomeIcons.paperPlane)
+            child: GestureDetector(
+              onTap: () async {
+                await chatMessageController.createMessage();
+              },
+              child: Icon(FontAwesomeIcons.paperPlane)
+            )
           ),
         ],
       ),
@@ -214,7 +229,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
 
   Align itemMessage({index}) {
     return Align(
-      alignment: listMessage[index].type ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: chatMessageController.listMessage[index]["senderId"] == globalController.user.value.id ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.8,
@@ -223,7 +238,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           elevation: 1,
           shadowColor: Color.fromARGB(255, 255, 255, 255),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-          color: listMessage[index].type ? Color.fromARGB(255, 48, 132, 165) : Color.fromARGB(255, 240, 242, 243),
+          color: chatMessageController.listMessage[index]["senderId"] == globalController.user.value.id ? Color.fromARGB(255, 48, 132, 165) : Color.fromARGB(255, 240, 242, 243),
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           child: Stack(
             children: [
@@ -235,10 +250,10 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                   bottom: 15,
                 ),
                 child: Text(
-                  listMessage[index].content,
+                  chatMessageController.listMessage[index]["content"],
                   style: TextStyle(
                     fontSize: 16,
-                    color: listMessage[index].type ? Color.fromARGB(255, 255, 255, 255) : Color.fromARGB(255, 0, 0, 0),
+                    color: chatMessageController.listMessage[index]["senderId"] == globalController.user.value.id ? Color.fromARGB(255, 255, 255, 255) : Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
               ),
@@ -269,6 +284,67 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Container itemAppBarChat({username, avatar, context}) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(0, 252, 250, 250),
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Color.fromARGB(255, 158, 158, 158),
+          )
+        ),
+      ),
+      child: Row(
+        
+        children: [
+          Container(
+            child: IconButton(
+              onPressed: () {Get.back();},
+              icon: Icon(Icons.arrow_back_ios_rounded, color: Color.fromARGB(255, 36, 36, 36),)
+            )
+          ),    
+          SizedBox(width: 15),   
+          (avatar != "") ?
+            ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Image(
+                width: 35,
+                height: 35,
+                image: NetworkImage(avatar),
+                fit: BoxFit.cover,
+              ),
+            )
+          :
+            ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: const Image(
+                width: 35,
+                height: 35,
+                image: AssetImage('assets/images/avatars/5.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          SizedBox(width: 5),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                username,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 36, 36, 36),
+                ),
+              ),             
+
+            ]
+          ),  
+        ],
+      )
     );
   }
 }

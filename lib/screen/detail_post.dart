@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:photo_view/photo_view.dart';
 
 class DetailPostScreen extends StatefulWidget {
@@ -163,10 +163,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
                                     ),
-                                    const Text(
+                                    Text(
                                       // timeago.format(DateTime(dtPostController.postDetail["createdAt"])),
-                                      "5 phut",
-                                      style: TextStyle(
+                                      Jiffy(DateTime.parse(dtPostController.postDetail["createdAt"])).fromNow(),
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Quicksand',
@@ -371,7 +371,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   fontFamily: 'Poppins',
                 )),
             SizedBox(width: 8,),
-            const Text('2 phut',
+            Text(
+              Jiffy(DateTime.parse(comment["createdAt"])).fromNow(),
             style: TextStyle(
               fontSize: 12,
               color: Color.fromARGB(255, 153, 153, 153),

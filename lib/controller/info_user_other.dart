@@ -166,5 +166,21 @@ class InfoUserOtherController extends GetxController {
       return null;
     }
   }
+  
+  Future createConversation() async {
+    try {
+      var token = globalController.user.value.token;
+      var client = http.Client();
+      var res = await client.post(
+        Uri.parse('https://socialphoto.vercel.app/api/createConversation'),
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
+        body: jsonEncode(<String, String?>{"firstUserId": userId}),
+      );
+      // return json;    
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 }

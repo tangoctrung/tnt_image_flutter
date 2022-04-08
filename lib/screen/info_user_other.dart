@@ -130,7 +130,8 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                               ),
                               SizedBox(width: 10),
                               ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await infoUserOtherController.createConversation();
                                     Get.toNamed('/listChat');
                                   },
                                   child: Row(

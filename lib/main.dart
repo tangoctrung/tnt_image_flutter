@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:socialtnt/binding/auth_binding.dart';
-import 'package:socialtnt/binding/home_binding.dart';
-import 'package:socialtnt/binding/profile_binding.dart';
 import 'package:socialtnt/screen/chat_message.dart';
 import 'package:socialtnt/screen/create_post.dart';
 import 'package:socialtnt/screen/detail_post.dart';
