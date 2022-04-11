@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:photo_view/photo_view.dart';
@@ -135,6 +136,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                     child: Image(
                                       image: NetworkImage(dtPostController
                                           .postDetail["authorId"]["avatar"]),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ) : 
@@ -144,7 +146,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100.0),
                                     child: const Image(
-                                      image: AssetImage('assets/images/avatars/5.png'),
+                                      image: AssetImage(URL.URL_AVATAR),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -357,7 +360,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   width: 35,
                   height: 35,
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/images/avatars/5.png'),
+                  image: AssetImage(URL.URL_AVATAR),
                 ),
               ),
             ),
@@ -439,7 +442,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 height: 40,
                 width: 40,
                 fit: BoxFit.cover,
-                image: AssetImage('assets/images/avatars/5.png')),
+                image: AssetImage(URL.URL_AVATAR)),
           ),
         SizedBox(width: 5.0),
         Expanded(

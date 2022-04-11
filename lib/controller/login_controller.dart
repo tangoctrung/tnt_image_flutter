@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:socialtnt/controller/user_controller.dart';
@@ -19,6 +20,7 @@ class LoginController extends GetxController {
   RxBool isLoading = false.obs;
   GlobalController globalController = Get.put(GlobalController());
   HomePageController hpController = Get.put(HomePageController());
+  String url_api = URL.URL_API;
 
   
 
@@ -44,7 +46,7 @@ class LoginController extends GetxController {
       startIsLoading();
       var client = http.Client();
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/login'),
+        Uri.parse(url_api + 'login'),
         headers: { 'Content-Type': 'application/json'},
         body: jsonEncode(<String, String> {'password': password.text, 'email': email.text}),
       );

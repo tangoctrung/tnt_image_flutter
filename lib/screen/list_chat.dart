@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/chat_message_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/list_chat_controller.dart';
@@ -71,14 +72,14 @@ class ListChatScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Obx(() => 
+        body:  
           TabBarView(
               children: [
                 listConversation(),
                 listUserChat(),
               ],
             ),
-        )
+        
       ),
     );
   }
@@ -87,36 +88,38 @@ class ListChatScreen extends StatelessWidget {
   Column listConversation() {
     return Column(
         children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                children: [      
-                  lcController.listChat.isNotEmpty ?         
-                  Expanded(
-                    flex: 10,
-                    child: ListView.builder(
-                      itemCount: lcController.listChat.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return itemConversation(context: context, index: index);
-                      },
+          Obx(() => 
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  children: [      
+                    lcController.listChat.isNotEmpty ?         
+                    Expanded(
+                      flex: 10,
+                      child: ListView.builder(
+                        itemCount: lcController.listChat.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return itemConversation(context: context, index: index);
+                        },
+                      ),
+                    ): 
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          SizedBox(height: 50),
+                          Image(
+                            image: AssetImage('assets/images/notFound.png'),
+                          ),
+                        ]
+                      ),
                     ),
-                  ): 
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        SizedBox(height: 50),
-                        Image(
-                          image: AssetImage('assets/images/notFound.png'),
-                        ),
-                      ]
-                    ),
-                  ),
-                ]
+                  ]
+                ),
               ),
             ),
-          ),
+          )
           // Container(
           //     width: MediaQuery.of(context).size.width,
           //     height: MediaQuery.of(context).size.height * 0.06,
@@ -190,7 +193,7 @@ class ListChatScreen extends StatelessWidget {
                 child: const Image(
                   width: 50,
                   height: 50,
-                  image: AssetImage('assets/images/avatars/5.png'),
+                  image: AssetImage(URL.URL_AVATAR),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -274,7 +277,7 @@ class ListChatScreen extends StatelessWidget {
                 child: const Image(
                   width: 50,
                   height: 50,
-                  image: AssetImage('assets/images/avatars/5.png'),
+                  image: AssetImage(URL.URL_AVATAR),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:http/http.dart' as http;
 import 'package:socialtnt/model/follow.dart';
@@ -39,6 +40,7 @@ class UserController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<Post> posts = <Post>[].obs;
   RxList<Post> postsSaved = <Post>[].obs;
+  String url_api = URL.URL_API;
 
   void startIsLoading() {
     isLoading.value = true;
@@ -61,7 +63,7 @@ class UserController extends GetxController {
       var userId = globalController.user.value.id;
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/getpostuser/$userId'),
+        Uri.parse(url_api + 'getpostuser/$userId'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 
@@ -111,7 +113,7 @@ class UserController extends GetxController {
       var userId = globalController.user.value.id;
       var client = http.Client();
       var res = await client.put(
-        Uri.parse('https://socialphoto.vercel.app/api/updateUser'),
+        Uri.parse(url_api + 'updateUser'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, String> {
           'username': username.text, 'date': date.text, 
@@ -164,7 +166,7 @@ class UserController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.put(
-        Uri.parse('https://socialphoto.vercel.app/api/updateUser'),
+        Uri.parse(url_api + 'updateUser'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, String> {
           'avatar': globalController.user.value.avatar.toString(),
@@ -206,7 +208,7 @@ class UserController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.put(
-        Uri.parse('https://socialphoto.vercel.app/api/changePassword'),
+        Uri.parse(url_api + 'changePassword'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, String> {
           'passwordNew': pwNew.text, 'confirmPasswordNew': cpwNew.text,       
@@ -247,12 +249,12 @@ class UserController extends GetxController {
       }
       var client = http.Client();
       var resFollowings = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/followings'),
+        Uri.parse(url_api + 'followings'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},       
       );
 
       var resFollowers = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/followers'),
+        Uri.parse(url_api + 'followers'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
       var jsonFollowers = jsonDecode(resFollowers.body.toString());
@@ -305,7 +307,7 @@ class UserController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/savePost'),
+        Uri.parse(url_api + 'savePost'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 

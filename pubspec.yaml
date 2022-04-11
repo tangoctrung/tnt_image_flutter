@@ -40,6 +40,7 @@ dependencies:
   jiffy: ^5.0.0
   font_awesome_flutter: ^10.1.0
   photo_view: ^0.13.0
+  socket_io_client: ^1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

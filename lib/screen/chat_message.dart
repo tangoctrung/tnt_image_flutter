@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/chat_message_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/model/item_message.dart';
@@ -11,7 +12,7 @@ import 'package:socialtnt/model/item_message.dart';
 import 'package:socialtnt/widget/app_bar_chat.dart';
 // import 'package:socialtnt/widget/item_chat.dart';
 import 'package:socialtnt/widget/item_message.dart';
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 class ChatMessageScreen extends StatefulWidget {
   const ChatMessageScreen({ Key? key }) : super(key: key);
 
@@ -27,6 +28,27 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   GlobalController globalController = Get.put(GlobalController());
   bool focus = false;
   FocusNode focusNode = FocusNode();
+  late IO.Socket socket;
+
+  @override
+  void initState() {
+    socket = IO.io('http://192.168.220.1:8000/',
+        IO.OptionBuilder()
+        .setTransports(['websocket']) // for Flutter or Dart VM
+        //.disableAutoConnect()  // disable auto-connection
+        .setExtraHeaders({'foo': 'bar'}) // optional
+        .build());
+
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('fromClient', 'test from client');
+    });
+
+    //When an event recieved from server, data is added to the stream
+    socket.onDisconnect((_) => print('disconnect'));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,7 +326,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           Container(
             child: IconButton(
               onPressed: () {Get.back();},
-              icon: Icon(Icons.arrow_back_ios_rounded, color: Color.fromARGB(255, 36, 36, 36),)
+              icon: const Icon(Icons.arrow_back_ios_rounded, color: Color.fromARGB(255, 36, 36, 36),)
             )
           ),    
           SizedBox(width: 15),   
@@ -324,7 +346,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
               child: const Image(
                 width: 35,
                 height: 35,
-                image: AssetImage('assets/images/avatars/5.png'),
+                image: AssetImage(URL.URL_AVATAR),
                 fit: BoxFit.cover,
               ),
             ),
@@ -334,7 +356,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
             children: [
               Text(
                 username,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 36, 36, 36),

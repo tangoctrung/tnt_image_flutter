@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
 import 'package:socialtnt/model/user.dart';
@@ -14,6 +15,7 @@ class InfoUserOtherController extends GetxController {
   GlobalController globalController = Get.put(GlobalController());
   String? userId  = "";
   RxBool isFollow = false.obs;
+  String url_api = URL.URL_API;
 
   void getUserId(String id) {
     userId = id;
@@ -29,7 +31,7 @@ class InfoUserOtherController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/getpostuser/$userId'),
+        Uri.parse(url_api + 'getpostuser/$userId'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 
@@ -76,7 +78,7 @@ class InfoUserOtherController extends GetxController {
       if (userId != null && userId != "") {
         var client = http.Client();
         var res = await client.get(
-          Uri.parse('https://socialphoto.vercel.app/api/getUser/$userId'),
+          Uri.parse(url_api + 'getUser/$userId'),
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         );
         User userInfo = User();
@@ -114,7 +116,7 @@ class InfoUserOtherController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/follow/$userId'),
+        Uri.parse(url_api + 'follow/$userId'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 
@@ -143,7 +145,7 @@ class InfoUserOtherController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.delete(
-        Uri.parse('https://socialphoto.vercel.app/api/unfollow/$userId'),
+        Uri.parse(url_api + 'unfollow/$userId'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 
@@ -172,7 +174,7 @@ class InfoUserOtherController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/createConversation'),
+        Uri.parse(url_api + 'createConversation'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, String?>{"firstUserId": userId}),
       );

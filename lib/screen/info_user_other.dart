@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
@@ -72,7 +73,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100.0),
                                       image: const DecorationImage(
-                                        image: AssetImage('assets/images/avatars/5.png'),
+                                        image: AssetImage(URL.URL_AVATAR),
                                         fit: BoxFit.cover,
                                       ),                       
                                     ),                              

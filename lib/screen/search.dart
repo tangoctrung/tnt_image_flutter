@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/info_user_other.dart';
 import 'package:socialtnt/controller/search_controller.dart';
@@ -237,6 +238,7 @@ class SearchScreen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   image: NetworkImage(searchController.users[index]["avatar"]),
+                  fit: BoxFit.cover,
                 ),
               ) :
               ClipRRect(
@@ -244,7 +246,8 @@ class SearchScreen extends StatelessWidget {
               child: const Image(
                 width: 40,
                 height: 40,
-                image: AssetImage('assets/images/avatars/5.png'),
+                image: AssetImage(URL.URL_AVATAR),
+                fit: BoxFit.cover,
               ),
             ),
             Text(

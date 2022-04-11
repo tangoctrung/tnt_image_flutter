@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,6 +17,7 @@ class CreatePostController extends GetxController {
   RxString urlImage = "".obs;
   RxList<String> listThemen = <String>[].obs;
   RxBool isLoading = false.obs;
+  String url_api = URL.URL_API;
 
   void clearData() {
     txtHashtag.text = "";
@@ -32,7 +34,7 @@ class CreatePostController extends GetxController {
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/createpost'),
+        Uri.parse(url_api + 'createpost'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, dynamic> {
           "body": txtBody.text,

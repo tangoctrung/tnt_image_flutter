@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
 import 'package:socialtnt/model/user.dart';
@@ -14,24 +15,12 @@ class AuthController extends GetxController{
   String? token = '';
   GlobalController globalController = Get.put(GlobalController());
   UserController userController = Get.put(UserController());
+  String url_api = URL.URL_API;
 
   @override
   void onInit() async {
     super.onInit();
   }
-  // Future authData() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   token = prefs.getString('token');
-  //   if (token != null) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // bool isAuth() {
-  //   if (token == null) return false;
-  //   return true;
-  // }
 
   Future getInfoUser() async {
     try {
@@ -41,7 +30,7 @@ class AuthController extends GetxController{
 
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/'),
+        Uri.parse('$url_api'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
       User userInfo = User();

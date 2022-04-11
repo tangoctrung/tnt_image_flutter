@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:socialtnt/controller/list_chat_controller.dart';
 
 class HomeScreen extends StatelessWidget {
 
   HomePageController hpController = Get.put(HomePageController());
   GlobalController globalController = Get.put(GlobalController());
+  ListChatController listChatController = Get.put(ListChatController());
   @override
   Widget build(BuildContext context) {
     hpController.getPostsInvolve();
@@ -37,7 +40,10 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () {Get.toNamed('/listChat');},
+                      onTap: () async {
+                        await listChatController.getConversations();
+                        Get.toNamed('/listChat');
+                      },
                       child: Icon(FontAwesomeIcons.facebookMessenger, size: 24, color: Color.fromARGB(255, 79, 142, 236)),
                     ),
                     SizedBox(width: 10),
@@ -51,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40.0),
                             image: const DecorationImage(
-                              image: AssetImage('assets/images/avatars/5.png'),
+                              image: AssetImage(URL.URL_AVATAR),
                               fit: BoxFit.cover,
                             ),                       
                           ),                              
@@ -220,7 +226,7 @@ class HomeScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100.0),
                             child: const Image(
-                              image: AssetImage('assets/images/avatars/5.png'),
+                              image: AssetImage(URL.URL_AVATAR),
                               fit: BoxFit.cover,
                             ),
                           ),

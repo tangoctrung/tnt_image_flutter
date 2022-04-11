@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:socialtnt/config/url.dart';
 
 
 class RegisterController extends GetxController {
@@ -12,6 +13,7 @@ class RegisterController extends GetxController {
   TextEditingController password = TextEditingController();
   RxBool isShowPassword = false.obs;
   RxBool isLoading = false.obs;
+  String url_api = URL.URL_API;
 
   void resetInput() {
     email.text = '';
@@ -36,7 +38,7 @@ class RegisterController extends GetxController {
       startIsLoading();
       var client = http.Client();
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/register'),
+        Uri.parse(url_api + 'register'),
         headers: { 'Content-Type': 'application/json'},
         body: jsonEncode(<String, String> {'username': username.text, 'password': password.text, 'email': email.text}),
       );

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ class HomePageController extends GetxController {
   GlobalController globalController = Get.put(GlobalController());
   RxList<dynamic> postsInvolve = <dynamic>[].obs;
   RxList<dynamic> postsDiscover = <dynamic>[].obs;
+  String url_api = URL.URL_API;
 
   // @override
   // void onInit() {
@@ -23,7 +25,7 @@ class HomePageController extends GetxController {
       String? token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/getpostfollowing'),
+        Uri.parse(url_api + 'getpostfollowing'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},       
       );
       Map<String, dynamic> json = jsonDecode(res.body.toString());
@@ -48,7 +50,7 @@ class HomePageController extends GetxController {
       String? token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/getpostdiscover'),
+        Uri.parse(url_api + 'getpostdiscover'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},       
       );
       Map<String, dynamic> json = jsonDecode(res.body.toString());

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +14,7 @@ class ChatMessageController extends GetxController {
   GlobalController globalController = Get.put(GlobalController());
   RxList<dynamic> listMessage = [].obs;
   TextEditingController txtInput = TextEditingController();
+  String url_api = URL.URL_API;
 
 
   Future getMessages() async {
@@ -21,7 +23,7 @@ class ChatMessageController extends GetxController {
       var client = http.Client();
       var chatId = conversation["_id"];
       var res = await client.get(
-        Uri.parse('https://socialphoto.vercel.app/api/getMessage/$chatId'),
+        Uri.parse(url_api + 'getMessage/$chatId'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
 
@@ -56,7 +58,7 @@ class ChatMessageController extends GetxController {
       var client = http.Client();
       var chatId = conversation["_id"];
       var res = await client.post(
-        Uri.parse('https://socialphoto.vercel.app/api/createMessage'),
+        Uri.parse(url_api + 'createMessage'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String,String>{
           "content": txtInput.text,
