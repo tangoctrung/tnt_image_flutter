@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     hpController.getPostsInvolve();
     hpController.getPostsDiscover();
-    print(hpController.postsInvolve);
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(

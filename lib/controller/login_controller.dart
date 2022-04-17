@@ -56,7 +56,6 @@ class LoginController extends GetxController {
       if (json["success"] == true) {
         var data = json["data"];
         var user = data["newUser"];
-        print(user);
 
         final prefs = await SharedPreferences.getInstance();
         

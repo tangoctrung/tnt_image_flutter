@@ -52,7 +52,7 @@ class ChatMessageController extends GetxController {
     }
   }
 
-  Future createMessage() async {
+  Future createMessage({socket}) async {
     try {
       var token = globalController.user.value.token;
       var client = http.Client();
@@ -74,7 +74,12 @@ class ChatMessageController extends GetxController {
         Map<dynamic, dynamic> message = data["savedMessage"];
         txtInput.text = "";
         listMessage.add(message);
-                  
+
+        
+            //       socket?.emit('sendMessage', {
+            //     m,
+            //     receivedId,
+            // });
       } else {
         Get.snackbar( 
           "Tin nhắn",

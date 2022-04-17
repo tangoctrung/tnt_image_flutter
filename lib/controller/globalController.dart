@@ -38,7 +38,6 @@ class GlobalController extends GetxController {
   void onChangeTab(int value) {
     try {
       currentPage.value = value;
-      print(value);
       pageController.jumpToPage(value);
     } catch (e) {
       currentPage.value = value;

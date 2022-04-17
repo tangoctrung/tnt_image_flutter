@@ -20,7 +20,6 @@ class _PostSavedScreenState extends State<PostSavedScreen> {
   UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
-    print(userController.postsSaved);
     return Scaffold(
       body: SafeArea(
         child: Column(

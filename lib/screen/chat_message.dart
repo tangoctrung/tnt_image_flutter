@@ -32,7 +32,12 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
 
   @override
   void initState() {
-    socket = IO.io('http://192.168.220.1:8000/',
+    onConnect();
+    super.initState();
+  }
+
+  void onConnect() {
+    socket = IO.io('http://192.168.95.100:8000/',
         IO.OptionBuilder()
         .setTransports(['websocket']) // for Flutter or Dart VM
         //.disableAutoConnect()  // disable auto-connection
@@ -41,12 +46,15 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
 
     socket.onConnect((_) {
       print('connect');
-      socket.emit('fromClient', 'test from client');
+      socket.emit('addUser', globalController.user.value.id);
+
+      socket.on('getMessage', (s) {
+        print(s);
+      });
     });
 
     //When an event recieved from server, data is added to the stream
     socket.onDisconnect((_) => print('disconnect'));
-    super.initState();
   }
 
   @override
@@ -66,36 +74,40 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
               child: Obx(()=> 
                 Stack(
                   children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          child: itemAppBarChat(
-                            username: chatMessageController.username.value, 
-                            avatar: chatMessageController.avatar.value, 
-                            context: context,
-                          )
-                          // child: AppBar(),
-                        ),
-                        
-                        Expanded(
-                          flex: 10,
-                          child: GestureDetector(
-                              onTap: () {FocusScope.of(context).unfocus();},
-                            child: Container(
-                              color: Colors.transparent,
-                              child: ListView.builder(
-                                itemCount: chatMessageController.listMessage.length,
-                                controller: _scrollController,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return itemMessage(index: index);
-                                },),
+                    Container(
+                      height: MediaQuery.of(context).size.height - 120,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            child: itemAppBarChat(
+                              username: chatMessageController.username.value, 
+                              avatar: chatMessageController.avatar.value, 
+                              context: context,
+                            )
+                            // child: AppBar(),
+                          ),
+                          
+                          Expanded(
+                            flex: 10,
+                            child: GestureDetector(
+                                onTap: () {FocusScope.of(context).unfocus();},
+                              child: Container(
+                                color: Colors.transparent,
+                                child: ListView.builder(
+                                  itemCount: chatMessageController.listMessage.length,
+                                  controller: _scrollController,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return itemMessage(index: index);
+                                  },),
+                              ),
                             ),
                           ),
-                        ),
-          
-                      ],
+                              
+                        ],
+                      ),
                     ),    
                     Container(
                       alignment: Alignment.bottomCenter,
@@ -119,7 +131,8 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5),
       width: MediaQuery.of(context).size.width,
-      color: Color.fromARGB(255, 212, 212, 212),
+      height: 65,
+      color: Color.fromARGB(255, 255, 255, 255),
       child: Row(
         
         children: [
@@ -137,33 +150,52 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
           ),
           Expanded(
             flex: 5,
-            child: TextField(
-              controller: chatMessageController.txtInput,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                hintText: 'Viết gì đó...',
+            child: Container(
+              child: TextField(
+                controller: chatMessageController.txtInput,
                 
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  hintText: 'Viết gì đó...',
+                  
+                ),
+                focusNode: focusNode,
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 66, 66, 66),
+                    height: 1.5),
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                minLines: 1,
               ),
-              focusNode: focusNode,
-              style: const TextStyle(
-                  fontSize: 14,
-                  color: Color.fromARGB(255, 66, 66, 66),
-                  height: 1.5),
-              keyboardType: TextInputType.multiline,
-              maxLines: 3,
-              minLines: 1,
             ),
           ),
           Expanded(
             flex: 1,
             child: GestureDetector(
               onTap: () async {
-                await chatMessageController.createMessage();
+                // await chatMessageController.createMessage(socket: socket);
+                // String recievedId = chatMessageController.conversation["member1"]["_id"] == globalController.user.value.id ? chatMessageController.conversation["members1"]["_id"] : chatMessageController.conversation["members2"]["_id"];
+                // socket.emit('sendMessage',() {
+
+                // });
+                Map<String, dynamic> m = {
+                  "content": chatMessageController.txtInput.text,
+                  "conversationId": chatMessageController.conversation["_id"],
+                  "senderId": globalController.user.value.id.toString(),
+                };
+                String receivedId = chatMessageController.conversation["members1"]["_id"] == globalController.user.value.id.toString() ? chatMessageController.conversation["members2"]["_id"] : chatMessageController.conversation["members1"]["_id"];
+                Map<String, dynamic> data = {
+                  "dataMessage": m,
+                  "receivedId": receivedId
+                };
+                socket.emit("sendMessage", data);
+                  
               },
-              child: Icon(FontAwesomeIcons.paperPlane)
+              child: const Icon(FontAwesomeIcons.paperPlane)
             )
           ),
         ],

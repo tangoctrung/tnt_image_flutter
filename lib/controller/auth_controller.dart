@@ -50,7 +50,6 @@ class AuthController extends GetxController{
         userInfo.postSaved = user["postSaved"];
         userInfo.token = token;
         globalController.user.value = userInfo;
-        print(globalController.user.value);
         globalController.postSaved.value = user["postSaved"];
         await userController.getAllPost();
         

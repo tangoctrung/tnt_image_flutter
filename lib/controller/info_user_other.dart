@@ -66,7 +66,6 @@ class InfoUserOtherController extends GetxController {
       } 
       // return json;    
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -74,7 +73,6 @@ class InfoUserOtherController extends GetxController {
   Future<void> getInfoUser() async {
     try {
       var token = globalController.user.value.token;
-      print("le van an");
       if (userId != null && userId != "") {
         var client = http.Client();
         var res = await client.get(
@@ -83,7 +81,6 @@ class InfoUserOtherController extends GetxController {
         );
         User userInfo = User();
         var json = jsonDecode(res.body.toString());
-        print(json);
         if (json["success"] == true) {
           var data = json["data"];
           var newUser = data["user"];
@@ -99,7 +96,6 @@ class InfoUserOtherController extends GetxController {
           isFollow.value = newUser["isFollow"];
         
 
-          print(isFollow.value);
 
           user.value = userInfo;
       } 
@@ -135,7 +131,6 @@ class InfoUserOtherController extends GetxController {
       } 
       // return json;    
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -164,7 +159,6 @@ class InfoUserOtherController extends GetxController {
       } 
       // return json;    
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -180,7 +174,6 @@ class InfoUserOtherController extends GetxController {
       );
       // return json;    
     } catch (e) {
-      print(e);
       return null;
     }
   }

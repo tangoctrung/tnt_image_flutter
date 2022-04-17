@@ -33,8 +33,6 @@ class ListChatController extends GetxController {
       if (json["success"] == true) {
         Map<String, dynamic> data = json["data"];
         List<dynamic> conversations = data["conversations"];
-        print(conversations);
-        // posts.value = newPosts; 
 
         listChat.clear();
         listChat.value = conversations;
@@ -42,7 +40,6 @@ class ListChatController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }
 

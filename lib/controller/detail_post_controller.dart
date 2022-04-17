@@ -43,7 +43,6 @@ class DetailPostController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }
 
@@ -52,7 +51,6 @@ class DetailPostController extends GetxController {
 
    Future getComments(postId) async {
     try {
-      print("get comments");
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.get(
@@ -69,15 +67,12 @@ class DetailPostController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }  
   }
 
   Future createComment(postId) async {
     try {
-      print('123');
-      print(postId);
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.post(
@@ -86,15 +81,12 @@ class DetailPostController extends GetxController {
         body: jsonEncode(<String, String>{'content': contentComment.text, 'postId': postId}),
       );
 
-      print(res);
 
       Map<String, dynamic> json = jsonDecode(res.body.toString());
-      print(json);
       if (json["success"] == true) {
         Map<String, dynamic> data = json["data"];
         Map<dynamic, dynamic> comment = data["comment"];
       
-        print(comment);
         // posts.value = newPosts; 
    
         listComment.add(comment);
@@ -117,7 +109,6 @@ class DetailPostController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }
 
@@ -152,15 +143,12 @@ class DetailPostController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }
   }
 
   Future likeOrUnlikePost(postId) async {
     try {
-      print('123');
-      print(postId);
       var token = globalController.user.value.token;
       var client = http.Client();
       var res = await client.put(
@@ -172,14 +160,12 @@ class DetailPostController extends GetxController {
 
 
       Map<String, dynamic> json = jsonDecode(res.body.toString());
-      print(json);
       if (json["success"] == true) {
         if (listLikes.contains(globalController.user.value.id)) {
           listLikes.remove(globalController.user.value.id);
         } else if (!listLikes.contains(globalController.user.value.id)){
           listLikes.add(globalController.user.value.id);
         }
-        print(listLikes);
         Get.snackbar(
           "Yêu thích", 
           json["message"],
@@ -190,7 +176,6 @@ class DetailPostController extends GetxController {
       }
       return true;
     } catch (e) {
-      print(e);
       return null;
     }
   }

@@ -44,7 +44,6 @@ class CreatePostController extends GetxController {
       );
 
       Map<String, dynamic> json = jsonDecode(res.body.toString());
-      print(json);
       if (json["success"] == true) {
         isLoading.value = false;
         Get.snackbar(

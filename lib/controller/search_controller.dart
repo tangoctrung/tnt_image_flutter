@@ -35,7 +35,6 @@ class SearchController extends GetxController {
 
       if (json["success"] == true) {
         users.value = json["data"]["userArray"];
-        print(json["data"]["userArray"]);
       }
 
     } catch (e) {
@@ -57,11 +56,9 @@ class SearchController extends GetxController {
       isLoading.value = false;
       if (json["success"] == true) {
         posts.value = json["data"]["posts"];
-        print(json["data"]["posts"]);
       }
 
     } catch (e) {
-      print(e);
     }
   }
 

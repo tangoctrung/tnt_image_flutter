@@ -29,7 +29,6 @@ class Storage {
             //     });
       
     } on firebase_core.FirebaseException catch (e) {
-      print(e.message);
     }
 
     return newUrl;

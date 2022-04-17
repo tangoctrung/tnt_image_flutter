@@ -73,7 +73,6 @@ class UserController extends GetxController {
       if (json["success"] == true) {
         Map<String, dynamic> data = json["data"];
         List<dynamic> newPosts = data["posts"];
-        print(newPosts.length);
 
         // posts.value = newPosts; 
         List<Post> res = [];
@@ -101,7 +100,6 @@ class UserController extends GetxController {
       // return json;
       
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -126,7 +124,6 @@ class UserController extends GetxController {
         User userInfo = User();
         var data = json["data"];
         var user = data["user"];
-        print(user);
 
         userInfo.username = user["username"];
         userInfo.address = user["address"];
@@ -157,7 +154,6 @@ class UserController extends GetxController {
       }
 
     } catch (e) {
-      print(e);
     }
   }
 
@@ -177,7 +173,6 @@ class UserController extends GetxController {
         User userInfo = User();
         var data = json["data"];
         var user = data["user"];
-        print(user);
         globalController.user.value.avatar = user["avatar"];       
 
         Get.snackbar(
@@ -198,7 +193,6 @@ class UserController extends GetxController {
       }
 
     } catch (e) {
-      print(e);
     }
   }
 
@@ -216,7 +210,6 @@ class UserController extends GetxController {
       );
       stopIsLoading();
       var json = jsonDecode(res.body.toString());
-      print(json);
       if (json["success"] == true) {
         Get.snackbar(
           "Mật khẩu", 
@@ -236,7 +229,6 @@ class UserController extends GetxController {
       }
 
     } catch (e) {
-      print(e);
     }
   }
 
@@ -291,14 +283,12 @@ class UserController extends GetxController {
             followings.add(u);
           }
           globalController.followings.value = followings;
-          print(globalController.followings.value[0].id);
         } else {
           globalController.followings.value = [];
         }
       }
 
     } catch (e) {
-      print(e);
     }
   }
 
@@ -317,7 +307,6 @@ class UserController extends GetxController {
       if (json["success"] == true) {
         Map<String, dynamic> data = json["data"];
         List<dynamic> newPosts = data["posts"];
-        print(newPosts.length);
 
         // posts.value = newPosts; 
         List<Post> res = [];
@@ -345,7 +334,6 @@ class UserController extends GetxController {
       // return json;
       
     } catch (e) {
-      print(e);
       return null;
     }
   }

@@ -34,12 +34,9 @@ class HomePageController extends GetxController {
         List<dynamic> posts = data["listPost"];
         postsInvolve.clear();
         postsInvolve.value = posts;  
-        print(posts);
-        print(postsInvolve.value); 
       }
 
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -59,12 +56,9 @@ class HomePageController extends GetxController {
         List<dynamic> posts = data["listPost"];
         postsDiscover.clear();
         postsDiscover.value = posts;  
-        print(posts);
-        print(postsDiscover.value); 
       }
 
     } catch (e) {
-      print(e);
       return null;
     }
   }
