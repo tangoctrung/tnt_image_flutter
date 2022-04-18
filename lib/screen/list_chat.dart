@@ -178,7 +178,7 @@ class ListChatScreen extends StatelessWidget {
         },
         child: Row(
           children: [
-            lcController.listChat[index]["members1"]["avatar"] != null ?
+            lcController.listChat[index]["members2"]["avatar"].toString().contains('http') ?
               ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: Image(
@@ -262,7 +262,7 @@ class ListChatScreen extends StatelessWidget {
         },
         child: Row(
           children: [
-            lcController.listChat[index]["members1"]["avatar"] != null ?
+            lcController.listChat[index]["members1"]["avatar"].toString().contains('http') ?
               ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: Image(

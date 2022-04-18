@@ -23,6 +23,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         // AuthController authController = Get.put(AuthController());
         final prefs = await SharedPreferences.getInstance();
         String? token = prefs.getString('token');
+        print(token);
         // UserController userController = Get.put(UserController());
         HomePageController hpController = Get.put(HomePageController());
         if (token != null) {

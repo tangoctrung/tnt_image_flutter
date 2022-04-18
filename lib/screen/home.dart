@@ -7,6 +7,7 @@ import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:socialtnt/controller/info_user_other.dart';
 import 'package:socialtnt/controller/list_chat_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -208,25 +209,37 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       (hpController.postsInvolve[index]["authorId"]["avatar"] != null && hpController.postsInvolve[index]["authorId"]["avatar"] != "") ?
-                        Container(
-                          width: 30,
-                          height: 30,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: Image(
-                              image: NetworkImage(hpController.postsInvolve[index]["authorId"]["avatar"]),
-                              fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () {
+                            Get.put(InfoUserOtherController()).getUserId(hpController.postsInvolve[index]["authorId"]["_id"]);
+                            Get.toNamed('/infoUserOther');
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: Image(
+                                image: NetworkImage(hpController.postsInvolve[index]["authorId"]["avatar"]),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ) :
-                        Container(
-                          width: 30,
-                          height: 30,                         
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: const Image(
-                              image: AssetImage(URL.URL_AVATAR),
-                              fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () {
+                            Get.put(InfoUserOtherController()).getUserId(hpController.postsInvolve[index]["authorId"]["_id"]);
+                            Get.toNamed('/infoUserOther');
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,                         
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: const Image(
+                                image: AssetImage(URL.URL_AVATAR),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

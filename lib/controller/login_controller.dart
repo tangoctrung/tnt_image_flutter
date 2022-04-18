@@ -20,7 +20,7 @@ class LoginController extends GetxController {
   RxBool isLoading = false.obs;
   GlobalController globalController = Get.put(GlobalController());
   HomePageController hpController = Get.put(HomePageController());
-  String url_api = URL.URL_API;
+  // String url_api = URL.URL_API;
 
   
 
@@ -44,6 +44,8 @@ class LoginController extends GetxController {
   Future login() async {
     try {
       startIsLoading();
+      String url_api = URL.URL_API;
+      print(url_api);
       var client = http.Client();
       var res = await client.post(
         Uri.parse(url_api + 'login'),
@@ -53,6 +55,7 @@ class LoginController extends GetxController {
       stopIsLoading();
       User userInfo = User();
       var json = jsonDecode(res.body.toString());
+      print(json);
       if (json["success"] == true) {
         var data = json["data"];
         var user = data["newUser"];

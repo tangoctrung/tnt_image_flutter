@@ -30,7 +30,7 @@ class AuthController extends GetxController{
 
       var client = http.Client();
       var res = await client.get(
-        Uri.parse('$url_api'),
+        Uri.parse(url_api),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
       );
       User userInfo = User();

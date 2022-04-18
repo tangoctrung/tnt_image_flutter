@@ -101,6 +101,8 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                 )),
                           ), 
                           SizedBox(height: 15),
+                          
+                          infoUserOtherController.user.value.id != globalController.user.value.id ?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -149,7 +151,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                                   ),
                               ),
                             ],
-                          ),
+                          ): Container(),
                           SizedBox(height: 10),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,

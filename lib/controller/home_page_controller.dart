@@ -35,6 +35,7 @@ class HomePageController extends GetxController {
         postsInvolve.clear();
         postsInvolve.value = posts;  
       }
+      print(json);
 
     } catch (e) {
       return null;
@@ -57,6 +58,7 @@ class HomePageController extends GetxController {
         postsDiscover.clear();
         postsDiscover.value = posts;  
       }
+      print(json);
 
     } catch (e) {
       return null;

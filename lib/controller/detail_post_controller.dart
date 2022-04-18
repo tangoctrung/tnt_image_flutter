@@ -90,14 +90,7 @@ class DetailPostController extends GetxController {
         // posts.value = newPosts; 
    
         listComment.add(comment);
-        contentComment.text = '';
-        Get.snackbar(
-          "Bình luận", 
-          "Bình luận bài viết thành công",
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          colorText: const Color.fromARGB(255, 64, 199, 46),
-          icon: const Icon(Icons.add_task, color: Color.fromARGB(255, 121, 190, 42)),
-        );      
+        contentComment.text = '';     
       } else {
         Get.snackbar(
           "Bình luận", 
@@ -132,14 +125,7 @@ class DetailPostController extends GetxController {
           globalController.postSaved.remove(postId);
         } else if (!globalController.postSaved.contains(postId)){
           globalController.postSaved.add(postId);
-        }
-        Get.snackbar(
-          "Bình luận", 
-          json["message"],
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          colorText: const Color.fromARGB(255, 64, 199, 46),
-          icon: const Icon(Icons.add_task, color: Color.fromARGB(255, 121, 190, 42)),
-        );      
+        }     
       }
       return true;
     } catch (e) {
@@ -165,14 +151,7 @@ class DetailPostController extends GetxController {
           listLikes.remove(globalController.user.value.id);
         } else if (!listLikes.contains(globalController.user.value.id)){
           listLikes.add(globalController.user.value.id);
-        }
-        Get.snackbar(
-          "Yêu thích", 
-          json["message"],
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          colorText: const Color.fromARGB(255, 64, 199, 46),
-          icon: const Icon(Icons.add_task, color: Color.fromARGB(255, 121, 190, 42)),
-        );      
+        }    
       }
       return true;
     } catch (e) {

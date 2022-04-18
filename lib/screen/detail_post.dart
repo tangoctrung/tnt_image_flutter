@@ -6,6 +6,7 @@ import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:socialtnt/controller/info_user_other.dart';
 
 class DetailPostScreen extends StatefulWidget {
   const DetailPostScreen({Key? key}) : super(key: key);
@@ -38,18 +39,18 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: Obx(() => 
-                  Image(
-                    image: NetworkImage(dtPostController.postDetail["images"]),
-                  ),
-                )
-                // child: PhotoView(
-                //   controller: controller,
-                //   minScale: PhotoViewComputedScale.contained * 0.8,
-                //   maxScale: PhotoViewComputedScale.covered * 2.8,
-                //   backgroundDecoration: BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
-                //   imageProvider: NetworkImage(dtPostController.postDetail["images"]),
-                // ),
+                // child: Obx(() => 
+                //   Image(
+                //     image: NetworkImage(dtPostController.postDetail["images"]),
+                //   ),
+                // )
+                child: PhotoView(
+                  controller: controller,
+                  minScale: PhotoViewComputedScale.contained * 0.8,
+                  maxScale: PhotoViewComputedScale.covered * 2.8,
+                  backgroundDecoration: const BoxDecoration(color: Color.fromARGB(221, 37, 36, 36)),
+                  imageProvider: NetworkImage(dtPostController.postDetail["images"]),
+                ),
               ),
             ),
             Positioned(
@@ -62,7 +63,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 icon: const Icon(
                   FontAwesomeIcons.angleLeft,
                   size: 28,
-                  color: Color.fromARGB(255, 54, 54, 54),
+                  color: Color.fromARGB(255, 39, 38, 38),
                 ),
               ),
             ),
@@ -78,7 +79,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 icon: const Icon(
                   FontAwesomeIcons.angleUp,
                   size: 32,
-                  color: Color.fromARGB(255, 80, 80, 80),
+                  color: Color.fromARGB(255, 46, 45, 45),
                 ),
               ),
             ),
@@ -124,62 +125,68 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                (dtPostController.postDetail["authorId"]["avatar"] != null && dtPostController.postDetail["authorId"]["avatar"] != "") ?
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    child: Image(
-                                      image: NetworkImage(dtPostController
-                                          .postDetail["authorId"]["avatar"]),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ) : 
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    child: const Image(
-                                      image: AssetImage(URL.URL_AVATAR),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 6),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dtPostController.postDetail["authorId"]
-                                          ["username"],
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Quicksand',
-                                        color: Color.fromARGB(255, 0, 0, 0),
+                            GestureDetector(
+                              onTap: () {
+                                Get.put(InfoUserOtherController()).getUserId(dtPostController.postDetail["authorId"]["_id"]);
+                                Get.toNamed('/infoUserOther');
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  (dtPostController.postDetail["authorId"]["avatar"] != null && dtPostController.postDetail["authorId"]["avatar"] != "") ?
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100.0),
+                                      child: Image(
+                                        image: NetworkImage(dtPostController
+                                            .postDetail["authorId"]["avatar"]),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Text(
-                                      // timeago.format(DateTime(dtPostController.postDetail["createdAt"])),
-                                      Jiffy(DateTime.parse(dtPostController.postDetail["createdAt"])).fromNow(),
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Quicksand',
-                                        color:
-                                            Color.fromARGB(255, 160, 160, 160),
+                                  ) : 
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100.0),
+                                      child: const Image(
+                                        image: AssetImage(URL.URL_AVATAR),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  ],
-                                )
-                              ],
+                                  ),
+                                  SizedBox(width: 6),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        dtPostController.postDetail["authorId"]
+                                            ["username"],
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Quicksand',
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ),
+                                      Text(
+                                        // timeago.format(DateTime(dtPostController.postDetail["createdAt"])),
+                                        Jiffy(DateTime.parse(dtPostController.postDetail["createdAt"])).fromNow(),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Quicksand',
+                                          color:
+                                              Color.fromARGB(255, 160, 160, 160),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                             Obx(() => 
                               GestureDetector(
@@ -337,31 +344,36 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: 
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           (comment["writerId"]["avatar"] != null && comment["writerId"]["avatar"] != "") ?
           GestureDetector(
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100.0),
-                child: Image(
-                  width: 35,
-                  height: 35,
-                  fit: BoxFit.cover,
-                  image: NetworkImage(comment["writerId"]["avatar"]),
-                ),
+            onTap: () {
+              Get.put(InfoUserOtherController()).getUserId(comment["writerId"]["_id"]);
+              Get.toNamed('/infoUserOther');
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child: Image(
+                width: 35,
+                height: 35,
+                fit: BoxFit.cover,
+                image: NetworkImage(comment["writerId"]["avatar"]),
               ),
             ),
           ):
           GestureDetector(
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100.0),
-                child:const Image(
-                  width: 35,
-                  height: 35,
-                  fit: BoxFit.cover,
-                  image: AssetImage(URL.URL_AVATAR),
-                ),
+            onTap: () {
+              Get.put(InfoUserOtherController()).getUserId(comment["writerId"]["_id"]);
+              Get.toNamed('/infoUserOther');
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child:const Image(
+                width: 35,
+                height: 35,
+                fit: BoxFit.cover,
+                image: AssetImage(URL.URL_AVATAR),
               ),
             ),
           ),
@@ -396,26 +408,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 softWrap: true,
             ),
           ),
-          // SizedBox(width: 5),
-          // Expanded(
-          //   flex: 2,
-          //   child: Column(
-          //     children: [
-          //       GestureDetector(
-          //         child: Icon(
-          //           comment["likes"].contains(globalController.user.value.id)
-          //               ? FontAwesomeIcons.solidHeart
-          //               : FontAwesomeIcons.heart,
-          //           size: 16,
-          //         ),
-          //       ),
-          //       Text(comment["likes"].length.toString(),
-          //           style: TextStyle(
-          //             fontSize: 12,
-          //           )),
-          //     ],
-          //   ),
-          // ),
         ]),
       ),
     );
@@ -457,7 +449,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                   hintText: 'Viết gì đó...'),
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 14,
                   color: Color.fromARGB(255, 66, 66, 66),
                   height: 1.5),
