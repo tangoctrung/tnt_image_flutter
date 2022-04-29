@@ -51,6 +51,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             Obx(()=> 
                               GestureDetector(
                                 onTap: () async {
+                                  if (imageFile == null) {
+                                    Get.snackbar(
+                                      "Lỗi", 
+                                      "Bạn chưa chọn file ảnh",
+                                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                                      colorText: const Color.fromARGB(255, 207, 54, 16),
+                                      icon: const Icon(FontAwesomeIcons.triangleExclamation, color: Color.fromARGB(255, 224, 54, 11)),
+                                    );
+                                    return;  
+                                  }
                                   await crPostController.createPost();
                                 },
                                 child: 

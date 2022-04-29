@@ -55,6 +55,7 @@ class CreatePostController extends GetxController {
         );  
         clearData(); 
       } else {
+        print(json);
         Get.snackbar(
           "Lỗi", 
           "Không thể chia sẻ bài viết",

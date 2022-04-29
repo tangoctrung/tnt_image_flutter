@@ -52,7 +52,7 @@ class ChatMessageController extends GetxController {
     }
   }
 
-  Future createMessage({socket}) async {
+  Future createMessage() async {
     try {
       var token = globalController.user.value.token;
       var client = http.Client();
@@ -74,12 +74,8 @@ class ChatMessageController extends GetxController {
         Map<dynamic, dynamic> message = data["savedMessage"];
         txtInput.text = "";
         listMessage.add(message);
+        return data["savedMessage"];
 
-        
-            //       socket?.emit('sendMessage', {
-            //     m,
-            //     receivedId,
-            // });
       } else {
         Get.snackbar( 
           "Tin nhắn",
@@ -88,6 +84,7 @@ class ChatMessageController extends GetxController {
           colorText: Color.fromARGB(255, 179, 16, 16),
           icon: const Icon(FontAwesomeIcons.exclamation, color: Color.fromARGB(255, 177, 20, 20)),
         ); 
+        return "";
       }
       // return json;    
     } catch (e) {

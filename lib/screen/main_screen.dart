@@ -13,41 +13,34 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  // GlobalController globalController = Get.put(GlobalController());
-  // AuthController authController = Get.put(AuthController());
-  // // @override
-  // // void initState() {
-    
-  // //   Future.delayed(const Duration(seconds: 3), () {
-  // //     if (authController.isAuth() == false) {
-  // //       Get.offAndToNamed('/login');
-  // //     }
-  // //   });
-  // //   super.initState(); 
-  // // }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
+    return 
+    WillPopScope(
+      onWillPop: (() async {
+        return false;
+      }),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
 
-      bottomNavigationBar: bottomNavigator(),
-      body: PageView(
-        controller: Get.put(GlobalController()).pageController,
-        onPageChanged: (value) {
-          Get.put(GlobalController()).onChangeTab(value);
-        },
-        physics:const NeverScrollableScrollPhysics(),
-        children: [
-          HomeScreen(),
-          const CreatePostScreen(),
-          SearchScreen(),
-          // ListChatScreen(),
-          // ProfileScreen(),
-        ],
-      ),
-      
+        bottomNavigationBar: bottomNavigator(),
+        body: PageView(
+          controller: Get.put(GlobalController()).pageController,
+          onPageChanged: (value) {
+            Get.put(GlobalController()).onChangeTab(value);
+          },
+          physics:const NeverScrollableScrollPhysics(),
+          children: [
+            HomeScreen(),
+            const CreatePostScreen(),
+            SearchScreen(),
+            // ListChatScreen(),
+            // ProfileScreen(),
+          ],
+        ),
+        
+      )
     );
   }
 }

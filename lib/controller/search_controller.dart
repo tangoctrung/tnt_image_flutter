@@ -34,7 +34,7 @@ class SearchController extends GetxController {
       Map<String, dynamic> json = jsonDecode(res.body.toString());
 
       if (json["success"] == true) {
-        users.value = json["data"]["userArray"];
+        users.value = json["data"]["users"];
       }
 
     } catch (e) {
