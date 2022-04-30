@@ -18,7 +18,7 @@ class ListChatScreen extends StatelessWidget {
   ChatMessageController chatMessageController = Get.put(ChatMessageController());
   @override
   Widget build(BuildContext context) {
-    lcController.getConversations();
+    // lcController.getConversations();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -120,18 +120,6 @@ class ListChatScreen extends StatelessWidget {
               ),
             ),
           )
-          // Container(
-          //     width: MediaQuery.of(context).size.width,
-          //     height: MediaQuery.of(context).size.height * 0.06,
-          //     decoration: const BoxDecoration(
-          //         border: Border(
-          //       top: BorderSide(
-          //         color: Color.fromARGB(255, 194, 194, 194),
-          //         width: 0.5,
-          //       ),
-          //     )),
-          //     child: BottomBar(),
-          //   ),
         ],
       );
   }

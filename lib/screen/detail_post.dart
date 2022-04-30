@@ -197,7 +197,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 },
                                 child: Icon(globalController.postSaved
                                         .contains(
-                                            dtPostController.postDetail["_id"])
+                                            dtPostController.postDetail["_id"].toString())
                                     ? FontAwesomeIcons.solidBookmark
                                     : FontAwesomeIcons.bookmark),
                               ),
@@ -259,7 +259,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                     child: Icon(dtPostController
                                             .listLikes
                                             .contains(
-                                                globalController.user.value.id)
+                                                globalController.user.value.id.toString())
                                         ? FontAwesomeIcons.solidHeart
                                         : FontAwesomeIcons.heart),
                                   ),

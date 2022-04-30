@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialtnt/controller/globalController.dart';
+import 'package:socialtnt/controller/home_page_controller.dart';
 import 'package:socialtnt/controller/login_controller.dart';
+import 'package:socialtnt/controller/user_controller.dart';
+import 'package:socialtnt/model/user.dart';
 import 'package:socialtnt/screen/forget_password.dart';
 import 'package:socialtnt/screen/home.dart';
 import 'package:socialtnt/screen/main_screen.dart';
@@ -11,6 +16,8 @@ import 'package:socialtnt/widget/input_field.dart';
 class LoginScreen extends StatelessWidget {
 
   LoginController loginController = Get.put(LoginController());
+  GlobalController globalController = Get.put(GlobalController());
+  HomePageController hpController = Get.put(HomePageController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,7 +170,38 @@ class LoginScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: ElevatedButton.icon(
                           onPressed: () async {
-                            await loginController.login();                         
+                            var data = await loginController.login();     
+                            if (data != null) {
+
+                              final prefs = await SharedPreferences.getInstance();
+                              User userInfo = User();
+                              await prefs.setString('token', data["token"]);
+                              userInfo.username = data["newUser"]["username"];
+                              userInfo.address = data["newUser"]["address"];
+                              userInfo.avatar = data["newUser"]["avatar"];
+                              userInfo.date = data["newUser"]["date"];
+                              userInfo.email = data["newUser"]["email"];
+                              userInfo.id = data["newUser"]["_id"];
+                              userInfo.job = data["newUser"]["job"];
+                              userInfo.postSaved = data["newUser"]["postSaved"];
+                              userInfo.token = data["token"];
+
+                              globalController.user.value = userInfo;
+                              globalController.postSaved.value = data["newUser"]["postSaved"];
+                              await Get.put(UserController()).getAllPost();
+                              await hpController.getPostsInvolve(); 
+                              await hpController.getPostsDiscover(); 
+
+                              Get.offAndToNamed('mainscreen');                   
+                            } else {
+                              Get.snackbar(
+                                "Lỗi đăng nhập", 
+                                'Sai email hoặc password',
+                                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                                colorText: Color.fromARGB(255, 248, 46, 46),
+                                icon: Icon(Icons.error, color: Colors.red),
+                              );
+                            }                    
                           }, 
                           icon: loginController.isLoading.value ? const SizedBox(child: CircularProgressIndicator(color: Colors.white), height:24, width: 24,) : Icon(Icons.login),                      
                               label: Text(

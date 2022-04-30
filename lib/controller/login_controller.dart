@@ -56,40 +56,7 @@ class LoginController extends GetxController {
       User userInfo = User();
       var json = jsonDecode(res.body.toString());
       print(json);
-      if (json["success"] == true) {
-        var data = json["data"];
-        var user = data["newUser"];
-
-        final prefs = await SharedPreferences.getInstance();
-        
-        await prefs.setString('token', data["token"]);
-        userInfo.username = user["username"];
-        userInfo.address = user["address"];
-        userInfo.avatar = user["avatar"];
-        userInfo.date = user["date"];
-        userInfo.email = user["email"];
-        userInfo.id = user["_id"];
-        userInfo.job = user["job"];
-        userInfo.postSaved = user["postSaved"];
-        userInfo.token = data["token"];
-
-        globalController.user.value = userInfo;
-        globalController.postSaved.value = user["postSaved"];
-        await Get.put(UserController()).getAllPost();
-        await hpController.getPostsInvolve(); 
-        await hpController.getPostsDiscover(); 
-
-        Get.offAndToNamed('mainscreen');                   
-      } else {
-        Get.snackbar(
-          "Lỗi đăng nhập", 
-          json["message"],
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          colorText: Color.fromARGB(255, 248, 46, 46),
-          icon: Icon(Icons.error, color: Colors.red),
-        );
-      }
-      // return json;
+      return json["data"];
       
     } catch (e) {
       print(e);
