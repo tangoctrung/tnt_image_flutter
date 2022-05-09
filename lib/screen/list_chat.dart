@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/chat_message_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/list_chat_controller.dart';
-import 'package:socialtnt/model/item_chat.dart';
-import 'package:socialtnt/widget/bottom_bar.dart';
-import 'package:socialtnt/widget/item_chat.dart';
+// import 'package:socialtnt/widget/item_chat.dart';
 
 class ListChatScreen extends StatelessWidget {
   // const ListChatScreen({ Key? key }) : super(key: key);
@@ -133,15 +130,15 @@ class ListChatScreen extends StatelessWidget {
               child: Column(
                 children: [
                   
-                  Expanded(
-                    flex: 10,
-                    child: ListView.builder(
-                      itemCount: listChat.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ItemChatWidget(index);
-                      },
-                    ),
-                  ),
+                  // Expanded(
+                  //   flex: 10,
+                  //   child: ListView.builder(
+                  //     itemCount: listChat.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return ItemChatWidget(index);
+                  //     },
+                  //   ),
+                  // ),
 
                 ]
               ),

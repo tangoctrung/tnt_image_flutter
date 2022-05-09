@@ -25,6 +25,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
     controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +40,7 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                // child: Obx(() => 
+                // child: Obx(() =>
                 //   Image(
                 //     image: NetworkImage(dtPostController.postDetail["images"]),
                 //   ),
@@ -48,8 +49,10 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   controller: controller,
                   minScale: PhotoViewComputedScale.contained * 0.8,
                   maxScale: PhotoViewComputedScale.covered * 2.8,
-                  backgroundDecoration: const BoxDecoration(color: Color.fromARGB(221, 37, 36, 36)),
-                  imageProvider: NetworkImage(dtPostController.postDetail["images"]),
+                  backgroundDecoration: const BoxDecoration(
+                      color: Color.fromARGB(221, 37, 36, 36)),
+                  imageProvider:
+                      NetworkImage(dtPostController.postDetail["images"]),
                 ),
               ),
             ),
@@ -83,7 +86,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 ),
               ),
             ),
-            
             AnimatedPositioned(
               duration: const Duration(milliseconds: 200),
               bottom: isShowDetail
@@ -127,40 +129,52 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.put(InfoUserOtherController()).getUserId(dtPostController.postDetail["authorId"]["_id"]);
+                                Get.put(InfoUserOtherController()).getUserId(
+                                    dtPostController.postDetail["authorId"]
+                                        ["_id"]);
                                 Get.toNamed('/infoUserOther');
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  (dtPostController.postDetail["authorId"]["avatar"] != null && dtPostController.postDetail["authorId"]["avatar"] != "") ?
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100.0),
-                                      child: Image(
-                                        image: NetworkImage(dtPostController
-                                            .postDetail["authorId"]["avatar"]),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ) : 
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100.0),
-                                      child: const Image(
-                                        image: AssetImage(URL.URL_AVATAR),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                                  (dtPostController.postDetail["authorId"]
+                                                  ["avatar"] !=
+                                              null &&
+                                          dtPostController
+                                                      .postDetail["authorId"]
+                                                  ["avatar"] !=
+                                              "")
+                                      ? Container(
+                                          width: 40,
+                                          height: 40,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                            child: Image(
+                                              image: NetworkImage(
+                                                  dtPostController.postDetail[
+                                                      "authorId"]["avatar"]),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 40,
+                                          height: 40,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                            child: const Image(
+                                              image: AssetImage(URL.URL_AVATAR),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
                                   SizedBox(width: 6),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         dtPostController.postDetail["authorId"]
@@ -174,13 +188,15 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                       ),
                                       Text(
                                         // timeago.format(DateTime(dtPostController.postDetail["createdAt"])),
-                                        Jiffy(DateTime.parse(dtPostController.postDetail["createdAt"])).fromNow(),
+                                        Jiffy(DateTime.parse(dtPostController
+                                                .postDetail["createdAt"]))
+                                            .fromNow(),
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Quicksand',
-                                          color:
-                                              Color.fromARGB(255, 160, 160, 160),
+                                          color: Color.fromARGB(
+                                              255, 160, 160, 160),
                                         ),
                                       ),
                                     ],
@@ -188,16 +204,19 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 ],
                               ),
                             ),
-                            Obx(() => 
-                              GestureDetector(
+                            Obx(
+                              () => GestureDetector(
                                 // child: Icon(Icons.bookmark_outline),
                                 onTap: () async {
-                                  String postId = dtPostController.postDetail["_id"].toString();
-                                  await dtPostController.saveOrUnsavePost(postId);
+                                  String postId = dtPostController
+                                      .postDetail["_id"]
+                                      .toString();
+                                  await dtPostController
+                                      .saveOrUnsavePost(postId);
                                 },
-                                child: Icon(globalController.postSaved
-                                        .contains(
-                                            dtPostController.postDetail["_id"].toString())
+                                child: Icon(globalController.postSaved.toList().contains(
+                                        dtPostController.postDetail["_id"]
+                                            .toString())
                                     ? FontAwesomeIcons.solidBookmark
                                     : FontAwesomeIcons.bookmark),
                               ),
@@ -240,8 +259,8 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                         Expanded(
                           child: Column(
                             children: [
-                              Obx(()=> 
-                                Row(children: [
+                              Obx(
+                                () => Row(children: [
                                   Text(
                                     dtPostController.listLikes.length
                                         .toString(),
@@ -253,13 +272,16 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   SizedBox(width: 5),
                                   GestureDetector(
                                     onTap: () async {
-                                      String postId = dtPostController.postDetail["_id"].toString();
-                                      await dtPostController.likeOrUnlikePost(postId);
+                                      String postId = dtPostController
+                                          .postDetail["_id"]
+                                          .toString();
+                                      await dtPostController
+                                          .likeOrUnlikePost(postId);
                                     },
-                                    child: Icon(dtPostController
-                                            .listLikes
-                                            .contains(
-                                                globalController.user.value.id.toString())
+                                    child: Icon(dtPostController.listLikes.toList()
+                                            .contains(globalController
+                                                .user.value.id
+                                                .toString())
                                         ? FontAwesomeIcons.solidHeart
                                         : FontAwesomeIcons.heart),
                                   ),
@@ -285,43 +307,48 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              InputWriteComment(dtPostController: dtPostController, postId: dtPostController.postDetail["_id"]),
+                              InputWriteComment(
+                                  dtPostController: dtPostController,
+                                  postId: dtPostController.postDetail["_id"]),
                               SizedBox(height: 20),
-                              Obx(() => 
-                                dtPostController.listComment.length > 0 ?
-                                Expanded(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    // height: MediaQuery.of(context).size.height * 0.3,
-                                    // color: Color.fromARGB(255, 65, 40, 40),
-                                    child: Expanded(
-                                      child: ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          itemCount:
-                                              dtPostController.listComment.length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
-                                            return itemComment(
-                                              comment: dtPostController
-                                                  .listComment[index],
-                                            );
-                                          }),
-                                    ),
-                                  ),
-                                )
-                                : const Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Chưa có bình luận nào.',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 104, 55, 55),
-                                        fontFamily: 'TTNorm',
+                              Obx(
+                                () => dtPostController.listComment.length > 0
+                                    ? Expanded(
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          // height: MediaQuery.of(context).size.height * 0.3,
+                                          // color: Color.fromARGB(255, 65, 40, 40),
+                                          child: Expanded(
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: dtPostController
+                                                    .listComment.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return itemComment(
+                                                    comment: dtPostController
+                                                        .listComment[index],
+                                                  );
+                                                }),
+                                          ),
+                                        ),
+                                      )
+                                    : const Expanded(
+                                        child: Center(
+                                          child: Text(
+                                            'Chưa có bình luận nào.',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromARGB(
+                                                  255, 104, 55, 55),
+                                              fontFamily: 'TTNorm',
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
                               )
                             ],
                           ),
@@ -332,7 +359,6 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                 ),
               ),
             ),
-            
           ]),
         ),
       ),
@@ -344,39 +370,41 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        child: 
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          (comment["writerId"]["avatar"] != null && comment["writerId"]["avatar"] != "") ?
-          GestureDetector(
-            onTap: () {
-              Get.put(InfoUserOtherController()).getUserId(comment["writerId"]["_id"]);
-              Get.toNamed('/infoUserOther');
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child: Image(
-                width: 35,
-                height: 35,
-                fit: BoxFit.cover,
-                image: NetworkImage(comment["writerId"]["avatar"]),
-              ),
-            ),
-          ):
-          GestureDetector(
-            onTap: () {
-              Get.put(InfoUserOtherController()).getUserId(comment["writerId"]["_id"]);
-              Get.toNamed('/infoUserOther');
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child:const Image(
-                width: 35,
-                height: 35,
-                fit: BoxFit.cover,
-                image: AssetImage(URL.URL_AVATAR),
-              ),
-            ),
-          ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          (comment["writerId"]["avatar"] != null &&
+                  comment["writerId"]["avatar"] != "")
+              ? GestureDetector(
+                  onTap: () {
+                    Get.put(InfoUserOtherController())
+                        .getUserId(comment["writerId"]["_id"]);
+                    Get.toNamed('/infoUserOther');
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    child: Image(
+                      width: 35,
+                      height: 35,
+                      fit: BoxFit.cover,
+                      image: NetworkImage(comment["writerId"]["avatar"]),
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    Get.put(InfoUserOtherController())
+                        .getUserId(comment["writerId"]["_id"]);
+                    Get.toNamed('/infoUserOther');
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    child: const Image(
+                      width: 35,
+                      height: 35,
+                      fit: BoxFit.cover,
+                      image: AssetImage(URL.URL_AVATAR),
+                    ),
+                  ),
+                ),
           SizedBox(width: 5),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(comment["writerId"]["username"] + ": ",
@@ -385,27 +413,26 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 )),
-            SizedBox(width: 8,),
-            Text(
-              Jiffy(DateTime.parse(comment["createdAt"])).fromNow(),
-            style: TextStyle(
-              fontSize: 12,
-              color: Color.fromARGB(255, 153, 153, 153),
-            )),
-              
-              
-            ]),
+            SizedBox(
+              width: 8,
+            ),
+            Text(Jiffy(DateTime.parse(comment["createdAt"])).fromNow(),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 153, 153, 153),
+                )),
+          ]),
           SizedBox(width: 5),
           Expanded(
             child: Text(
               comment["content"],
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                maxLines: 3,
-                softWrap: true,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                overflow: TextOverflow.ellipsis,
+              ),
+              maxLines: 3,
+              softWrap: true,
             ),
           ),
         ]),
@@ -416,26 +443,26 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
   Row InputWriteComment({dtPostController, postId}) {
     return Row(
       children: [
-        (globalController.user.value.avatar != null && globalController.user.value.avatar != "")
-          ? ClipRRect(
-            borderRadius: BorderRadius.circular(40),
-            child: Image(
-              height: 40,
-              width: 40,
-              fit: BoxFit.cover,
-              image:
-                  NetworkImage(globalController.user.value.avatar.toString()),
-            ),
-          )
-        :
-          ClipRRect(
-            borderRadius: BorderRadius.circular(40),
-            child: const Image(
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
-                image: AssetImage(URL.URL_AVATAR)),
-          ),
+        (globalController.user.value.avatar != null &&
+                globalController.user.value.avatar != "")
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image(
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      globalController.user.value.avatar.toString()),
+                ),
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: const Image(
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.cover,
+                    image: AssetImage(URL.URL_AVATAR)),
+              ),
         SizedBox(width: 5.0),
         Expanded(
           flex: 10,
@@ -460,7 +487,9 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
         Expanded(
           flex: 2,
           child: GestureDetector(
-            onTap: () {dtPostController.createComment(postId);},
+            onTap: () {
+              dtPostController.createComment(postId);
+            },
             child: const Icon(
               FontAwesomeIcons.paperPlane,
             ),

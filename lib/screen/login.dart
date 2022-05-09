@@ -171,6 +171,7 @@ class LoginScreen extends StatelessWidget {
                         child: ElevatedButton.icon(
                           onPressed: () async {
                             var data = await loginController.login();     
+                            print(data);
                             if (data != null) {
 
                               final prefs = await SharedPreferences.getInstance();

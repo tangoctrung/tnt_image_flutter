@@ -7,11 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:socialtnt/config/url.dart';
 import 'package:socialtnt/controller/chat_message_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
-import 'package:socialtnt/model/item_message.dart';
-// import 'package:socialtnt/widget/app_bar.dart';
-import 'package:socialtnt/widget/app_bar_chat.dart';
-// import 'package:socialtnt/widget/item_chat.dart';
-import 'package:socialtnt/widget/item_message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatMessageScreen extends StatefulWidget {

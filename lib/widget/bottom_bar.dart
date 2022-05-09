@@ -40,10 +40,7 @@ Container bottomNavigator() {
                 ],
               ),
             );
-
-        }),
-
-        
+        }),   
         
         Obx(() {
           return 
@@ -92,70 +89,6 @@ Container bottomNavigator() {
             );
 
         }),
-        
-        // Obx(() {
-        //   return
-        //     GestureDetector(
-        //       onTap: () {globalController.onChangeTab(3);},
-        //       child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           Icon(
-        //               globalController.currentPage  == 3 ? FontAwesomeIcons.envelopeCircleCheck : FontAwesomeIcons.envelopeCircleCheck,
-        //               color: globalController.currentPage  == 3
-        //                   ? Color.fromARGB(255, 236, 116, 36)
-        //                   : Color.fromARGB(255, 61, 60, 60),    
-        //               size: 20,           
-        //           ), 
-        //           SizedBox(height: 3), 
-        //           // Text(
-        //           //   'Liên lạc',
-        //           //   style: TextStyle(
-        //           //     fontSize: 12,
-        //           //     fontFamily: 'TTNorm',
-        //           //     fontWeight: FontWeight.w600,
-        //           //     color: globalController.currentPage  == 3
-        //           //         ? Color.fromARGB(255, 236, 116, 36)
-        //           //         : Color.fromARGB(255, 68, 68, 68), 
-        //           //   ),
-        //           // ),                
-            
-        //         ],
-        //       ),
-        //     );
-        // }),
-        
-        // Obx(() {
-        //   return
-        //     GestureDetector(
-        //       onTap: () {globalController.onChangeTab(4);},
-        //       child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           Icon(
-        //               globalController.currentPage  == 4 ? FontAwesomeIcons.solidUser : FontAwesomeIcons.solidUser,
-        //               color: globalController.currentPage == 4
-        //                   ? Color.fromARGB(255, 236, 116, 36)
-        //                   : Color.fromARGB(255, 61, 60, 60),  
-        //               size: 20,             
-        //           ), 
-        //           SizedBox(height: 3), 
-        //           // Text(
-        //           //   'Cá nhân',
-        //           //   style: TextStyle(
-        //           //     fontSize: 12,
-        //           //     fontFamily: 'TTNorm',
-        //           //     fontWeight: FontWeight.w600,
-        //           //     color: globalController.currentPage == 4
-        //           //         ? Color.fromARGB(255, 236, 116, 36)
-        //           //         : Color.fromARGB(255, 68, 68, 68), 
-        //           //   ),
-        //           // ),                
-            
-        //         ],
-        //       ),
-        //     );
-        // }),
       
       ]),
   );
