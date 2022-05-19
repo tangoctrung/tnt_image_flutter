@@ -120,14 +120,11 @@ class DetailPostController extends GetxController {
 
 
       Map<String, dynamic> json = jsonDecode(res.body.toString());
+      print(json);
       if (json["success"] == true) {
-        if (globalController.postSaved.contains(postId)) {
-          globalController.postSaved.remove(postId);
-        } else if (!globalController.postSaved.contains(postId)){
-          globalController.postSaved.add(postId);
-        }     
+        return true; 
       }
-      return true;
+      return false;
     } catch (e) {
       return null;
     }

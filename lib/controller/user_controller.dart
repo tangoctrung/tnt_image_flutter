@@ -114,8 +114,10 @@ class UserController extends GetxController {
         Uri.parse(url_api + 'updateUser'),
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bear $token'},
         body: jsonEncode(<String, String> {
-          'username': username.text, 'date': date.text, 
-          'address': address.text, 'job': job.text
+          'username': username.text != "" ? username.text : globalController.user.value.username!,
+          'date': date.text != "" ? date.text : globalController.user.value.date!,
+          'address': address.text != "" ? address.text : globalController.user.value.address!,
+          'job': job.text != "" ? job.text : globalController.user.value.job!,
         }),
       );
       stopIsLoading();

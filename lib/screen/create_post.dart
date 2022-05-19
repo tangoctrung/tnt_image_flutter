@@ -62,6 +62,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     return;  
                                   }
                                   await crPostController.createPost();
+                                  setState(() {
+                                    imageFile = null;
+                                  });
                                 },
                                 child: 
                                 crPostController.isLoading.value == false ?

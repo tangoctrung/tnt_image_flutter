@@ -172,7 +172,8 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () async {
                             var data = await loginController.login();     
                             print(data);
-                            if (data != null) {
+                            if (data["token"] != null) {
+                              print("data not null");
 
                               final prefs = await SharedPreferences.getInstance();
                               User userInfo = User();

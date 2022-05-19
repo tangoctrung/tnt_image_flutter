@@ -211,8 +211,27 @@ class _DetailPostScreenState extends State<DetailPostScreen> {
                                   String postId = dtPostController
                                       .postDetail["_id"]
                                       .toString();
-                                  await dtPostController
+                                  print(dtPostController
+                                  .postDetail["_id"]
+                                  .toString());
+
+                                  print("postSaved có chứa bài viết ko:" + globalController.postSaved.toList().contains(
+                                        dtPostController.postDetail["_id"]
+                                            .toString()).toString());
+                                  var isBool = await dtPostController
                                       .saveOrUnsavePost(postId);
+                                  if (isBool == true) {
+                                    // print(globalController.postSaved.toList().contains(postId));
+                                    if (globalController.postSaved.toList().contains(postId)) {
+                                      print(globalController.postSaved.toList());
+                                      globalController.postSaved.remove(postId);
+                                      print(globalController.postSaved.toList());
+                                    } else if (!globalController.postSaved.toList().contains(postId)){
+                                      print(globalController.postSaved.toList());
+                                      globalController.postSaved.add(postId);
+                                      print(globalController.postSaved.toList());
+                                    }    
+                                  }
                                 },
                                 child: Icon(globalController.postSaved.toList().contains(
                                         dtPostController.postDetail["_id"]

@@ -8,6 +8,7 @@ import 'package:socialtnt/controller/auth_controller.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/info_user_other.dart';
+import 'package:socialtnt/controller/list_chat_controller.dart';
 import 'package:socialtnt/controller/user_controller.dart';
 
 class InfoUserOtherScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
   GlobalController globalController = Get.put(GlobalController());
   AuthController authController = Get.put(AuthController());
   UserController userController = Get.put(UserController());
+  ListChatController listChatController = Get.put(ListChatController());
   InfoUserOtherController infoUserOtherController = Get.put(InfoUserOtherController());
 
 
@@ -135,6 +137,7 @@ class _InfoUserOtherScreenState extends State<InfoUserOtherScreen> {
                               ElevatedButton(
                                   onPressed: () async {
                                     await infoUserOtherController.createConversation();
+                                    await listChatController.getConversations();
                                     Get.toNamed('/listChat');
                                   },
                                   child: Row(

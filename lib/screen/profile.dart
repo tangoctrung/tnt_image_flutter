@@ -486,7 +486,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Icon(Icons.person),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Tên: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -497,19 +497,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(width: 10),
                       Text(
                         globalController.user.value.username.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Row(
                     children: [
                       Icon(Icons.email),
                       SizedBox(width: 5),
-                      Text(
+                      const Text(
                         'Email: ',
                         style: TextStyle(
                           fontSize: 16,
@@ -520,7 +520,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(width: 10),
                       Text(
                         globalController.user.value.email.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 114, 114, 114),
                         ),
