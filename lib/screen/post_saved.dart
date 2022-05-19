@@ -4,9 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:socialtnt/controller/detail_post_controller.dart';
 import 'package:socialtnt/controller/globalController.dart';
 import 'package:socialtnt/controller/user_controller.dart';
-import 'package:socialtnt/model/item_post_image.dart';
 import 'package:socialtnt/widget/app_bar.dart';
-import 'package:socialtnt/widget/item_post_saved.dart';
 
 class PostSavedScreen extends StatefulWidget {
   const PostSavedScreen({Key? key}) : super(key: key);
